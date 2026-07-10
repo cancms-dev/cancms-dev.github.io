@@ -1,0 +1,23 @@
+---
+import { SITE } from 'astrowind:config';
+import { useTranslations } from '~/i18n';
+
+const { lang, translations } = useTranslations(Astro);
+const logoText = translations['logo.text'] || '澳門桑拿預約站';
+---
+
+<span class="flex items-center gap-2">
+  <img 
+    src="/images/favicon.svg" 
+    alt="Logo" 
+    class="h-8 w-8 md:h-7 md:w-7"
+    width="32"
+    height="32"
+  />
+  <span
+    class="text-2xl md:text-xl font-bold whitespace-nowrap"
+    style="color: #d4af37;"
+  >
+    {logoText}
+  </span>
+</span>

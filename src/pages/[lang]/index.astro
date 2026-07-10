@@ -1,0 +1,116 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+
+
+// import Note from '~/components/widgets/Note.astro';
+// import Features from '~/components/widgets/Features.astro';
+// import Features2 from '~/components/widgets/Features2.astro';
+// import Steps from '~/components/widgets/Steps.astro';
+// import Content from '~/components/widgets/Content.astro';
+// import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
+// import FAQs from '~/components/widgets/FAQs.astro';
+// import Stats from '~/components/widgets/Stats.astro';
+// import CallToAction from '~/components/widgets/CallToAction.astro';
+
+// 导入国际化函数
+import { t } from '~/i18n';
+import { getCollection } from 'astro:content';
+import FeaturedSpas from '~/components/home/FeaturedSpas.astro';
+import VipTreats from '~/components/home/VipTreats.astro';   // ✅ 已导入
+import QuickMatch from '~/components/home/QuickMatch.astro';
+import WhyUs from '~/components/home/WhyUs.astro';
+import Testimonials from '~/components/home/Testimonials.astro';
+import Contact from '~/components/home/Contact.astro';
+
+// 必须导出 getStaticPaths 函数，以便 Astro 知道要生成哪些路径
+export async function getStaticPaths() {
+  const supportedLanguages = ['zh-TW'];
+  const spas = await getCollection('spa');
+  
+  return supportedLanguages.map((lang) => ({
+    params: { lang },
+    props: { lang, spas },
+  }));
+}
+
+const { lang } = Astro.params;
+const { spas } = Astro.props;
+
+const metadata = {
+  title: t('hero.title', lang) || '澳門桑拿．您的VIP體驗',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+
+  <Hero
+    title={t('hero.title', lang) || '澳門桑拿．您的VIP體驗'}
+    subtitle={t('hero.subtitle', lang) || '24小時免費專車接送・送您去・接您回'}
+    tagline={t('hero.tagline', lang) || '慶賀新店開業·7月起所有店預約即送小工'}
+    imageSrc="/images/hero-bg.jpg"
+    imageAlt={t('hero.imageAlt', lang) || '澳門桑拿禮賓服務 — 澳門夜景天際線・VIP 預約・豪華專車接送'}
+    actions={[
+      {
+        variant: 'primary',
+        text: t('hero.explore', lang) || '探索會所',
+        href: '#spas',
+        icon: true,
+      },
+      {
+        variant: 'secondary',
+        text: t('hero.book', lang) || '立即預約',
+        href: '#contact',
+      },
+    ]}
+  />
+
+  <FeaturedSpas spas={spas} />
+
+   <VipTreats lang={lang} />       <!-- ✅ 服务流程，放在 FeaturedSpas 后面 -->
+
+  <QuickMatch lang={lang} />
+  <WhyUs lang={lang} />
+  <Testimonials lang={lang} />
+  <Contact lang={lang} />
+
+  <!-- Note Widget ******************* -->
+
+  <!-- <Note title="Philosophy:" description="Simplicity, Best Practices and High Performance" /> -->
+
+  <!-- Features Widget *************** -->
+
+  <!-- <Features /> -->
+
+  <!-- Features 2 Widget ************* -->
+
+  <!-- <Features2 /> -->
+
+  <!-- Steps Widget ****************** -->
+
+  <!-- <Steps /> -->
+
+  <!-- Content Widget **************** -->
+
+  <!-- <Content /> -->
+
+  <!-- Blog Latest Posts Widget ****** -->
+
+  <!-- <BlogLatestPosts limit={3} /> -->
+
+  <!-- FAQs Widget ******************* -->
+
+  <!-- <FAQs /> -->
+
+  <!-- Stats Widget ****************** -->
+
+  <!-- <Stats /> -->
+
+  <!-- Call To Action Widget ********* -->
+
+  <!-- <CallToAction /> -->
+   
+</Layout>

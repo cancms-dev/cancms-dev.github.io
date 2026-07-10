@@ -1,0 +1,130 @@
+---
+
+---
+
+<!-- 动态更新当前月份，保持推广文案始终显示最新月份 -->
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 更新月份
+    (function updatePromoMonth() {
+      var nodes = document.querySelectorAll('[data-promo-month]');
+      if (!nodes.length) return;
+      var d = new Date();
+      var lang = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
+      var label = (lang.indexOf('zh') === 0 || lang.indexOf('ja') === 0)
+        ? (d.getMonth() + 1) + '月'
+        : d.toLocaleString('en-US', { month: 'long' });
+      nodes.forEach(function (n) { n.textContent = label; });
+    })();
+
+    // 滚动渐隐效果：当滚动超过 80px 时，横幅淡出并上移
+    (function bindPromoScrollFade() {
+      var bar = document.getElementById('promo-top-bar');
+      if (!bar) {
+        // console.warn('[Announcement] promo-top-bar not found');
+        return;
+      }
+      // console.log('[Announcement] promo-top-bar found, binding scroll fade');
+      
+      // 确保 position: fixed 被正确应用
+      var style = getComputedStyle(bar);
+      if (style.position !== 'fixed') {
+        bar.style.position = 'fixed';
+        bar.style.top = '5.5rem';
+        bar.style.left = '0';
+        bar.style.right = '0';
+        bar.style.zIndex = '40';
+        if (window.innerWidth >= 640) {
+          bar.style.top = '6.5rem';
+        }
+      }
+      
+      var fadeEnd = 80;
+      function update() {
+        var y = window.scrollY || window.pageYOffset || 0;
+        var t = y / fadeEnd;
+        if (t < 0) t = 0;
+        if (t > 1) t = 1;
+        bar.style.opacity = 1 - t;
+        bar.style.transform = 'translateY(' + (-t * 110) + '%)';
+        bar.style.pointerEvents = t > 0.95 ? 'none' : '';
+        // 调试：在滚动时输出 opacity 值
+        if (t > 0.01) {
+          // console.log('[Announcement] scroll fade: t=' + t.toFixed(3) + ', opacity=' + bar.style.opacity);
+        }
+      }
+      update();
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(function () { update(); ticking = false; });
+      }, { passive: true });
+      
+      window.addEventListener('resize', function () {
+        var pos = getComputedStyle(bar).position;
+        if (pos !== 'fixed') {
+          bar.style.position = 'fixed';
+        }
+        var isSm = window.innerWidth >= 640;
+        bar.style.top = isSm ? '6.5rem' : '5.5rem';
+      });
+    })();
+  });
+</script>
+
+<style is:inline>
+  @keyframes redGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(248, 113, 113, 0.15), inset 0 0 15px rgba(248, 113, 113, 0.05); }
+    50% { box-shadow: 0 0 30px rgba(248, 113, 113, 0.25), inset 0 0 25px rgba(248, 113, 113, 0.10); }
+  }
+  @keyframes redShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes redPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.05); }
+  }
+</style>
+
+<div
+  id="promo-top-bar"
+  class="fixed top-[5.5rem] sm:top-[6.5rem] left-0 right-0 z-[40] w-full overflow-hidden border-b border-red-400/40"
+  style="background: linear-gradient(90deg, #1a0a0a 0%, #2a0e0e 50%, #1a0a0a 100%); animation: redGlow 2.5s ease-in-out infinite;"
+>
+  <!-- 动画流光扫光 -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0"
+    style="background: linear-gradient(110deg, transparent 0%, transparent 40%, rgba(248,113,113,0.25) 50%, transparent 60%, transparent 100%); background-size: 200% 100%; animation: redShimmer 4s linear infinite;"
+  ></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 py-2 sm:py-2.5 flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-4 gap-y-0.5">
+    <!-- 左侧标签：庆贺新店开业 -->
+    <span class="text-red-300 text-xs sm:text-sm font-semibold uppercase tracking-wider whitespace-nowrap">
+      <span class="sm:hidden">慶賀新店開業</span>
+      <span class="hidden sm:inline">慶賀新店開業</span>
+    </span>
+
+    <span class="hidden sm:inline text-white/30">·</span>
+
+    <!-- 中间动态月份文案 -->
+    <span class="text-white text-xs sm:text-sm font-bold whitespace-nowrap">
+      <span class="text-white/80"></span>
+      <span
+        style="color: rgb(248,113,113); animation: redPulse 1.8s ease-in-out infinite; display: inline-block;"
+        data-promo-month
+      >6月</span>
+      <span class="text-white/80">起所有店預約即送小工</span>
+    </span>
+
+    <!-- 右侧 CTA 按钮 -->
+    <a
+      href="#contact"
+      class="hidden sm:inline-flex ml-1 sm:ml-2 items-center px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-bold text-white bg-red-400 hover:bg-red-300 transition-colors whitespace-nowrap"
+    >
+      立即領取 →
+    </a>
+  </div>
+</div>

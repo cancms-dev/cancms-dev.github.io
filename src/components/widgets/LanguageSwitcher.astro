@@ -1,0 +1,23 @@
+---
+// src/components/widgets/LanguageSwitcher.astro
+import { getLang, getSupportedLanguages } from '~/i18n';
+import { getLanguageSwitchPermalink } from '~/utils/permalinks';
+
+const currentLang = getLang(Astro);
+const supportedLangs = getSupportedLanguages();
+
+// 过滤掉当前语言
+const otherLangs = supportedLangs.filter(lang => lang !== currentLang);
+---
+
+<div class="flex items-center gap-2 text-sm">
+  <span class="text-muted">{currentLang}</span>
+  {otherLangs.map(lang => (
+    <a
+      href={getLanguageSwitchPermalink(lang, Astro)}
+      class="hover:text-link transition-colors"
+    >
+      {lang}
+    </a>
+  ))}
+</div>

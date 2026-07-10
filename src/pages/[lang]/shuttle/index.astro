@@ -1,0 +1,222 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const languages = ['zh-TW', 'zh-CN', 'en', 'ja'];
+  return languages.map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+
+const metadata = {
+  title: '澳門桑拿免費接送｜澳門・氹仔全區私人專車接送',
+  description: '透過我們預約澳門桑拿，澳門與氹仔全區免費私人專車接送：關閘、港珠澳大橋、碼頭、機場與各大酒店均可，並免費送您回酒店；回程請提前告知。',
+};
+---
+
+<PageLayout metadata={metadata}>
+  <!-- Hero Section -->
+  <section class="pt-6 sm:pt-10 pb-10 px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="fade-up">
+        <p class="text-[0.7rem] sm:text-xs uppercase tracking-[0.3em] text-[#D4AF37]/90 font-semibold mb-4">免費接送・私人專車回程</p>
+        <h1 class="text-3xl sm:text-5xl font-bold mb-6 leading-tight">澳門桑拿免費專車接送</h1>
+        <p class="text-white/70 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">透過澳門桑拿預約站預約任何一間桑拿，我們以私人專車免費接您出發——澳門與氹仔全區，從您所在的位置直達會所。七人座私人專車，三五好友同行也坐得舒服；不是共乘小巴，同一車同一專屬司機。結束後只要告訴我們，便免費送您回酒店，一則訊息即可安排。</p>
+        <div class="mt-6">
+          <a href={`/${lang}/`} class="inline-flex items-center text-white/40 hover:text-[#D4AF37] transition-colors text-sm group">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+            返回首頁
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coverage Area Section -->
+  <section class="pb-12 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="fade-up">
+        <div class="relative overflow-hidden rounded-2xl border border-[#D4AF37]/20 bg-gradient-to-br from-[#D4AF37]/[0.10] via-[#D4AF37]/[0.03] to-transparent p-6 sm:p-10 text-center mb-8">
+          <div class="absolute inset-0 opacity-[0.07] pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, #d4af37 1px, transparent 0); background-size: 22px 22px;" aria-hidden="true"></div>
+          <div class="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-9 h-9 text-[#D4AF37] mx-auto mb-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <h2 class="text-xl sm:text-3xl font-bold mb-3">澳門與氹仔全區免費接送</h2>
+            <p class="text-white/65 text-sm sm:text-base max-w-xl mx-auto mb-6">無論您在澳門半島或氹仔——酒店、賭場、口岸或機場——我們都會到您所在的位置接您。</p>
+            <div class="flex flex-wrap justify-center gap-3">
+              <span class="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-5 py-2 text-sm font-medium text-[#D4AF37]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                澳門半島
+              </span>
+              <span class="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-5 py-2 text-sm font-medium text-[#D4AF37]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                氹仔
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="text-center text-base font-semibold text-white/70 mb-5">熱門接送點</h3>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="flex items-center gap-3 rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span class="text-white/75 text-sm">關閘 / 青茂 / 橫琴口岸</span>
+          </div>
+          <div class="flex items-center gap-3 rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span class="text-white/75 text-sm">港珠澳大橋口岸</span>
+          </div>
+          <div class="flex items-center gap-3 rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span class="text-white/75 text-sm">氹仔客運碼頭・外港碼頭</span>
+          </div>
+          <div class="flex items-center gap-3 rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg>
+            <span class="text-white/75 text-sm">澳門國際機場</span>
+          </div>
+          <div class="flex items-center gap-3 rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+            <span class="text-white/75 text-sm">各大酒店・賭場</span>
+          </div>
+          <div class="flex items-center gap-3 rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
+            <span class="text-white/75 text-sm">路氹城・金光大道</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works & Service Includes Section -->
+  <section class="pb-12 px-4">
+    <div class="max-w-4xl mx-auto grid gap-8 md:grid-cols-2">
+      <div class="fade-up">
+        <h2 class="text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+          如何安排
+        </h2>
+        <ol class="space-y-3">
+          <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
+            <span class="shrink-0 w-6 h-6 rounded-full bg-[#D4AF37]/15 text-[#D4AF37] font-bold text-xs flex items-center justify-center">1</span>
+            <span>傳訊息告訴我們您的位置與想預約的會所。</span>
+          </li>
+          <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
+            <span class="shrink-0 w-6 h-6 rounded-full bg-[#D4AF37]/15 text-[#D4AF37] font-bold text-xs flex items-center justify-center">2</span>
+            <span>我們安排私人專車於您指定時間到場接送。</span>
+          </li>
+          <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
+            <span class="shrink-0 w-6 h-6 rounded-full bg-[#D4AF37]/15 text-[#D4AF37] font-bold text-xs flex items-center justify-center">3</span>
+            <span>結束後只要傳訊息給我們，便免費送您回酒店。</span>
+          </li>
+        </ol>
+      </div>
+
+      <div class="fade-up">
+        <h2 class="text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path><path d="m9 12 2 2 4-4"></path></svg>
+          接送服務包含
+        </h2>
+        <ul class="space-y-3">
+          <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+            <span>澳門與氹仔全區免費接送</span>
+          </li>
+          <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+            <span>免費送您回酒店</span>
+          </li>
+          <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+            <span>舒適七人座私人專車，專屬司機</span>
+          </li>
+          <li class="flex gap-3 text-white/70 text-sm leading-relaxed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#D4AF37] shrink-0"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+            <span>24 小時可安排</span>
+          </li>
+        </ul>
+        <p class="mt-4 text-xs text-white/55 leading-relaxed border-l-2 border-[#D4AF37]/30 pl-3">
+          回程小提示：請於預約時或結束前提前告知您的回程時間，我們會為您預留車輛，確保順利送您回酒店。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA Section -->
+  <section class="pb-12 px-4">
+    <div class="max-w-xl mx-auto text-center">
+      <div class="fade-up">
+        <h2 class="text-xl sm:text-2xl font-bold mb-3">需要安排接送？</h2>
+        <p class="text-white/65 text-sm mb-6">告訴我們您的位置與時間，我們免費為您預約桑拿並安排私人專車接送。</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a href="https://wa.me/85257934448?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">WhatsApp</div>
+              <div class="text-white font-medium">立即聯繫</div>
+            </div>
+          </a>
+          <a href="https://t.me/Aomensauna?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/telegram.svg" alt="Telegram" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">Telegram</div>
+              <div class="text-white font-medium">@Aomensauna</div>
+            </div>
+          </a>
+          <button type="button" data-wechat-trigger class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/wechat.svg" alt="WeChat" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">微信</div>
+              <div class="text-white font-medium">AN99348</div>
+            </div>
+          </button>
+          <a href="https://line.me/ti/p/VZHFDSZnq9" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/line.svg" alt="LINE" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">LINE</div>
+              <div class="text-white font-medium">16880348</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Links Section -->
+  <section class="pb-16 px-4">
+    <div class="max-w-3xl mx-auto">
+      <div class="fade-up">
+        <h2 class="text-center text-lg font-bold mb-5 text-white/70">還沒選好場館？</h2>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <a href={`/${lang}/ranking/`} class="flex items-center justify-between rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3 text-sm text-white/75 hover:text-[#D4AF37] hover:border-[#D4AF37]/30 transition-colors">
+            <span>12 間桑拿排名與價格</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 shrink-0"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </a>
+          <a href={`/${lang}/guide/`} class="flex items-center justify-between rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3 text-sm text-white/75 hover:text-[#D4AF37] hover:border-[#D4AF37]/30 transition-colors">
+            <span>第一次來？看新手指南</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 shrink-0"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fade-up Animation Script -->
+  <script type="module">
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      }
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+    document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
+  </script>
+</PageLayout>

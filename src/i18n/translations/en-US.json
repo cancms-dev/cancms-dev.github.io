@@ -1,0 +1,28 @@
+{
+  "nav.home": "Home",
+  "nav.services": "Services",
+  "nav.about": "About Us",
+  "nav.blog": "Sauna Guide",
+  "nav.contact": "Contact",
+  
+  "hero.title": "Macau Sauna · Your VIP Experience",
+  "hero.subtitle": "24/7 Free Shuttle Service · Pickup & Drop-off",
+  "hero.explore": "Explore Saunas",
+  "hero.book": "Book Now",
+  "hero.guide": "Guide",
+  
+  "services.title": "Featured Saunas",
+  "services.subtitle": "12 Licensed Saunas · Exclusive Showcase",
+  "services.filter.all": "All",
+  "services.filter.theme": "Theme Rooms",
+  "services.filter.value": "Best Value",
+  "services.filter.new": "New",
+  
+  "footer.copyright": "© 2026 Macau Sauna Booking. All Rights Reserved.",
+  "footer.privacy": "Privacy Policy",
+  
+  "contact.whatsapp": "WhatsApp",
+  "contact.telegram": "Telegram",
+  "contact.wechat": "WeChat",
+  "contact.line": "LINE"
+}

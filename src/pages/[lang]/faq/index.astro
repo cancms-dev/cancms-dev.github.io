@@ -1,0 +1,225 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const languages = ['zh-TW', 'zh-CN', 'en', 'ja'];
+  return languages.map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+
+const metadata = {
+  title: '常見問題｜澳門桑拿預約站',
+  description: '澳門桑拿常見問題解答：價格、安全、營業時間、過夜、付款方式等實用資訊',
+};
+
+const faqCategories = [
+  {
+    title: '新手入門',
+    items: [
+      { question: '澳門桑拿是什麼？', answer: '澳門桑拿是集水療、餐飲與休閒於一體的現代化娛樂會所，所有正規場所均持有澳門旅遊局（MGTO）核發的合法執照。提供沐浴設施、免費餐飲、專業按摩、技師媒合環節及 60 分鐘一對一服務，大部分場所可逗留 12-15 小時，亦可過夜。' },
+      { question: '澳門桑拿安全合法嗎？', answer: '合法。所有正規澳門桑拿均持有旅遊局發出的「蒸汽浴及按摩場所准照」，定期接受衛生、消防及安全檢查，監管制度與賭場同級。可於澳門旅遊局官網查核任何場所的牌照狀態。' },
+      { question: '第一次去應該怎麼做？', answer: '先聯繫我們！我們會根據你的喜好推薦最適合的場所，安排免費接送，並為你爭取專屬優惠價。自行前往可能需要等候1-2小時，且價格較高。' },
+    ],
+  },
+  {
+    title: '價格與付款',
+    items: [
+      { question: '大概要花多少錢？', answer: '視乎場所及技師類別，一般範圍為 MOP 1,800 - 7,000+。越南/泰國技師約 MOP 2,400-3,200，中國/模特約 MOP 3,200-4,200，日韓技師約 MOP 5,800-6,800。聯繫我們了解最新優惠。' },
+      { question: '「買一送一」是什麼意思？', answer: '選一位技師後可獲安排第二位一同服務，即雙人同時服務體驗。加價幅度視場所而定，帝湖水療僅加收20-30%，為全澳最抵。' },
+      { question: '有隱藏收費嗎？', answer: '部分場所收取10-15%服務費，主題房間需額外付費（MOP 400-1,000），特殊服裝要求另計（MOP 200-350）。透過我們預約，所有費用提前告知，絕無隱藏收費。' },
+      { question: '可以刷卡嗎？', answer: '可以。大部分場所接受 Visa、Mastercard、銀聯、現金（澳門幣/港幣）、支付寶、微信支付、Apple Pay。小提示：使用澳門幣現金可節省1-3%匯率手續費。' },
+    ],
+  },
+  {
+    title: '實用資訊',
+    items: [
+      { question: '營業時間？', answer: '所有主流桑拿24小時營業，但技師上班時間為下午1點至凌晨5點。' },
+      { question: '幾點技師比較多？', answer: '晚上7點後大部分技師上班，選擇最豐富。想避開人潮，下午3-6點入場最為清靜。' },
+      { question: '服務時間多久？', answer: '標準服務60分鐘，純按摩90分鐘。' },
+      { question: '可以過夜嗎？', answer: '可以。所有主流桑拿均可過夜（12-15小時），免費使用躺椅、餐飲、沐浴設施。尊貴水療更提供免費獨立睡房，是過夜首選。' },
+      { question: '能寄存行李嗎？', answer: '可以。所有場所均提供免費行李寄存，更衣室設有安全儲物櫃。' },
+      { question: '裡面有吃的嗎？', answer: '有。全部免費、無限量供應。餐飲包含精選牛排、新鮮海鮮、粵式燉湯、川式精緻小炒、炒飯、炒麵、新鮮水果、啤酒、汽水、小食。口味偏港式／粵式，並融合川菜風味，對台灣旅客來說都很好接受。部分場所還有鮑魚、花膠魚翅、燕窩、牛鞭湯等高級菜餚，無需額外收費。' },
+      { question: '日韓技師哪家比較多？', answer: '帝湖水療和凱旋門桑拿的日韓技師最多。壹號桑拿亦有日韓選擇，但屬較高消費檔次。' },
+      { question: '回程也免費嗎？', answer: '是的——接送與回程同樣免費。完成後（餐飲後、服務後或任何時候）發訊息給我們，我們會派同一輛私人專車送您回酒店、機場、碼頭或澳門任何地點。' },
+    ],
+  },
+  {
+    title: '為什麼聯繫我們',
+    items: [
+      { question: '為什麼要透過你們預約？', answer: '我們提供：專屬合作價（低於自行到場價格）、免費私人專車接送與回程（澳門任何地點）、1 項 VIP 尊享（由你選）、優先入場免排隊、實時技師在線資訊、根據你的喜好作出真誠推薦。' },
+      { question: '可以臨時取消嗎？', answer: '可以，免費取消，無需預付訂金。' },
+      { question: 'VIP 尊享有哪些？', answer: '透過我們預約可獲 1 項 VIP 尊享——可任選擦背服務、頭部按摩、足底按摩、修手指甲、修腳指甲、手部按摩、採耳。我們會事先通知場地您的到訪，到場時可直接挑選。' },
+    ],
+  },
+  {
+    title: '按摩與服務',
+    items: [
+      { question: '澳門桑拿有按摩服務嗎？', answer: '有。透過我們預約任何一間澳門桑拿，都包含免費按摩——每次可任選 1 項，包括全身擦背按摩、足底按摩（足療）、頭部按摩與手部按摩，平時這些項目都需單獨收費。此外還有 60 分鐘一對一專屬服務。' },
+      { question: '預約包含哪些免費按摩與護理項目？', answer: '每次預約可免費任選 1 項，包括全身擦背按摩、腿部按摩、頭部按摩、足底按摩、手部按摩、修手指甲、修腳指甲及採耳。平時這些都需單獨收費（約 200–298 MOP），透過我們預約則免費贈送。' },
+      { question: '有提供足底按摩（足療）嗎？', answer: '有，足底按摩（足療）是免費 VIP 項目之一，透過穴位按壓喚醒疲憊雙足，泡完澡或桑拿後做最對症。預約時告訴我們，我們會請場所為你準備。' },
+      { question: '可以做全身按摩嗎？', answer: '可以。全身擦背按摩是熱門的免費項目，沿背部、肩頸放鬆全身；若想要更深層的 60 分鐘一對一按摩，告訴我們你的偏好，我們會為你配對合適的場所與技師。' },
+      { question: '這是 spa（水療）還是桑拿？有什麼分別？', answer: '在澳門，「桑拿」與「水療（spa）」通常指同一類綜合會所——集沐浴、乾濕蒸、免費餐飲、按摩護理與休息過夜於一身，而非單純的三溫暖或單項按摩店。我們合作的 12 間全部持有澳門旅遊局牌照。' },
+    ],
+  },
+];
+---
+
+<PageLayout metadata={metadata}>
+  <!-- Hero Section -->
+  <section class="relative pt-6 pb-16 sm:pt-10 sm:pb-20 px-4">
+    <div class="absolute inset-0 bg-gradient-to-b from-[#141414] via-[#0f0f0f] to-[#0a0a0a]"></div>
+    <div class="relative z-10 max-w-3xl mx-auto">
+      <div class="fade-up">
+        <a href={`/${lang}/`} class="inline-flex items-center gap-2 text-white/50 hover:text-[#D4AF37] transition-colors mb-8 text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+          返回首頁
+        </a>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-wider">常見問題</h1>
+        <p class="text-white/50 text-base sm:text-lg max-w-xl leading-relaxed">澳門桑拿常見問題解答：價格、安全、營業時間、過夜、付款方式等實用資訊</p>
+        <div class="w-20 h-0.5 bg-[#D4AF37] mt-6"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion Section -->
+  <section class="px-4 pb-20 sm:pb-28">
+    <div class="max-w-3xl mx-auto space-y-10">
+      {faqCategories.map((category, catIndex) => (
+        <div>
+          <h2 class="text-lg sm:text-xl font-semibold mb-4 text-white flex items-center gap-3">
+            <span class="w-1 h-5 bg-[#D4AF37] rounded-full"></span>
+            {category.title}
+          </h2>
+          <div class="space-y-3">
+            {category.items.map((item, itemIndex) => {
+              const faqId = `faq-${catIndex}-${itemIndex}`;
+              const isFirst = catIndex === 0 && itemIndex === 0;
+              return (
+                <div class="bg-[#141414] border border-white/5 rounded-xl overflow-hidden transition-colors duration-300 hover:border-[#D4AF37]/20">
+                  <h3 class="m-0">
+                    <button
+                      type="button"
+                      aria-expanded={isFirst ? 'true' : 'false'}
+                      aria-controls={`${faqId}-panel`}
+                      class={`w-full flex items-center justify-between gap-4 px-5 py-4 sm:px-6 sm:py-5 text-left group text-sm sm:text-base font-medium leading-relaxed transition-colors duration-300 ${isFirst ? 'text-[#D4AF37]' : 'text-white hover:text-white/90'}`}
+                      data-faq-toggle
+                    >
+                      <span>{item.question}</span>
+                      <span class="flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class={`w-5 h-5 transition-transform duration-300 ${isFirst ? 'rotate-180 text-[#D4AF37]' : 'text-white/40 group-hover:text-white/60'}`} data-faq-icon><path d="m6 9 6 6 6-6"></path></svg>
+                      </span>
+                    </button>
+                  </h3>
+                  <div
+                    id={`${faqId}-panel`}
+                    role="region"
+                    class="overflow-hidden transition-all duration-300"
+                    style={isFirst ? 'height: auto; opacity: 1;' : 'height: 0; opacity: 0;'}
+                  >
+                    <div class="px-5 pb-4 sm:px-6 sm:pb-5">
+                      <div class="w-full h-px bg-white/5 mb-4"></div>
+                      <p class="text-white/70 text-sm leading-relaxed">{item.answer}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Contact CTA Section -->
+  <section id="contact" class="px-4 pb-20 sm:pb-28 scroll-mt-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="bg-gradient-to-r from-[#141414] to-[#1a1a1a] border border-[#D4AF37]/10 rounded-2xl p-8 sm:p-12 text-center">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4">
+          仍有疑問<span class="text-[#D4AF37]">?</span>
+        </h2>
+        <p class="text-white/50 mb-8 max-w-md mx-auto">歡迎隨時聯繫我們，專人為您解答</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
+          <a href="https://wa.me/85257934448?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">WhatsApp</div>
+              <div class="text-white font-medium">立即聯繫</div>
+            </div>
+          </a>
+          <a href="https://t.me/Aomensauna?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/telegram.svg" alt="Telegram" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">Telegram</div>
+              <div class="text-white font-medium">@Aomensauna</div>
+            </div>
+          </a>
+          <button type="button" data-wechat-trigger class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/wechat.svg" alt="WeChat" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">微信</div>
+              <div class="text-white font-medium">AN99348</div>
+            </div>
+          </button>
+          <a href="https://line.me/ti/p/VZHFDSZnq9" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/line.svg" alt="LINE" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">LINE</div>
+              <div class="text-white font-medium">16880348</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fade-up Animation Script -->
+  <script type="module">
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      }
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+    document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
+  </script>
+
+  <!-- FAQ Accordion Script -->
+  <script type="module">
+    document.querySelectorAll('[data-faq-toggle]').forEach(button => {
+      button.addEventListener('click', () => {
+        const panel = button.closest('.rounded-xl').querySelector('[role="region"]');
+        const icon = button.querySelector('[data-faq-icon]');
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+          panel.style.height = '0';
+          panel.style.opacity = '0';
+          button.setAttribute('aria-expanded', 'false');
+          button.classList.remove('text-[#D4AF37]');
+          button.classList.add('text-white');
+          icon.classList.remove('rotate-180', 'text-[#D4AF37]');
+          icon.classList.add('text-white/40');
+        } else {
+          panel.style.height = 'auto';
+          panel.style.opacity = '1';
+          button.setAttribute('aria-expanded', 'true');
+          button.classList.remove('text-white');
+          button.classList.add('text-[#D4AF37]');
+          icon.classList.add('rotate-180', 'text-[#D4AF37]');
+          icon.classList.remove('text-white/40');
+        }
+      });
+    });
+  </script>
+</PageLayout>

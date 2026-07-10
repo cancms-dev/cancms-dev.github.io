@@ -1,0 +1,32 @@
+{
+  "nav.home": "首页",
+  "nav.spa": "会所",
+  "nav.ranking": "排名",
+  "nav.guide": "新手指南",
+  "nav.faq": "常见问题",
+  "nav.about": "关于我们",
+  "nav.blog": "桑拿攻略",
+
+  "logo.text": "澳门桑拿预约站",
+
+  "hero.title": "澳门桑拿．您的VIP体验",
+  "hero.subtitle": "24小时免费专车接送・送您去・接您回",
+  "hero.explore": "探索会所",
+  "hero.book": "立即预约",
+  "hero.guide": "新手指南",
+  
+  "services.title": "精选会所",
+  "services.subtitle": "12 间持牌会所・每间都有独家走秀模式",
+  "services.filter.all": "全部",
+  "services.filter.theme": "主题房",
+  "services.filter.value": "高性价",
+  "services.filter.new": "新场",
+  
+  "footer.copyright": "© 2026 澳门桑拿预约站. 版权所有",
+  "footer.privacy": "隐私政策",
+  
+  "contact.whatsapp": "WhatsApp",
+  "contact.telegram": "Telegram",
+  "contact.wechat": "微信",
+  "contact.line": "LINE"
+}

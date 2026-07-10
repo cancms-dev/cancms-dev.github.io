@@ -1,0 +1,132 @@
+---
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props as Props;
+
+// 15 条评价数据
+const allTestimonials = [
+  { text: '第一次去澳門桑拿，完全不知道怎麼選。聯繫後幫我推薦了最適合的場所，還安排了免費接送，價格比自己去便宜不少。', author: '香港客人' },
+  { text: '安排得很好，準時接送，不用自己操心 👍', author: '首次體驗' },
+  { text: '一開始很猶豫，怕不安全或被騙。問了很多問題，客服都很詳細地解答。最後去了尊貴水療，環境超豪華，完全合法正規，後悔沒早點來 😊', author: '第一次客人' },
+  { text: '已經是第三次透過他們預約了，每次都去豪門桑拿殿，技師在線情況提前告知，不用白跑。', author: '回頭客' },
+  { text: '朋友介紹過來的，價格透明沒有隱藏收費，接送準時，整體體驗非常好。推薦的場所確實適合我的需求。', author: '深圳客人' },
+  { text: '問了很多問題，都很耐心回答，沒有催促。最後推薦的場所確實很滿意，下次還會找他們 😊', author: '台灣客人' },
+  { text: '比自己去省了幾百塊，還免排隊 👍', author: '廣州客人' },
+  { text: '出差來澳門，時間有限，他們推薦了尚品國際水療，接送很快，整個流程很順暢，沒有浪費時間。', author: '商務客人' },
+  { text: '朋友推薦玖號水療，2026 年新開的，環境超新超靚，舞台技師介紹好有氣氛，值得一試！', author: '澳門本地客人' },
+  { text: '優惠價格是真的，不是噱頭。', author: '回頭客' },
+  { text: '第一次去有點緊張，客服一步步教我流程，到場後完全沒問題。環境和服務都超出預期，放心推薦給朋友了 🙏', author: '新手客人' },
+  { text: '住在氹仔，推薦了最近的帝湖，接送五分鐘就到。服務專業，價格合理，很滿意 😊', author: '氹仔住客' },
+  { text: '從首爾來澳門旅行，語言不通很擔心，聯繫後全程用英文溝通，推薦了壹號桑拿，接送準時，體驗非常好！', author: '韓國客人' },
+  { text: '凌晨兩點才到澳門，還是幫我安排了場所和接送，服務態度很好。', author: '夜班客人' },
+  { text: '之前自己去被收了服務費，透過他們預約直接省掉了，早知道就先聯繫 😅', author: '回頭客' },
+];
+
+// 随机选取 8 条
+const shuffled = allTestimonials.sort(() => Math.random() - 0.5);
+const selectedTestimonials = shuffled.slice(0, 8);
+
+// 为了无缝滚动，复制一份
+const duplicatedTestimonials = [...selectedTestimonials, ...selectedTestimonials];
+
+---
+
+<section class="pt-10 pb-16 px-4">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4">客戶評價</h2>
+      <div class="w-16 h-0.5 bg-gold mx-auto"></div>
+    </div>
+
+    <div class="relative overflow-hidden">
+      <div
+        id="testimonial-track"
+        class="flex gap-4 overflow-x-auto scrollbar-hide"
+        style="scroll-behavior: auto"
+        role="region"
+        aria-label="客戶評價"
+      >
+        {
+          duplicatedTestimonials.map((item, index) => (
+            <blockquote
+              key={index}
+              class="flex-shrink-0 w-[280px] bg-[#141414] border border-white/5 rounded-xl p-5 flex flex-col justify-between"
+            >
+              <p class="text-white/70 text-sm leading-relaxed mb-4">
+                &ldquo;{item.text}&rdquo;
+              </p>
+              <p class="text-gold/60 text-xs text-right">— {item.author}</p>
+            </blockquote>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="text-center mt-8">
+      <p class="text-white/40 text-sm">已服務 1,000+ 位客人</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const track = document.getElementById('testimonial-track');
+    if (!track) return;
+    const totalCards = track.children.length;
+    if (totalCards === 0) return;
+    const cardWidth = 280 + 16; // card width + gap
+    const totalWidth = totalCards * cardWidth;
+
+    // 初始定位到中间，实现无缝滚动
+    track.scrollLeft = totalWidth / 2;
+
+    // 滚动时进行循环
+    track.addEventListener('scroll', function () {
+      if (track.scrollLeft >= totalWidth - cardWidth) {
+        track.scrollLeft -= totalWidth / 2;
+      } else if (track.scrollLeft <= 0) {
+        track.scrollLeft += totalWidth / 2;
+      }
+    });
+
+    // 检测用户是否偏好减少动效
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let isInteracting = false;
+    let timeoutId = null;
+
+    function pauseAutoScroll(duration) {
+      isInteracting = true;
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        isInteracting = false;
+      }, duration);
+    }
+
+    // 自动滚动（从右到左）
+    setInterval(() => {
+      if (!isInteracting) {
+        track.scrollLeft += 1;
+        if (track.scrollLeft >= totalWidth - cardWidth) {
+          track.scrollLeft -= totalWidth / 2;
+        }
+      }
+    }, 30);
+
+    // 用户交互时暂停
+    track.addEventListener('touchstart', () => pauseAutoScroll(2000), { passive: true });
+    track.addEventListener('mouseenter', () => pauseAutoScroll(2000));
+  })();
+</script>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

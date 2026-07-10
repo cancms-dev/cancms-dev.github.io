@@ -1,0 +1,165 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import ToggleTheme from '~/components/common/ToggleTheme.astro';
+import ToggleMenu from '~/components/common/ToggleMenu.astro';
+import Button from '~/components/ui/Button.astro';
+
+import { getHomePermalink, trimSlash, getAsset, langLink } from '~/utils/permalinks';
+import type { CallToAction } from '~/types';
+import { headerLinks, actions as defaultActions } from '~/navigation';
+import { useTranslations } from '~/i18n';
+import LanguageSwitcher from '~/components/widgets/LanguageSwitcher.astro';
+
+interface Link {
+  text?: string;
+  href?: string;
+  ariaLabel?: string;
+  icon?: string;
+}
+
+interface MenuLink extends Link {
+  links?: Array<MenuLink>;
+}
+
+export interface Props {
+  id?: string;
+  links?: Array<MenuLink>;
+  actions?: Array<CallToAction>;
+  isSticky?: boolean;
+  isDark?: boolean;
+  isFullWidth?: boolean;
+  showToggleTheme?: boolean;
+  showRssFeed?: boolean;
+  position?: string;
+}
+
+const {
+  id = 'header',
+  links = [],
+  actions = [],
+  isSticky = false,
+  isDark = false,
+  isFullWidth = false,
+  showToggleTheme = false,
+  showRssFeed = false,
+  position = 'center',
+} = Astro.props;
+
+const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+const { lang, translations } = useTranslations(Astro);
+
+// 统一处理 links：无论是 props 传入的还是默认的，都进行翻译
+const sourceLinks = links.length > 0 ? links : headerLinks;
+const navLinks = sourceLinks.map(link => {
+  // 如果已经包含 text 字段，说明已经翻译过了，直接使用
+  if ('text' in link && link.text) {
+    return link as MenuLink;
+  }
+  // 否则从 key 翻译
+  const key = (link as any).key || '';
+  const translated = key ? translations[key] || key : '';
+  // 构建带语言前缀的 href（使用 langLink 工具函数）
+  let href = (link as any).href || '#';
+  if (href.startsWith('/') && !href.startsWith('//') && !href.startsWith('#')) {
+    href = langLink(href, lang, 'page');
+  }
+  return {
+    text: translated || key,
+    href: href,
+    links: (link as any).links || [],
+  } as MenuLink;
+});
+
+// console.log('Header navLinks:', navLinks);
+
+// 如果 props 没有传入 actions，使用默认配置
+const navActions = actions.length > 0 ? actions : defaultActions;
+---
+
+<header
+  class:list={[
+    { fixed: isSticky, relative: !isSticky, dark: isDark },
+    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out',
+  ]}
+  {...isSticky ? { 'data-aw-sticky-header': true } : {}}
+  {...id ? { id } : {}}
+>
+  <div class="absolute inset-0"></div>
+  <div
+    class:list={[
+      'relative text-default py-3 px-3 md:px-6 mx-auto w-full flex items-center justify-between',
+      {
+        'max-w-7xl': !isFullWidth,
+      },
+    ]}
+  >
+    <a class="flex items-center flex-shrink-0" href={getHomePermalink()}>
+      <Logo />
+    </a>
+    <div class="flex items-center md:hidden">
+      <ToggleMenu />
+    </div>
+    <nav
+      class="items-center hidden md:flex text-default overflow-y-auto overflow-x-hidden md:overflow-visible"
+      aria-label="Main navigation"
+    >
+      <ul
+        class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-sm tracking-widest font-medium md:justify-center text-white/70"
+      >
+        {
+          navLinks.map(({ text, href, links }) => (
+            <li class={links?.length ? 'dropdown' : ''}>
+              {links?.length ? (
+                <>
+                  <button
+                    type="button"
+                    class="px-4 py-3 flex items-center whitespace-nowrap transition-colors"
+                    style="transition: color 0.2s; font-weight: normal;"
+                    onmouseenter="this.style.color='#d4af37'"
+                    onmouseleave="this.style.color=''"
+                  >
+                    {text}{' '}
+                    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
+                  </button>
+                  <ul class="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded md:absolute pl-4 md:pl-0 md:hidden font-medium md:bg-white/90 md:min-w-[200px] drop-shadow-xl">
+                    {links.map(({ text: text2, href: href2 }) => (
+                      <li>
+                        <a
+                          class:list={[
+                            'first:rounded-t last:rounded-b md:hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-5 block whitespace-no-wrap transition-colors',
+                            { 'aw-link-active': href2 === currentPath },
+                          ]}
+                          href={href2}
+                          style="transition: color 0.2s;"
+                          onmouseenter="this.style.color='#d4af37'"
+                          onmouseleave="this.style.color=''"
+                        >
+                          {text2} 
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <a
+                  class:list={[
+                    'px-4 py-3 flex items-center whitespace-nowrap transition-colors',
+                    { 'aw-link-active': href === currentPath },
+                  ]}
+                  href={href}
+                  style="transition: color 0.2s; font-weight: normal;"
+                  onmouseenter="this.style.color='#d4af37'"
+                  onmouseleave="this.style.color=''"
+                >
+                  {text}
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+  </div>
+</header>

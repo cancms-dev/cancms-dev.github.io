@@ -1,0 +1,32 @@
+{
+  "nav.home": "首頁",
+  "nav.spa": "會所",
+  "nav.ranking": "排名",
+  "nav.guide": "新手指南",
+  "nav.faq": "常見問題",
+  "nav.about": "關於我們",
+  "nav.blog": "桑拿攻略",
+
+  "logo.text": "澳門桑拿預約站",
+
+  "hero.title": "澳門桑拿．您的VIP體驗",
+  "hero.subtitle": "24小時免費專車接送・送您去・接您回",
+  "hero.explore": "探索會所",
+  "hero.book": "立即預約",
+  "hero.guide": "新手指南",
+  
+  "services.title": "精選會所",
+  "services.subtitle": "12 間持牌會所・每間都有獨家走秀模式",
+  "services.filter.all": "全部",
+  "services.filter.theme": "主題房",
+  "services.filter.value": "高性價",
+  "services.filter.new": "新場",
+  
+  "footer.copyright": "© 2026 澳門桑拿預約站. 版權所有",
+  "footer.privacy": "隱私政策",
+  
+  "contact.whatsapp": "WhatsApp",
+  "contact.telegram": "Telegram",
+  "contact.wechat": "微信",
+  "contact.line": "LINE"
+}

@@ -1,0 +1,25 @@
+---
+import { marked } from 'marked';
+
+interface Props {
+  text?: string;
+  class?: string;
+}
+
+const { text, class: className } = Astro.props;
+
+if (!text) return;
+
+// 配置 marked：禁用 GFM 换行、使用内联模式
+marked.setOptions({
+  breaks: false,
+  gfm: true,
+});
+
+// 解析为内联 HTML（去除 <p> 包裹）
+let html = marked.parseInline(text) as string;
+---
+
+{html && (
+  <span class={className} set:html={html} />
+)}

@@ -1,0 +1,74 @@
+---
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props as Props;
+
+// 特性数据
+const features = [
+  {
+    icon: 'crown',
+    title: '技師走秀',
+    desc: '現場親眼觀賞，自選心儀技師，全澳最豐富選擇',
+  },
+  {
+    icon: 'shield',
+    title: '價格透明',
+    desc: '合作會所專屬優惠，無任何隱藏收費，輕鬆選擇',
+  },
+  {
+    icon: 'clock',
+    title: '全天候服務',
+    desc: '24小時專人客服，隨時解答您的疑問與需求',
+  },
+  {
+    icon: 'sparkles',
+    title: '免費接送',
+    desc: '澳門全區免費專車接送，讓您無憂出行、盡興而歸',
+  },
+];
+
+---
+
+<section id="features" class="pt-14 pb-20 sm:pt-20 sm:pb-28 px-4 scroll-mt-6 bg-gradient-to-b from-[#0a0a0a] via-[#0f0f0f] to-[#0a0a0a]">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4">為何選擇我們</h2>
+      <div class="w-20 h-0.5 bg-gold mx-auto"></div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {
+        features.map((feature, index) => (
+          <div class="text-center group" style={`transition-delay:${index * 0.03}s`}>
+            <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center group-hover:bg-gold/20 group-hover:border-gold/40 transition-all duration-500">
+              {
+                feature.icon === 'crown' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crown w-7 h-7 text-gold" aria-hidden="true"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path><path d="M5 21h14"></path></svg>
+                )
+              }
+              {
+                feature.icon === 'shield' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-7 h-7 text-gold" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.5 7-3.5 2.5 2 5 3.5 7 3.5a1 1 0 0 1 1 1v7Z"></path></svg>
+                )
+              }
+              {
+                feature.icon === 'clock' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-7 h-7 text-gold" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+                )
+              }
+              {
+                feature.icon === 'sparkles' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-7 h-7 text-gold" aria-hidden="true"><path d="M6 3v18"></path><path d="M6 3 3 6"></path><path d="M6 21 3 18"></path><path d="M18 3v18"></path><path d="M18 3 21 6"></path><path d="M18 21 21 18"></path></svg>
+                )
+              }
+            </div>
+            <h3 class="text-lg font-semibold mb-3">{feature.title}</h3>
+            <p class="text-white/50 text-sm leading-relaxed">{feature.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

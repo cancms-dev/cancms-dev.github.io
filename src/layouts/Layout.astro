@@ -1,0 +1,114 @@
+---
+import '~/assets/styles/tailwind.css';
+
+import { I18N } from 'astrowind:config';
+
+import CommonMeta from '~/components/common/CommonMeta.astro';
+import Favicons from '~/components/Favicons.astro';
+import CustomStyles from '~/components/CustomStyles.astro';
+import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
+import Metadata from '~/components/common/Metadata.astro';
+import SiteVerification from '~/components/common/SiteVerification.astro';
+import Analytics from '~/components/common/Analytics.astro';
+import BasicScripts from '~/components/common/BasicScripts.astro';
+
+// Comment the line below to disable View Transitions
+import { ClientRouter } from 'astro:transitions';
+
+import type { MetaData as MetaDataType } from '~/types';
+
+import { parseURL, isHomePage, addBase } from '~/lib/urlHelpers';
+import { Permalinks } from '~/utils/permalinks';
+
+// 扩展全局类型
+declare global {
+  var __ASTRO_LANG: string;
+  interface Window {
+    __GLOBAL: Record<string, any>;
+  }
+} 
+
+export interface Props {
+  metadata?: MetaDataType;
+}
+
+const { metadata = {} } = Astro.props;
+const { language, textDirection } = I18N;
+ 
+
+import { Global } from '../lib/GlobalManager';
+import { getLanguageFromURL, getTranslations, t } from '~/i18n';
+import { langLink } from '~/utils/permalinks';
+
+
+
+// ✅ 初始化全局管理器
+Global.init(Astro);
+
+// ✅ 提取当前语言
+const currentLang = getLanguageFromURL(Astro.url.pathname);
+const translations = getTranslations(currentLang);
+
+// ✅ 设置服务端全局变量（供 permalinks 使用）
+globalThis.__ASTRO_LANG = currentLang;
+
+// ✅ 设置全局变量（服务端）
+Global.setMultiple({
+  lang: currentLang,
+  translations: translations,
+  t: (key: string, params?: Record<string, string | number>) => t(key, currentLang, params),
+  currentPath: Astro.url.pathname,
+  // isHome: Astro.url.pathname === '/' || Astro.url.pathname === `/${currentLang}`,
+  isHome: isHomePage(Astro.url.pathname),
+  siteTitle: translations['site.title'] || '',
+  siteDescription: translations['site.description'] || '',
+  theme: 'dark', // 默认主题
+  langLink: langLink,
+});
+
+Global.set('permalinks', Permalinks);
+
+// ✅ 注入到 Astro.locals，供所有子组件直接使用
+Astro.locals.__i18n = {
+  lang: currentLang,
+  translations,
+  t: (key: string, params?: Record<string, string | number>) => t(key, currentLang, params),
+};
+
+---
+
+<!doctype html>
+<html  lang={language}  class="2xl:text-[18px]">
+  <head>
+    <CommonMeta />
+    <Favicons />
+    <CustomStyles />
+    <ApplyColorMode />
+    <Metadata {...metadata} />
+    <SiteVerification />
+    <Analytics />
+
+    <link rel="preconnect" href="https://images.unsplash.com" />
+
+    <!-- Google Fonts: Noto Sans TC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap"></noscript>
+
+    <!-- Comment the line below to disable View Transitions -->
+    <ClientRouter fallback="swap" />
+
+    <!-- 将语言信息注入到客户端 -->
+    <script>
+      window.__GLOBAL = { lang: '{{ currentLang }}' };
+    </script>
+
+  </head>
+
+  <body class="antialiased text-default bg-page tracking-tight">
+    <slot  />
+
+    <BasicScripts />
+  </body>
+</html>

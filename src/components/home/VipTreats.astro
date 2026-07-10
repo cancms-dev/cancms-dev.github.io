@@ -1,0 +1,164 @@
+---
+import { useTranslations } from '~/i18n/index';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props as Props;
+const t = useTranslations(lang);
+
+// 服务流程卡牌数据
+const howItWorksCards = [
+  { step: '1', title: '聯絡我們', desc: '透過 WhatsApp、微信或 Telegram 告訴我們您的需求與偏好，我們立即為您配對最適合的會所。', icon: '💬' },
+  { step: '2', title: '免費接送', desc: '我們安排私人專車到您指定的地點接您，澳門全區免費接送，直達會所門口。', icon: '🚗' },
+  { step: '3', title: 'VIP 入場', desc: '抵達會所後無需排隊，由專人接待直接入場，享受貴賓級禮遇。', icon: '🎫' },
+  { step: '4', title: '盡情享受', desc: '現場觀賞技師走秀、自選心儀技師，享受按摩、水療、餐飲等全套服務。', icon: '💆' },
+  { step: '5', title: '優惠結帳', desc: '以合作優惠價格結帳，比現場價格更划算，部分會所更可享專屬折扣。', icon: '💰' },
+  { step: '6', title: '專車送回', desc: '享受完畢後，我們安排專車免費送您返回酒店，全程無憂。', icon: '🏨' },
+];
+
+// VIP 尊享数据
+const vipGifts = [
+  { item: '免費過夜房間', note: '視會所供應情況' },
+  { item: '免費餐飲券', note: '價值 MOP 100-300' },
+  { item: '免費果盤/飲品', note: '入場即享' },
+  { item: '升級VIP房', note: '視會所供應情況' },
+  { item: '延長使用時間', note: '額外贈送 30-60 分鐘' },
+  { item: '專屬折扣碼', note: '下次消費可用' },
+];
+
+---
+
+<section id="vip-treats" data-testid="vip-treats-section" class="py-16 sm:py-24 px-4 scroll-mt-6">
+  <div class="max-w-3xl mx-auto">
+    
+    <!-- 标题区域 -->
+    <div class="text-center mb-3">
+      <div class="inline-block bg-green-500/15 text-green-400 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4">
+        預約即享・無需加價
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-bold mb-3">服務流程</h2>
+      <div class="w-20 h-0.5 bg-gold mx-auto mb-6"></div>
+      <p class="text-white/60 max-w-none mx-auto sm:whitespace-nowrap">
+        我們替您打點一切——推薦、接送、VIP 入場、VIP 尊享，以及您的回程接送。
+      </p>
+    </div>
+
+    <!-- Tab 导航栏 -->
+    <div role="tablist" data-testid="vip-tablist" class=" top-16 sm:top-20 z-40 -mx-4 px-4 sm:mx-0 sm:px-0 flex border-b border-gold/15 mb-6 bg-[#0a0a0a]/95 backdrop-blur-sm">
+      <button role="tab" type="button" data-tab-target="how" data-testid="tab-how" aria-selected="true" aria-controls="panel-how"
+        class="vip-tab flex-1 px-4 py-3 text-sm sm:text-base font-semibold tracking-wide border-b-2 transition-colors border-gold text-gold">
+        服務流程
+      </button>
+      <button role="tab" type="button" data-tab-target="gifts" data-testid="tab-gifts" aria-selected="false" aria-controls="panel-gifts"
+        class="vip-tab flex-1 px-4 py-3 text-sm sm:text-base font-semibold tracking-wide border-b-2 transition-colors border-transparent text-white/55 hover:text-white/85">
+        VIP 尊享
+      </button>
+    </div>
+
+    <!-- 服务流程面板 -->
+    <div id="panel-how" role="tabpanel" data-tab-panel="how" data-testid="panel-how" aria-labelledby="tab-how">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {
+          howItWorksCards.map((card) => (
+            <div class="bg-[#0f0f0f] border border-gold/10 rounded-xl p-5 hover:border-gold/30 transition-all duration-300 group">
+              <div class="flex items-start gap-4">
+                <div class="shrink-0 w-10 h-10 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-lg group-hover:bg-gold/20 transition-colors">
+                  {card.icon}
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="shrink-0 w-5 h-5 rounded-full bg-gold/15 text-gold font-bold text-[10px] flex items-center justify-center">{card.step}</span>
+                    <h3 class="text-white font-semibold text-sm">{card.title}</h3>
+                  </div>
+                  <p class="text-white/50 text-xs leading-relaxed">{card.desc}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- VIP 尊享面板 -->
+    <div id="panel-gifts" role="tabpanel" data-tab-panel="gifts" data-testid="panel-gifts" aria-labelledby="tab-gifts"
+      class="bg-[#0f0f0f] border border-gold/15 rounded-2xl overflow-hidden hidden">
+      <div class="px-4 sm:px-6 py-3 sm:py-4 bg-gold/5 border-b border-gold/10">
+        <span class="text-gold font-semibold text-sm tracking-wider">任選 1 項，由服務團隊為您準備！</span>
+      </div>
+      <table class="w-full text-sm sm:text-base">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th scope="col" class="text-left pl-4 sm:pl-6 pr-2 pt-3 pb-2 text-xs uppercase tracking-wider text-white/40 font-normal">服務項目</th>
+            <th scope="col" class="text-right px-2 pt-3 pb-2 text-xs uppercase tracking-wider text-white/40 font-normal">備註</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            vipGifts.map((gift) => (
+              <tr class="border-b border-white/5 last:border-b-0 hover:bg-gold/[0.03] transition-colors">
+                <td class="pl-4 sm:pl-6 pr-2 py-3 text-white/80 font-medium">
+                  <span class="inline-flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gold shrink-0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {gift.item}
+                  </span>
+                </td>
+                <td class="pr-4 sm:pr-6 pl-2 py-3 text-right text-white/40 text-xs">{gift.note}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  (function () {
+    var tabs = document.querySelectorAll('[data-tab-target]');
+    var panels = document.querySelectorAll('[data-tab-panel]');
+    if (!tabs.length || !panels.length) return;
+
+    function activate(target) {
+      tabs.forEach(function (t) {
+        var isActive = t.getAttribute('data-tab-target') === target;
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        if (isActive) {
+          t.classList.add('border-gold', 'text-gold');
+          t.classList.remove('border-transparent', 'text-white/55');
+        } else {
+          t.classList.remove('border-gold', 'text-gold');
+          t.classList.add('border-transparent', 'text-white/55');
+        }
+      });
+      panels.forEach(function (p) {
+        var isActive = p.getAttribute('data-tab-panel') === target;
+        p.classList.toggle('hidden', !isActive);
+      });
+    }
+
+    function realignAfterTabSwitch(target) {
+      var tablist = document.querySelector('[data-testid="vip-tablist"]');
+      var newPanel = document.querySelector('[data-tab-panel="' + target + '"]');
+      if (!tablist || !newPanel) return;
+      var tablistRect = tablist.getBoundingClientRect();
+      if (tablistRect.top > 84) return;
+      var panelRect = newPanel.getBoundingClientRect();
+      var diff = panelRect.top - tablistRect.bottom;
+      if (Math.abs(diff) < 3) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollBy({ top: diff, behavior: reduce ? 'auto' : 'smooth' });
+    }
+
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        var target = t.getAttribute('data-tab-target');
+        if (!target) return;
+        activate(target);
+        realignAfterTabSwitch(target);
+      });
+    });
+  })();
+</script>

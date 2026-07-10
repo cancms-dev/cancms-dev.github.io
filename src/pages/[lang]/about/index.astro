@@ -1,0 +1,205 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const languages = ['zh-TW', 'zh-CN', 'en', 'ja'];
+  return languages.map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+
+const metadata = {
+  title: '關於我們｜澳門桑拿預約站',
+  description: '我們是澳門桑拿預約站，一支由台灣、香港、澳門玩家組成的在地禮賓小團隊。免費專車接送、專屬優惠價、VIP 尊享，全天候 24 小時真人即時回覆。',
+};
+---
+
+<PageLayout metadata={metadata}>
+  <!-- Hero Section -->
+  <section class="pt-6 sm:pt-10 pb-12 px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="fade-up">
+        <p class="text-xs uppercase tracking-[0.3em] text-[#D4AF37]/80 font-semibold mb-4">關於我們</p>
+        <h1 class="text-3xl sm:text-5xl font-bold mb-6 leading-tight">
+          澳門桑拿的<span class="text-[#D4AF37]">專屬禮賓服務</span>
+        </h1>
+        <p class="text-white/70 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+          我們是<span class="text-[#D4AF37] font-semibold">澳門桑拿預約站</span>，一支由台灣、香港、澳門玩家組成的在地禮賓小團隊。為來澳門體驗桑拿的客人（含技師媒合、舒適專屬私密服務、主題場景房、12 小時過夜）提供從預約到回程的全套禮賓服務。免費專車接送、專屬優惠價、VIP 尊享，全天候 24 小時真人即時回覆。
+        </p>
+        <div class="mt-6">
+          <a href={`/${lang}/`} class="inline-flex items-center text-white/40 hover:text-[#D4AF37] transition-colors text-sm group">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+            返回首頁
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Do Section -->
+  <section class="py-12 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="fade-up text-center mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3">我們實際為您做的事</h2>
+        <div class="w-16 h-0.5 bg-[#D4AF37] mx-auto"></div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="fade-up bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-2xl p-6 sm:p-7 transition-colors">
+          <div class="w-12 h-12 mb-4 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">我們替您篩選</h3>
+          <p class="text-white/60 text-sm leading-relaxed">澳門桑拿會所眾多，但只有 12 間達到我們的品質、安全與價值標準。我們會依據您的喜好——語言、氛圍、價位、技師國籍——為您配對最適合的場所。完全不用您費心。</p>
+        </div>
+        <div class="fade-up bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-2xl p-6 sm:p-7 transition-colors">
+          <div class="w-12 h-12 mb-4 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">私人專車接送</h3>
+          <p class="text-white/60 text-sm leading-relaxed">免費豪華專車從您的酒店、機場、碼頭——澳門與氹仔任何地點——接您出發，並以名車禮遇送您回酒店。同車同司機，傳一則訊息即可。</p>
+          <a href={`/${lang}/shuttle/`} class="inline-flex items-center gap-1 text-[#D4AF37] text-sm font-medium mt-3 hover:underline">了解免費接送服務 →</a>
+        </div>
+        <div class="fade-up bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-2xl p-6 sm:p-7 transition-colors">
+          <div class="w-12 h-12 mb-4 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><path d="M12 7v14"></path><path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"></path><path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"></path><rect x="3" y="7" width="18" height="4" rx="1"></rect></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">我們加贈 VIP 尊享</h3>
+          <p class="text-white/60 text-sm leading-relaxed">每筆預約皆贈送 1 項 VIP 尊享——頭部按摩、足底按摩、修甲等項目，我們會事先通知場地您的到訪，到場時可直接挑選。</p>
+        </div>
+        <div class="fade-up bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-2xl p-6 sm:p-7 transition-colors">
+          <div class="w-12 h-12 mb-4 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">我們全程陪伴</h3>
+          <p class="text-white/60 text-sm leading-relaxed">您到達後我們不會消失。中途需要協助？想換推薦？任何狀況？傳訊息給我們——同一個對話、全天候 24 小時，直到您滿意為止。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Stats Section -->
+  <section class="py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="fade-up text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3">客人為何信任我們</h2>
+        <div class="w-16 h-0.5 bg-[#D4AF37] mx-auto"></div>
+      </div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div class="bg-[#141414] border border-white/5 rounded-2xl p-5 sm:p-6 text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 text-[#D4AF37] mx-auto mb-3"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          <p class="text-2xl sm:text-3xl font-bold text-[#D4AF37] mb-1">1,000+</p>
+          <p class="text-white/50 text-xs sm:text-sm leading-tight">已服務客人</p>
+        </div>
+        <div class="bg-[#141414] border border-white/5 rounded-2xl p-5 sm:p-6 text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 text-[#D4AF37] mx-auto mb-3"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+          <p class="text-2xl sm:text-3xl font-bold text-[#D4AF37] mb-1">24/7</p>
+          <p class="text-white/50 text-xs sm:text-sm leading-tight">全天候即時回覆</p>
+        </div>
+        <div class="bg-[#141414] border border-white/5 rounded-2xl p-5 sm:p-6 text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 text-[#D4AF37] mx-auto mb-3"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+          <p class="text-2xl sm:text-3xl font-bold text-[#D4AF37] mb-1">旅遊局</p>
+          <p class="text-white/50 text-xs sm:text-sm leading-tight">所有場所均持牌</p>
+        </div>
+        <div class="bg-[#141414] border border-white/5 rounded-2xl p-5 sm:p-6 text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 text-[#D4AF37] mx-auto mb-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <p class="text-2xl sm:text-3xl font-bold text-[#D4AF37] mb-1">12</p>
+          <p class="text-white/50 text-xs sm:text-sm leading-tight">精選桑拿會所</p>
+        </div>
+      </div>
+      <p class="text-white/40 text-xs sm:text-sm text-center mt-6 max-w-xl mx-auto leading-relaxed">
+        我們推薦的每一間場所，皆持有澳門特別行政區政府旅遊局（MGTO）核發的有效執照，並受與澳門賭場相同的監管框架管理。
+      </p>
+    </div>
+  </section>
+
+  <!-- Our Mission Section -->
+  <section class="py-12 px-4">
+    <div class="max-w-3xl mx-auto">
+      <div class="fade-up bg-[#141414] border border-white/5 rounded-2xl p-8 sm:p-10">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4">我們的初衷</h2>
+        <div class="space-y-4 text-white/70 text-base leading-relaxed">
+          <p>大多數第一次來澳門桑拿的客人，都是兩眼一抹黑——選錯了場所、沒安排交通、用零售價入場、不知道什麼是免費、不知道什麼要加錢。體驗只能說「還可以」，離開時帶著一點失望。</p>
+          <p>我們創立澳門桑拿預約站，就是因為這一切其實都可以避免。只要一次對話，您就能獲得最適合的場所、雙程免費接送、最優價格、VIP 尊享，以及任何情況下都站在您這邊的人。體驗更好、花費更少、毫無壓力。</p>
+          <p>同樣的桑拿價格（通常更便宜），加上全套禮賓服務。就這麼簡單。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA Section -->
+  <section id="contact" class="py-16 sm:py-20 px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+          準備好享受您的<span class="text-[#D4AF37]">VIP 體驗了嗎？</span>
+        </h2>
+        <p class="text-white/60 mb-8 max-w-xl mx-auto">傳一則訊息給我們，剩下的交給我們處理。</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
+          <a href="https://wa.me/85257934448?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">WhatsApp</div>
+              <div class="text-white font-medium">立即聯繫</div>
+            </div>
+          </a>
+          <a href="https://t.me/Aomensauna?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/telegram.svg" alt="Telegram" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">Telegram</div>
+              <div class="text-white font-medium">@Aomensauna</div>
+            </div>
+          </a>
+          <button type="button" data-wechat-trigger class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/wechat.svg" alt="WeChat" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">微信</div>
+              <div class="text-white font-medium">AN99348</div>
+            </div>
+          </button>
+          <a href="https://line.me/ti/p/VZHFDSZnq9" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
+            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+              <img src="/images/line.svg" alt="LINE" class="w-7 h-7 rounded-md" />
+            </div>
+            <div>
+              <div class="text-white/40 text-xs mb-1">LINE</div>
+              <div class="text-white font-medium">16880348</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Statement Banner -->
+  <section class="pb-12 sm:pb-16 px-4">
+    <div class="max-w-3xl mx-auto">
+      <div class="bg-gradient-to-b from-[#D4AF37]/10 to-[#D4AF37]/5 border border-[#D4AF37]/25 rounded-2xl px-6 py-7 sm:px-8 sm:py-9">
+        <p class="text-white/85 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto text-left whitespace-pre-line">
+          澳門的根本是款待。每一位客人都值得擁有一段難以忘懷的時光——不是「還可以」，而是真正記得一輩子的體驗。我們所做的這一切，就是為了讓您的桑拿體驗成為您從澳門帶回去最美好的回憶之一。
+        </p>
+        <p class="text-[#D4AF37] italic text-xs sm:text-sm opacity-90 mt-4 text-center">
+          我們不只是提供服務，我們真心在乎您的快樂。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fade-up Animation Script -->
+  <script type="module">
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      }
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+    document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
+  </script>
+</PageLayout>

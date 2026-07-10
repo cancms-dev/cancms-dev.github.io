@@ -1,0 +1,83 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const languages = ['zh-TW', 'zh-CN', 'en', 'ja'];
+  return languages.map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+
+const metadata = {
+  title: '隱私政策｜澳門桑拿預約站',
+  description: '澳門桑拿預約站隱私政策說明。我們不會收集、儲存或保留任何個人資料，所有對話留在您選用的通訊軟體內。',
+};
+---
+
+<PageLayout metadata={metadata}>
+  <section class="pt-6 sm:pt-10 pb-16 px-4">
+    <div class="max-w-3xl mx-auto">
+      <div class="fade-up">
+        <a href={`/${lang}/`} class="inline-flex items-center text-white/40 hover:text-[#D4AF37] transition-colors text-sm group mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+          <span>返回首頁</span>
+        </a>
+
+        <h1 class="text-3xl sm:text-4xl font-bold mb-3">隱私政策</h1>
+        <p class="text-white/40 text-sm mb-8">生效日期: 2026-06-14</p>
+
+        <div class="rounded-2xl border border-[#D4AF37]/15 bg-gradient-to-b from-[#D4AF37]/[0.06] to-transparent p-5 sm:p-6 mb-10">
+          <p class="text-white/80 leading-relaxed">
+            澳門桑拿預約站（以下稱「我們」）非常重視您的隱私。簡而言之：我們不會收集、儲存或保留任何個人資料。本政策說明我們對待您資料的原則。
+          </p>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-xl font-bold mb-3 text-[#D4AF37]">我們的資料原則</h2>
+          <p class="text-white/65 leading-relaxed mb-3">
+            您與我們的對話，留在您所選用的通訊軟體（WhatsApp、WeChat、Line、Telegram）內，不會傳到我們這邊。
+          </p>
+          <p class="text-white/65 leading-relaxed mb-3">
+            您提供的時間、人數等資訊，只會用於完成該次預約，用畢即止。
+          </p>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-xl font-bold mb-3 text-[#D4AF37]">我們絕不會要求的資料</h2>
+          <p class="text-white/65 leading-relaxed mb-3">
+            我們不會要求身份證件號碼或信用卡資料。所有費用一律於現場直接支付。
+          </p>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-xl font-bold mb-3 text-[#D4AF37]">資料分享</h2>
+          <p class="text-white/65 leading-relaxed mb-3">
+            我們只會將完成預約所需的最少資訊轉達給您選擇的場館，絕不出售、出租或交換您的任何資料。
+          </p>
+          <p class="text-white/65 leading-relaxed mb-3">
+            本網站僅使用匿名且匯總的分析資料；本政策如有更新，將於本頁公布並更新生效日期。
+          </p>
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-white/5">
+          <a href={`/${lang}/contact/`} class="inline-flex items-center gap-1 text-[#D4AF37] hover:underline text-sm font-medium">
+            有任何隱私疑問？聯絡我們 →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fade-up Animation Script -->
+  <script type="module">
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      }
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+    document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
+  </script>
+</PageLayout>

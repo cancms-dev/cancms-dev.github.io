@@ -1,0 +1,26 @@
+---
+import Button from '~/components/ui/Button.astro';
+
+export interface Props {
+  lang: string;
+  message?: string;
+  class?: string;
+}
+
+const { lang, message = '你好，我對預約有興趣。', class: className = '' } = Astro.props;
+
+const channels = [
+  { name: 'WhatsApp', href: '#', icon: 'whatsapp' },
+  { name: 'Telegram', href: '#', icon: 'telegram' },
+  { name: 'WeChat', href: '#', icon: 'wechat' },
+  { name: 'LINE', href: '#', icon: 'line' },
+];
+---
+
+<div class={`flex flex-wrap gap-4 justify-center ${className}`}>
+  {channels.map((ch) => (
+    <Button variant="outline" size="md" href={`${ch.href}?text=${encodeURIComponent(message)}`} target="_blank">
+      {ch.name}
+    </Button>
+  ))}
+</div>

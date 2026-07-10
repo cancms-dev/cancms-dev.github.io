@@ -1,0 +1,12 @@
+---
+export interface Props {
+  data: Record<string, any>;
+}
+
+const { data } = Astro.props;
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  ...data,
+});
+---
+<script type="application/ld+json" set:html={jsonLd} />
