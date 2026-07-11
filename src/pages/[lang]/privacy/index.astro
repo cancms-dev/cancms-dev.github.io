@@ -15,7 +15,7 @@ const metadata = {
 ---
 
 <PageLayout metadata={metadata}>
-  <section class="pt-6 sm:pt-10 pb-16 px-4">
+  <section class="pt-[9.5rem] sm:pt-[12rem] pb-16 px-4">
     <div class="max-w-3xl mx-auto">
       <div class="fade-up">
         <a href={`/${lang}/`} class="inline-flex items-center text-white/40 hover:text-[#D4AF37] transition-colors text-sm group mb-6">
@@ -68,16 +68,13 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Fade-up Animation Script -->
-  <script type="module">
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
-        }
-      }
-    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
-    document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
-  </script>
+ 
+ 
+  <!-- 在 <script> 标签上添加 data-astro-rerun 属性，Astro 会在每次页面切换后重新执行该脚本 -->
+<script type="module" data-astro-rerun>
+  setTimeout(() => {
+    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
+  }, 200);
+</script>
+
 </PageLayout>

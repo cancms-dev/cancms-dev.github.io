@@ -16,7 +16,7 @@ const metadata = {
 
 <PageLayout metadata={metadata}>
   <!-- Hero Section -->
-  <section class="pt-6 sm:pt-10 pb-10 px-4">
+  <section class="pt-[9.5rem] sm:pt-[12rem] pb-10 px-4">
     <div class="max-w-3xl mx-auto text-center">
       <div class="fade-up">
         <p class="text-[0.7rem] sm:text-xs uppercase tracking-[0.3em] text-[#D4AF37]/90 font-semibold mb-4">免費接送・私人專車回程</p>
@@ -208,15 +208,11 @@ const metadata = {
   </section>
 
   <!-- Fade-up Animation Script -->
-  <script type="module">
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
-        }
-      }
-    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
-    document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
-  </script>
+  
+  <!-- 在 <script> 标签上添加 data-astro-rerun 属性，Astro 会在每次页面切换后重新执行该脚本 -->
+<script type="module" data-astro-rerun>
+  setTimeout(() => {
+    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
+  }, 200);
+</script>
 </PageLayout>

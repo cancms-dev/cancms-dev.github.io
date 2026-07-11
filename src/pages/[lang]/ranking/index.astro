@@ -51,7 +51,7 @@ const quickPicks = [
 
 <PageLayout metadata={metadata}>
   <!-- Hero Section -->
-  <section class="relative pt-6 pb-8 sm:pt-10 sm:pb-12 px-4 overflow-hidden">
+  <section class="relative   pb-8 pt-[9.5rem] sm:pt-[12rem] sm:pb-12 px-4 overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-[#0a0a0a]/90 to-[#0a0a0a]"></div>
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.08),transparent_60%)]"></div>
     <div class="relative z-10 max-w-5xl mx-auto">
@@ -316,15 +316,11 @@ const quickPicks = [
   </section>
 
   <!-- Fade-up Animation Script -->
-  <script type="module">
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
-        }
-      }
-    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
-    document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
-  </script>
+  
+  <!-- 在 <script> 标签上添加 data-astro-rerun 属性，Astro 会在每次页面切换后重新执行该脚本 -->
+<script type="module" data-astro-rerun>
+  setTimeout(() => {
+    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
+  }, 200);
+</script>
 </PageLayout>

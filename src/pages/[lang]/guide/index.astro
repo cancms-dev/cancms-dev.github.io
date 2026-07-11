@@ -3,7 +3,7 @@ import PageLayout from '~/layouts/PageLayout.astro';
 
 export async function getStaticPaths() {
   const languages = ['zh-TW', 'zh-CN', 'en', 'ja'];
-  return languages.map(lang => ({ params: { lang } }));
+  return languages.map((lang) => ({ params: { lang } }));
 }
 
 const { lang } = Astro.params;
@@ -16,21 +16,40 @@ const metadata = {
 
 <PageLayout metadata={metadata}>
   <!-- Hero Section -->
-  <section class="relative min-h-[45vh] flex items-start justify-center overflow-hidden  pt-[9.5rem] sm:pt-[12rem]   ">
+  <section class="relative min-h-[45vh] flex items-start justify-center overflow-hidden pt-[9.5rem] sm:pt-[12rem]">
     <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-[#0a0a0a]/90 to-[#0a0a0a]"></div>
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.08),transparent_60%)]"></div>
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pb-12">
-      <div class=" fade-up in-view">
+      <div class="fade-up ">
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-wider">第一次來澳門桑拿？</h1>
       </div>
-      <div class="fade-up in-view" style="transition-delay: 0.2s">
+      <div class="fade-up " style="transition-delay: 0.2s">
         <p class="text-lg text-white/60 mb-8 max-w-2xl mx-auto leading-relaxed">我們幫你安排一切，從接送到場所推薦</p>
       </div>
-      <div class="fade-up in-view" style="transition-delay: 0.4s">
+      <div class="fade-up " style="transition-delay: 0.4s">
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href={`/${lang}/guide/#contact`} data-smooth-scroll class="px-8 py-3.5 bg-[#D4AF37] hover:bg-[#b8962e] text-black font-semibold rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/20 tracking-wider">立即聯繫我們</a>
-          <a href={`/${lang}/`} class="flex items-center gap-2 px-6 py-3 text-white/50 hover:text-[#D4AF37] transition-colors duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+          <a
+            href={`/${lang}/guide/#contact`}
+            data-smooth-scroll
+            class="px-8 py-3.5 bg-[#D4AF37] hover:bg-[#b8962e] text-black font-semibold rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/20 tracking-wider"
+            >立即聯繫我們</a
+          >
+          <a
+            href={`/${lang}/`}
+            class="flex items-center gap-2 px-6 py-3 text-white/50 hover:text-[#D4AF37] transition-colors duration-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg
+            >
             返回首頁
           </a>
         </div>
@@ -46,33 +65,118 @@ const metadata = {
         <div class="w-16 h-0.5 bg-[#D4AF37] mx-auto"></div>
       </div>
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300">
-          <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+        <div
+          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-6 h-6 text-[#D4AF37]"
+              ><path
+                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+              ></path></svg
+            >
           </div>
           <h3 class="text-lg font-semibold mb-2">安全合法</h3>
-          <p class="text-white/50 text-sm leading-relaxed">所有正規場所均持有澳門旅遊局發出的「蒸汽浴及按摩場所准照」，與賭場採用相同的政府監管制度。場所定期接受衛生局、消防局及旅遊局的聯合檢查，確保環境衛生及消防安全達標。</p>
+          <p class="text-white/50 text-sm leading-relaxed">
+            所有正規場所均持有澳門旅遊局發出的「蒸汽浴及按摩場所准照」，與賭場採用相同的政府監管制度。場所定期接受衛生局、消防局及旅遊局的聯合檢查，確保環境衛生及消防安全達標。
+          </p>
         </div>
-        <div class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300">
-          <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
+        <div
+          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-6 h-6 text-[#D4AF37]"
+              ><path
+                d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
+              ></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg
+            >
           </div>
           <h3 class="text-lg font-semibold mb-2">一站式體驗</h3>
-          <p class="text-white/50 text-sm leading-relaxed">從踏入場所的一刻起，所有設施均已包含在內：沐浴區設有按摩浴缸、乾蒸及濕蒸桑拿；餐飲區提供免費無限量牛排、海鮮、粵式燉湯、川式精緻小炒、炒飯、新鮮水果及凍啤；娛樂區有技師介紹及互動環節；休息區設有躺椅可過夜。</p>
+          <p class="text-white/50 text-sm leading-relaxed">
+            從踏入場所的一刻起，所有設施均已包含在內：沐浴區設有按摩浴缸、乾蒸及濕蒸桑拿；餐飲區提供免費無限量牛排、海鮮、粵式燉湯、川式精緻小炒、炒飯、新鮮水果及凍啤；娛樂區有技師介紹及互動環節；休息區設有躺椅可過夜。
+          </p>
         </div>
-        <div class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300">
-          <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+        <div
+          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-6 h-6 text-[#D4AF37]"
+              ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"
+              ></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg
+            >
           </div>
           <h3 class="text-lg font-semibold mb-2">專人安排</h3>
-          <p class="text-white/50 text-sm leading-relaxed">你無需自行研究、比較或張羅任何事情。告訴我們你的喜好和預算，我們會推薦最適合的場所、安排免費私人專車接送（澳門任何地點）、為你爭取專屬優惠價格，並提前告知技師在線情況及等候時間。</p>
+          <p class="text-white/50 text-sm leading-relaxed">
+            你無需自行研究、比較或張羅任何事情。告訴我們你的喜好和預算，我們會推薦最適合的場所、安排免費私人專車接送（澳門任何地點）、為你爭取專屬優惠價格，並提前告知技師在線情況及等候時間。
+          </p>
         </div>
-        <div class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300">
-          <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#D4AF37]"><path d="M12 7v14"></path><path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"></path><path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"></path><rect x="3" y="7" width="18" height="4" rx="1"></rect></svg>
+        <div
+          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-6 h-6 text-[#D4AF37]"
+              ><path d="M12 7v14"></path><path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"></path><path
+                d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"></path><rect
+                x="3"
+                y="7"
+                width="18"
+                height="4"
+                rx="1"></rect></svg
+            >
           </div>
           <h3 class="text-lg font-semibold mb-2">VIP 尊享</h3>
-          <p class="text-white/50 text-sm leading-relaxed">每筆預約皆贈送 1 項 VIP 尊享——可任選擦背服務、頭部按摩、足底按摩、修手指甲、修腳指甲、手部按摩、採耳等項目。我們會事先通知場地您的到訪，到場時可直接挑選。再加上 VIP 優先入場，無需在前台排隊。</p>
+          <p class="text-white/50 text-sm leading-relaxed">
+            每筆預約皆贈送 1 項 VIP
+            尊享——可任選擦背服務、頭部按摩、足底按摩、修手指甲、修腳指甲、手部按摩、採耳等項目。我們會事先通知場地您的到訪，到場時可直接挑選。再加上
+            VIP 優先入場，無需在前台排隊。
+          </p>
         </div>
       </div>
     </div>
@@ -81,11 +185,29 @@ const metadata = {
   <!-- Ranking Link Banner -->
   <section class="px-4 pb-4">
     <div class="max-w-4xl mx-auto">
-      <a href={`/${lang}/ranking/`} class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#141414] border border-[#D4AF37]/15 hover:border-[#D4AF37]/40 rounded-xl p-5 transition-all duration-300 group">
-        <p class="text-white/65 text-sm leading-relaxed">想看 12 間場館完整排名——價格、過夜、KTV，以及每次預約免費贈送的按摩護理？</p>
-        <span class="inline-flex items-center gap-1.5 text-[#D4AF37] font-semibold text-sm whitespace-nowrap group-hover:text-[#e5c34a] transition-colors">
+      <a
+        href={`/${lang}/ranking/`}
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#141414] border border-[#D4AF37]/15 hover:border-[#D4AF37]/40 rounded-xl p-5 transition-all duration-300 group"
+      >
+        <p class="text-white/65 text-sm leading-relaxed">
+          想看 12 間場館完整排名——價格、過夜、KTV，以及每次預約免費贈送的按摩護理？
+        </p>
+        <span
+          class="inline-flex items-center gap-1.5 text-[#D4AF37] font-semibold text-sm whitespace-nowrap group-hover:text-[#e5c34a] transition-colors"
+        >
           查看全部 12 間澳門桑拿排名
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg
+          >
         </span>
       </a>
     </div>
@@ -103,59 +225,108 @@ const metadata = {
         <div class="absolute left-5 top-2 bottom-2 w-px bg-[#D4AF37]/20"></div>
         <div class="space-y-6">
           <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0s">
-            <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"><span class="text-[#D4AF37] font-bold text-sm">1</span></div>
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+            >
+              <span class="text-[#D4AF37] font-bold text-sm">1</span>
+            </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">聯繫我們</h3>
-              <p class="text-white/50 text-sm leading-relaxed">告訴我們你的喜好（場所風格、預算範圍、技師類別偏好），我們會根據你的需求推薦最適合的場所。</p>
+              <p class="text-white/50 text-sm leading-relaxed">
+                告訴我們你的喜好（場所風格、預算範圍、技師類別偏好），我們會根據你的需求推薦最適合的場所。
+              </p>
             </div>
           </div>
           <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.04s">
-            <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"><span class="text-[#D4AF37] font-bold text-sm">2</span></div>
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+            >
+              <span class="text-[#D4AF37] font-bold text-sm">2</span>
+            </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">免費接送</h3>
-              <p class="text-white/50 text-sm leading-relaxed">確認場所後，我們安排七人座私人專車到你指定的地點接你，澳門任何酒店或位置均可。全程免費。</p>
+              <p class="text-white/50 text-sm leading-relaxed">
+                確認場所後，我們安排七人座私人專車到你指定的地點接你，澳門任何酒店或位置均可。全程免費。
+              </p>
             </div>
           </div>
           <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.08s">
-            <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"><span class="text-[#D4AF37] font-bold text-sm">3</span></div>
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+            >
+              <span class="text-[#D4AF37] font-bold text-sm">3</span>
+            </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">抵達入場</h3>
-              <p class="text-white/50 text-sm leading-relaxed">到達後在前台登記，領取手牌及儲物櫃鑰匙，前往更衣室換上浴袍並寄存行李。</p>
+              <p class="text-white/50 text-sm leading-relaxed">
+                到達後在前台登記，領取手牌及儲物櫃鑰匙，前往更衣室換上浴袍並寄存行李。
+              </p>
             </div>
           </div>
           <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.12s">
-            <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"><span class="text-[#D4AF37] font-bold text-sm">4</span></div>
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+            >
+              <span class="text-[#D4AF37] font-bold text-sm">4</span>
+            </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">沐浴放鬆</h3>
-              <p class="text-white/50 text-sm leading-relaxed">先花20-30分鐘享用按摩浴缸、乾蒸及濕蒸桑拿，讓身體放鬆下來。</p>
+              <p class="text-white/50 text-sm leading-relaxed">
+                先花20-30分鐘享用按摩浴缸、乾蒸及濕蒸桑拿，讓身體放鬆下來。
+              </p>
             </div>
           </div>
           <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.16s">
-            <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"><span class="text-[#D4AF37] font-bold text-sm">5</span></div>
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+            >
+              <span class="text-[#D4AF37] font-bold text-sm">5</span>
+            </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">免費用餐</h3>
-              <p class="text-white/50 text-sm leading-relaxed">所有場所均提供免費無限量餐飲，包括精選牛排、新鮮海鮮、粵式燉湯、川式精緻小炒、炒飯、新鮮水果、凍啤酒及各式飲品。</p>
+              <p class="text-white/50 text-sm leading-relaxed">
+                所有場所均提供免費無限量餐飲，包括精選牛排、新鮮海鮮、粵式燉湯、川式精緻小炒、炒飯、新鮮水果、凍啤酒及各式飲品。
+              </p>
             </div>
           </div>
           <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.2s">
-            <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"><span class="text-[#D4AF37] font-bold text-sm">6</span></div>
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+            >
+              <span class="text-[#D4AF37] font-bold text-sm">6</span>
+            </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">走秀環節</h3>
-              <p class="text-white/50 text-sm leading-relaxed">這是最精彩的環節——技師們會在大廳走秀介紹，你可以近距離觀賞後選擇心儀的技師。技師介紹通常在晚上 7 點後開始。</p>
+              <p class="text-white/50 text-sm leading-relaxed">
+                這是最精彩的環節——技師們會在大廳走秀介紹，你可以近距離觀賞後選擇心儀的技師。技師介紹通常在晚上 7
+                點後開始。
+              </p>
             </div>
           </div>
           <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.24s">
-            <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"><span class="text-[#D4AF37] font-bold text-sm">7</span></div>
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+            >
+              <span class="text-[#D4AF37] font-bold text-sm">7</span>
+            </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">60分鐘服務</h3>
-              <p class="text-white/50 text-sm leading-relaxed">選擇技師後進入獨立房間，享受 60 分鐘的一對一專屬服務。全程在私密空間內進行。</p>
+              <p class="text-white/50 text-sm leading-relaxed">
+                選擇技師後進入獨立房間，享受 60 分鐘的一對一專屬服務。全程在私密空間內進行。
+              </p>
             </div>
           </div>
           <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.28s">
-            <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"><span class="text-[#D4AF37] font-bold text-sm">8</span></div>
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+            >
+              <span class="text-[#D4AF37] font-bold text-sm">8</span>
+            </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">休息過夜</h3>
-              <p class="text-white/50 text-sm leading-relaxed">服務結束後無需急著離開。所有場所均設有休息區躺椅，可免費休息或直接過夜（12-15小時）。繼續享用免費餐飲、沐浴設施。</p>
+              <p class="text-white/50 text-sm leading-relaxed">
+                服務結束後無需急著離開。所有場所均設有休息區躺椅，可免費休息或直接過夜（12-15小時）。繼續享用免費餐飲、沐浴設施。
+              </p>
             </div>
           </div>
         </div>
@@ -168,15 +339,29 @@ const metadata = {
     <div class="max-w-4xl mx-auto text-center">
       <p class="text-white/50 text-sm mb-3">不想慢慢看？直接問我們</p>
       <div class="flex items-center gap-3 justify-center">
-        <a href="https://line.me/ti/p/VZHFDSZnq9" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-[#D4AF37]/30 rounded-lg transition-colors">
+        <a
+          href="https://line.me/ti/p/VZHFDSZnq9"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-[#D4AF37]/30 rounded-lg transition-colors"
+        >
           <img src="/images/line.svg" alt="LINE" class="w-5 h-5 rounded-md" />
           <span class="text-white/70 text-sm">LINE</span>
         </a>
-        <a href="https://wa.me/85257934448" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-[#D4AF37]/30 rounded-lg transition-colors">
+        <a
+          href="https://wa.me/85257934448"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-[#D4AF37]/30 rounded-lg transition-colors"
+        >
           <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-5 h-5 rounded-md" />
           <span class="text-white/70 text-sm">WhatsApp</span>
         </a>
-        <a href={`/${lang}/guide/#contact`} data-smooth-scroll class="text-[#D4AF37] text-sm hover:text-[#e5c34a] transition-colors">所有聯繫方式 →</a>
+        <a
+          href={`/${lang}/guide/#contact`}
+          data-smooth-scroll
+          class="text-[#D4AF37] text-sm hover:text-[#e5c34a] transition-colors">所有聯繫方式 →</a
+        >
       </div>
     </div>
   </section>
@@ -189,41 +374,167 @@ const metadata = {
         <div class="w-16 h-0.5 bg-[#D4AF37] mx-auto"></div>
       </div>
       <div class="max-w-2xl mx-auto space-y-4">
-        <div class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4" style="transition-delay: 0s">
-          <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#D4AF37]"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+        <div
+          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
+          style="transition-delay: 0s"
+        >
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-4 h-4 text-[#D4AF37]"
+              ><path
+                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
+            >
           </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">晚上 7 點後入場，技師選擇最豐富。大部分技師在下午 1 點陸續上班，到晚上 7 點後基本全部到齊。</p>
+          <p class="text-white/70 text-sm leading-relaxed pt-1">
+            晚上 7 點後入場，技師選擇最豐富。大部分技師在下午 1 點陸續上班，到晚上 7 點後基本全部到齊。
+          </p>
         </div>
-        <div class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4" style="transition-delay: 0.04s">
-          <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#D4AF37]"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+        <div
+          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
+          style="transition-delay: 0.04s"
+        >
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-4 h-4 text-[#D4AF37]"
+              ><path
+                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
+            >
           </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">過夜記得帶耳塞和眼罩。桑拿休息區為共享空間，其他客人進出及場內音樂可能影響睡眠。</p>
+          <p class="text-white/70 text-sm leading-relaxed pt-1">
+            過夜記得帶耳塞和眼罩。桑拿休息區為共享空間，其他客人進出及場內音樂可能影響睡眠。
+          </p>
         </div>
-        <div class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4" style="transition-delay: 0.08s">
-          <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#D4AF37]"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+        <div
+          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
+          style="transition-delay: 0.08s"
+        >
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-4 h-4 text-[#D4AF37]"
+              ><path
+                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
+            >
           </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">使用澳門幣現金付款可節省 1-3% 匯率差。信用卡及電子支付會按國際匯率加收手續費。</p>
+          <p class="text-white/70 text-sm leading-relaxed pt-1">
+            使用澳門幣現金付款可節省 1-3% 匯率差。信用卡及電子支付會按國際匯率加收手續費。
+          </p>
         </div>
-        <div class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4" style="transition-delay: 0.12s">
-          <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#D4AF37]"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+        <div
+          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
+          style="transition-delay: 0.12s"
+        >
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-4 h-4 text-[#D4AF37]"
+              ><path
+                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
+            >
           </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">輕裝即可——浴袍和拖鞋現場提供。帶手機、錢包、證件就好，其他都可以鎖在儲物櫃裡。</p>
+          <p class="text-white/70 text-sm leading-relaxed pt-1">
+            輕裝即可——浴袍和拖鞋現場提供。帶手機、錢包、證件就好，其他都可以鎖在儲物櫃裡。
+          </p>
         </div>
-        <div class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4" style="transition-delay: 0.16s">
-          <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#D4AF37]"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+        <div
+          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
+          style="transition-delay: 0.16s"
+        >
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-4 h-4 text-[#D4AF37]"
+              ><path
+                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
+            >
           </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">出發前先詢問我們最新優惠及技師在線情況。各場所不定期推出優惠活動，技師到崗情況每天不同。</p>
+          <p class="text-white/70 text-sm leading-relaxed pt-1">
+            出發前先詢問我們最新優惠及技師在線情況。各場所不定期推出優惠活動，技師到崗情況每天不同。
+          </p>
         </div>
-        <div class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4" style="transition-delay: 0.2s">
-          <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-[#D4AF37]"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+        <div
+          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
+          style="transition-delay: 0.2s"
+        >
+          <div
+            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-4 h-4 text-[#D4AF37]"
+              ><path
+                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
+            >
           </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">事先告訴我們您偏好的語言。我們會為您配對能夠用英語、國語、粵語、日語、韓語流利溝通的場所與技師。</p>
+          <p class="text-white/70 text-sm leading-relaxed pt-1">
+            事先告訴我們您偏好的語言。我們會為您配對能夠用英語、國語、粵語、日語、韓語流利溝通的場所與技師。
+          </p>
         </div>
       </div>
     </div>
@@ -236,15 +547,36 @@ const metadata = {
         <h2 class="text-2xl sm:text-3xl font-bold mb-4">還有疑問？</h2>
         <div class="w-16 h-0.5 bg-[#D4AF37] mx-auto mb-6"></div>
         <p class="text-white/50 max-w-xl mx-auto mb-6">我們會為你解答一切並安排最佳體驗</p>
-        <a href={`/${lang}/faq/`} class="inline-flex items-center gap-2 px-6 py-3 border border-[#D4AF37]/50 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-full transition-all duration-300 tracking-wider text-sm">
+        <a
+          href={`/${lang}/faq/`}
+          class="inline-flex items-center gap-2 px-6 py-3 border border-[#D4AF37]/50 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-full transition-all duration-300 tracking-wider text-sm"
+        >
           查看常見問題
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg
+          >
         </a>
       </div>
       <div class="mt-10 max-w-md mx-auto">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="https://wa.me/85257934448?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+          <a
+            href="https://wa.me/85257934448?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors"
+            >
               <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-7 h-7 rounded-md" />
             </div>
             <div>
@@ -252,8 +584,15 @@ const metadata = {
               <div class="text-white font-medium">立即聯繫</div>
             </div>
           </a>
-          <a href="https://t.me/Aomensauna?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+          <a
+            href="https://t.me/Aomensauna?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors"
+            >
               <img src="/images/telegram.svg" alt="Telegram" class="w-7 h-7 rounded-md" />
             </div>
             <div>
@@ -261,8 +600,14 @@ const metadata = {
               <div class="text-white font-medium">@Aomensauna</div>
             </div>
           </a>
-          <button type="button" data-wechat-trigger class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+          <button
+            type="button"
+            data-wechat-trigger
+            class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors"
+            >
               <img src="/images/wechat.svg" alt="WeChat" class="w-7 h-7 rounded-md" />
             </div>
             <div>
@@ -270,8 +615,15 @@ const metadata = {
               <div class="text-white font-medium">AN99348</div>
             </div>
           </button>
-          <a href="https://line.me/ti/p/VZHFDSZnq9" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
+          <a
+            href="https://line.me/ti/p/VZHFDSZnq9"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors"
+            >
               <img src="/images/line.svg" alt="LINE" class="w-7 h-7 rounded-md" />
             </div>
             <div>
@@ -283,23 +635,19 @@ const metadata = {
       </div>
     </div>
   </section>
+ 
 
-  <!-- Fade-up Animation Script -->
-  <script type="module">
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
-        }
-      }
-    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
-    document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
-  </script>
+  <!-- 在 <script> 标签上添加 data-astro-rerun 属性，Astro 会在每次页面切换后重新执行该脚本 -->
+<script type="module" data-astro-rerun>
+  setTimeout(() => {
+    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
+  }, 200);
+</script>
+ 
 
   <!-- Smooth Scroll Script -->
   <script type="module">
-    document.querySelectorAll('[data-smooth-scroll]').forEach(link => {
+    document.querySelectorAll('[data-smooth-scroll]').forEach((link) => {
       link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
         if (href && href.includes('#')) {

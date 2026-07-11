@@ -67,7 +67,7 @@ const faqCategories = [
 
 <PageLayout metadata={metadata}>
   <!-- Hero Section -->
-  <section class="relative pt-6 pb-16 sm:pt-10 sm:pb-20 px-4">
+  <section class="relative   pb-16 pt-[9.5rem] sm:pt-[12rem] sm:pb-20 px-4">
     <div class="absolute inset-0 bg-gradient-to-b from-[#141414] via-[#0f0f0f] to-[#0a0a0a]"></div>
     <div class="relative z-10 max-w-3xl mx-auto">
       <div class="fade-up">
@@ -181,18 +181,13 @@ const faqCategories = [
     </div>
   </section>
 
-  <!-- Fade-up Animation Script -->
-  <script type="module">
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
-        }
-      }
-    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
-    document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
-  </script>
+  
+  <!-- 在 <script> 标签上添加 data-astro-rerun 属性，Astro 会在每次页面切换后重新执行该脚本 -->
+<script type="module" data-astro-rerun>
+  setTimeout(() => {
+    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
+  }, 200);
+</script>
 
   <!-- FAQ Accordion Script -->
   <script type="module">
