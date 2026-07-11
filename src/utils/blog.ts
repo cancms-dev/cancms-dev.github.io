@@ -183,11 +183,12 @@ export const getStaticPathsBlogList = async ({ paginate }: { paginate: PaginateF
 };
 
 /** */
-export const getStaticPathsBlogPost = async () => {
+export const getStaticPathsBlogPost = async (lang='zh-TW') => {
   if (!isBlogEnabled || !isBlogPostRouteEnabled) return [];
   return (await fetchPosts()).flatMap((post) => ({
     params: {
-      blog: post.permalink,
+      slug: post.permalink,
+      lang,
     },
     props: { post },
   }));
@@ -219,6 +220,8 @@ export const getStaticPathsBlogCategory = async ({ paginate }: { paginate: Pagin
 
 /** */
 export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFunction }) => {
+  // 临时禁用标签分页功能以解决构建问题
+  return [];
   if (!isBlogEnabled || !isBlogTagRouteEnabled) return [];
 
   const posts = await fetchPosts();
