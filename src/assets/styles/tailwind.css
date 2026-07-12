@@ -6,12 +6,18 @@
 
 @custom-variant intersect (&:not([no-intersect]));
 
+
+
 @theme {
   --color-primary: var(--aw-color-primary);
   --color-secondary: var(--aw-color-secondary);
   --color-accent: var(--aw-color-accent);
   --color-default: var(--aw-color-text-default);
   --color-muted: var(--aw-color-text-muted);
+
+  --color-gold: #d4af37;
+  --color-gold-dark: #c5a028;
+  --color-gold-light: #e8d48b;
 
   --font-sans:
     var(--aw-font-sans, ui-sans-serif), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
@@ -147,6 +153,3 @@ body {
   background-color: #0a0a0a;
 }
 
-main {
-  /* padding-top: 10rem; */
-}

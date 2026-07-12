@@ -20,7 +20,7 @@ export async function getStaticPaths() {
     for (const spa of allSpas) {
       paths.push({
         params: { lang, slug: spa.data.slug },
-        props: { spa, lang }
+        props: { spa, lang },
       });
     }
   }
@@ -42,42 +42,43 @@ const metadata = {
 const breadcrumbs = [
   { name: '首頁', item: `/${lang}/` },
   { name: '桑拿', item: `/${lang}/#spas` },
-  { name: data.name, item: `/${lang}/spa/${data.slug}/` }
+  { name: data.name, item: `/${lang}/spa/${data.slug}/` },
 ];
 
 // Schema.org 结构化数据
 const schemaData = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": data.name,
-  "alternateName": data.alternateNames || [],
-  "description": data.description,
-  "serviceType": "桑拿預約禮賓",
-  "url": `https://${Astro.site.host}/${lang}/spa/${data.slug}/`,
-  "image": data.images?.map(img => ({
-    "@type": "ImageObject",
-    "url": img.url || img.caption,
-    "caption": img.caption,
-    "name": img.alt
-  })) || [],
-  "areaServed": {
-    "@type": "Country",
-    "name": "Macau"
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: data.name,
+  alternateName: data.alternateNames || [],
+  description: data.description,
+  serviceType: '桑拿預約禮賓',
+  url: `https://${Astro.site.host}/${lang}/spa/${data.slug}/`,
+  image:
+    data.images?.map((img) => ({
+      '@type': 'ImageObject',
+      url: img.url || img.caption,
+      caption: img.caption,
+      name: img.alt,
+    })) || [],
+  areaServed: {
+    '@type': 'Country',
+    name: 'Macau',
   },
-  "provider": {
-    "@type": "LocalBusiness",
-    "@id": `https://${Astro.site.host}/#business`,
-    "name": "澳門桑拿預約站"
+  provider: {
+    '@type': 'LocalBusiness',
+    '@id': `https://${Astro.site.host}/#business`,
+    name: '澳門桑拿預約站',
   },
-  "offers": {
-    "@type": "AggregateOffer",
-    "priceCurrency": "MOP",
-    "lowPrice": data.priceMin,
-    "highPrice": data.priceMax,
-    "availability": "https://schema.org/InStock",
-    "url": `https://${Astro.site.host}/${lang}/spa/${data.slug}/`
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'MOP',
+    lowPrice: data.priceMin,
+    highPrice: data.priceMax,
+    availability: 'https://schema.org/InStock',
+    url: `https://${Astro.site.host}/${lang}/spa/${data.slug}/`,
   },
-  "paymentAccepted": data.paymentMethods || "Cash, Credit Card"
+  paymentAccepted: data.paymentMethods || 'Cash, Credit Card',
 };
 
 // 实用信息 - 使用空值合并操作符处理可能缺失的字段
@@ -88,10 +89,10 @@ const practicalInfo = {
   staffHours: `${data.staffHours || data.openingHours || '技師時間待確認'}`,
   website: `${data.website || ''}`,
   overnight: data.overnightAllowed ? '可過夜' : '不可過夜',
-  overnightNote: data.overnightAllowed ? '' : (data.overnightNotice || '過渡期暫不提供過夜，即將恢復24小時及過夜'),
+  overnightNote: data.overnightAllowed ? '' : data.overnightNotice || '過渡期暫不提供過夜，即將恢復24小時及過夜',
   features: data.features || [],
   suitableFor: data.suitableFor || '適合所有客戶',
-  paymentMethods: data.paymentMethods || '現金, 刷卡'
+  paymentMethods: data.paymentMethods || '現金, 刷卡',
 };
 
 // 详细流程 - 如果数据中没有定义，则使用默认流程
@@ -103,51 +104,66 @@ const spaFlow = data.flow || [
   { step: 5, title: '挑選技師', description: '在走秀大廳或預約系統中挑選您喜歡的技師。' },
   { step: 6, title: '私人套房', description: '進入私人套房享受專屬服務，設施完善。' },
   { step: 7, title: '享受服務', description: '在舒適的環境中享受專業按摩或服務。' },
-  { step: 8, title: '休息區', description: '服務後可在休息區放鬆，直至離開時間。' }
+  { step: 8, title: '休息區', description: '服務後可在休息區放鬆，直至離開時間。' },
 ];
-
 ---
 
 <Layout metadata={metadata}>
   <Fragment slot="head">
     <!-- Breadcrumb Schema -->
-    <JsonLd data={{
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": breadcrumbs.map((item, index) => ({
-        "@type": "ListItem",
-        "position": index + 1,
-        "name": item.name,
-        "item": item.item
-      }))
-    }} />
-    
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          item: item.item,
+        })),
+      }}
+    />
+
     <!-- Service Schema -->
     <JsonLd data={schemaData} />
   </Fragment>
 
   <!-- Hero Section -->
   <section class="relative h-[50vh] sm:h-[60vh] flex items-end overflow-hidden">
-    <img src={getAsset(data.cover)} alt={`${data.name} — 澳門頂級桑拿會所大堂`} width="1920" height="1080" fetchpriority="high" decoding="async" class="absolute inset-0 w-full h-full object-cover" />
+    <img
+      src={getAsset(data.cover)}
+      alt={`${data.name} — 澳門頂級桑拿會所大堂`}
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+      decoding="async"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
     <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/40 to-black/30"></div>
     <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
       <div class="fade-up">
-        <a href={`/${lang}/`} class="inline-flex items-center gap-2 text-white/60 hover:text-gold transition-colors mb-4 text-sm">
+        <a
+          href={`/${lang}/`}
+          class="inline-flex items-center gap-2 text-white/60 hover:text-gold transition-colors mb-4 text-sm"
+        >
           <Icon name="lucide:arrow-left" />
           返回首頁
         </a>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold">{data.name}</h1>
       </div>
       <script type="module">
-        const observer = new IntersectionObserver((entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("in-view");
-              observer.unobserve(entry.target);
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+              }
             }
-          }
-        }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
-        document.querySelectorAll(".fade-up:not(.in-view)").forEach(el => observer.observe(el));
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+        );
+        document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => observer.observe(el));
       </script>
     </div>
   </section>
@@ -155,8 +171,9 @@ const spaFlow = data.flow || [
   <!-- Introduction Section -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
     <div class="fade-up max-w-3xl mb-12">
-
-      <div class="prose prose-invert prose-lg max-w-none mt-6 [&_p]:text-white/70 [&_p]:leading-relaxed [&_div]:text-white/40 [&_div]:text-sm [&_div]:mt-4">
+      <div
+        class="prose prose-invert prose-lg max-w-none mt-6 [&_p]:text-white/70 [&_p]:leading-relaxed [&_div]:text-white/40 [&_div]:text-sm [&_div]:mt-4"
+      >
         <SpaBodyContent />
       </div>
     </div>
@@ -171,7 +188,12 @@ const spaFlow = data.flow || [
               <span class="text-white/40 text-xs uppercase tracking-wider">參考價格</span>
             </div>
             <p class="text-white font-medium text-lg ml-7">{practicalInfo.price}</p>
-            <a href="#contact" data-smooth-scroll class="inline-block ml-7 mt-1 text-gold text-sm hover:text-gold-light transition-colors">聯繫我們獲取優惠 →</a>
+            <a
+              href="#contact"
+              data-smooth-scroll
+              class="inline-block ml-7 mt-1 text-gold text-sm hover:text-gold-light transition-colors"
+              >聯繫我們獲取優惠 →</a
+            >
           </div>
           <div class="border-b border-white/5 px-5 py-4">
             <div class="flex items-center gap-2">
@@ -193,18 +215,26 @@ const spaFlow = data.flow || [
               <Icon name="lucide:globe" class="w-5 h-5 text-gold shrink-0" />
               <span class="text-white/40 text-xs uppercase tracking-wider">官方網站</span>
             </div>
-            {data.website && (
-              <div class="ml-7 mt-1">
-                <MarkdownText text={String(data.website)} class="text-gold hover:text-gold-light text-sm transition-colors [&_a]:text-gold [&_a]:hover:text-gold-light [&_a]:underline" />
-              </div>
-            )}
+            {
+              data.website && (
+                <div class="ml-7 mt-1">
+                  <MarkdownText
+                    text={String(data.website)}
+                    class="text-gold hover:text-gold-light text-sm transition-colors [&_a]:text-gold [&_a]:hover:text-gold-light [&_a]:underline"
+                  />
+                </div>
+              )
+            }
           </div>
           <div class="border-b border-white/5 px-5 py-4">
             <div class="flex items-center gap-2">
               <Icon name="lucide:moon" class="w-5 h-5 text-gold shrink-0" />
               <span class="text-white/40 text-xs uppercase tracking-wider">過夜</span>
             </div>
-            <p class="text-white font-medium ml-7 mt-1">{practicalInfo.overnight}<span class="text-white/50 text-sm"> {practicalInfo.overnightNote && `— ${practicalInfo.overnightNote}`}</span></p>
+            <p class="text-white font-medium ml-7 mt-1">
+              {practicalInfo.overnight}<span class="text-white/50 text-sm">
+                {practicalInfo.overnightNote && `— ${practicalInfo.overnightNote}`}</span>
+            </p>
           </div>
           <div class="border-b border-white/5 px-5 py-4">
             <div class="flex items-center gap-2 mb-2">
@@ -212,11 +242,14 @@ const spaFlow = data.flow || [
               <span class="text-white/40 text-xs uppercase tracking-wider">亮點</span>
             </div>
             <ul class="ml-7 space-y-1">
-              {practicalInfo.features.slice(0, 4).map((feature, idx) => (
-                <li class="text-white font-medium text-sm flex items-start gap-2">
-                  <span class="text-gold/60 mt-0.5">•</span>{feature}
-                </li>
-              ))}
+              {
+                practicalInfo.features.slice(0, 4).map((feature, idx) => (
+                  <li class="text-white font-medium text-sm flex items-start gap-2">
+                    <span class="text-gold/60 mt-0.5">•</span>
+                    {feature}
+                  </li>
+                ))
+              }
             </ul>
           </div>
           <div class="border-b border-white/5 px-5 py-4">
@@ -232,9 +265,15 @@ const spaFlow = data.flow || [
               <span class="text-white/40 text-xs uppercase tracking-wider">付款方式</span>
             </div>
             <div class="ml-7 flex flex-wrap gap-2">
-              {practicalInfo.paymentMethods.split(',').map(method => (
-                <span class="px-3 py-1 bg-white/5 border border-white/10 text-white/70 text-xs rounded-full">{method.trim()}</span>
-              ))}
+              {
+                practicalInfo.paymentMethods
+                  .split(',')
+                  .map((method) => (
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-white/70 text-xs rounded-full">
+                      {method.trim()}
+                    </span>
+                  ))
+              }
             </div>
           </div>
         </div>
@@ -245,26 +284,38 @@ const spaFlow = data.flow || [
         </div>
         <div class="mt-3 px-1">
           <div class="flex items-center gap-3 justify-center">
-            <a href="https://line.me/ti/p/your-line-id" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-gold/30 rounded-lg transition-colors">
+            <a
+              href="https://line.me/ti/p/your-line-id"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-gold/30 rounded-lg transition-colors"
+            >
               <img src={getAsset('images/line.svg')} alt="LINE" class="w-5 h-5 rounded-md" />
               <span class="text-white/70 text-sm">LINE</span>
             </a>
-            <a href="https://wa.me/your-whatsapp-number" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-gold/30 rounded-lg transition-colors">
+            <a
+              href="https://wa.me/your-whatsapp-number"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-gold/30 rounded-lg transition-colors"
+            >
               <img src={getAsset('images/whatsapp.svg')} alt="WhatsApp" class="w-5 h-5 rounded-md" />
               <span class="text-white/70 text-sm">WhatsApp</span>
             </a>
-            <a href="#contact" data-smooth-scroll class="text-gold text-sm hover:text-gold-light transition-colors">所有聯繫方式 →</a>
+            <a href="#contact" data-smooth-scroll class="text-gold text-sm hover:text-gold-light transition-colors"
+              >所有聯繫方式 →</a
+            >
           </div>
         </div>
       </div>
       <script type="module">
-        document.querySelectorAll("[data-smooth-scroll]").forEach(link => {
-          link.addEventListener("click", e => {
-            const href = link.getAttribute("href");
-            if (!href?.startsWith("#")) return;
+        document.querySelectorAll('[data-smooth-scroll]').forEach((link) => {
+          link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (!href?.startsWith('#')) return;
             e.preventDefault();
             const targetId = href.slice(1);
-            document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
+            document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
           });
         });
       </script>
@@ -274,9 +325,14 @@ const spaFlow = data.flow || [
     <div class="fade-up mb-16">
       <h2 class="text-xl font-semibold mb-4 text-gold">特色服務</h2>
       <div class="flex flex-wrap gap-2">
-        {data.features.map(feature => (
-          <span class="px-4 py-2 bg-gold/10 border border-gold/20 text-gold-light text-sm rounded-full"> {feature} </span>
-        ))}
+        {
+          data.features.map((feature) => (
+            <span class="px-4 py-2 bg-gold/10 border border-gold/20 text-gold-light text-sm rounded-full">
+              {' '}
+              {feature}{' '}
+            </span>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -285,7 +341,11 @@ const spaFlow = data.flow || [
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
     <!-- Debug: data.images JSON -->
     <!-- <pre style="display:none">{JSON.stringify(data.images, null, 2)}</pre> -->
-    <SpaGallery images={data.images?.map(img => ({ ...img, url: img.url ? getAsset(img.url) : undefined }))} galleryTitle="會所相冊" client:visible />
+    <SpaGallery
+      images={data.images?.map((img) => ({ ...img, url: img.url ? getAsset(img.url) : undefined }))}
+      galleryTitle="會所相冊"
+      client:visible
+    />
   </section>
 
   <!-- Flow Section -->
@@ -296,34 +356,50 @@ const spaFlow = data.flow || [
         <div class="relative max-w-2xl">
           <div class="absolute left-5 top-2 bottom-2 w-px bg-gold/20"></div>
           <div class="space-y-5">
-            {spaFlow.map((step, index) => (
-              <div class="relative flex gap-5 items-start">
-                <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center">
-                  <span class="text-gold font-bold text-sm">{step.step}</span>
+            {
+              spaFlow.map((step, index) => (
+                <div class="relative flex gap-5 items-start">
+                  <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center">
+                    <span class="text-gold font-bold text-sm">{step.step}</span>
+                  </div>
+                  <div class="pt-1.5">
+                    <p class="text-white font-medium text-sm">{step.title}</p>
+                    <p class="text-white/50 text-sm mt-1 leading-relaxed">{step.description}</p>
+                  </div>
                 </div>
-                <div class="pt-1.5">
-                  <p class="text-white font-medium text-sm">{step.title}</p>
-                  <p class="text-white/50 text-sm mt-1 leading-relaxed">{step.description}</p>
-                </div>
-              </div>
-            ))}
+              ))
+            }
             <div data-testid="spa-flow-concierge-reminder" class="relative flex gap-5 items-start">
-              <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold border border-gold flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.35)]">
+              <div
+                class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold border border-gold flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.35)]"
+              >
                 <span class="text-base">🎁</span>
               </div>
               <div class="pt-1.5">
                 <p class="text-gold font-semibold text-sm">別忘了——我們為您準備的 VIP 尊享</p>
-                <p class="text-white/70 text-sm mt-1 leading-relaxed">透過我們預約，可任選 1 項 VIP 尊享——由專業技師為您服務。包含擦背服務、腿部按摩、頭部按摩、足底按摩、修手指甲、修腳指甲、手部按摩、採耳。我們會事先通知場地您的到訪，到場時可直接挑選。</p>
-                <button type="button" data-open-vip-extras class="inline-flex items-center gap-1.5 mt-3 px-4 py-2 bg-gold/15 hover:bg-gold/25 text-gold font-semibold text-sm rounded-full border border-gold/40 hover:border-gold/60 shadow-[0_0_16px_rgba(212,175,55,0.18)] hover:shadow-[0_0_22px_rgba(212,175,55,0.32)] transition-all cursor-pointer">查看全部 8 項 →</button>
+                <p class="text-white/70 text-sm mt-1 leading-relaxed">
+                  透過我們預約，可任選 1 項 VIP
+                  尊享——由專業技師為您服務。包含擦背服務、腿部按摩、頭部按摩、足底按摩、修手指甲、修腳指甲、手部按摩、採耳。我們會事先通知場地您的到訪，到場時可直接挑選。
+                </p>
+                <button
+                  type="button"
+                  data-open-vip-extras
+                  class="inline-flex items-center gap-1.5 mt-3 px-4 py-2 bg-gold/15 hover:bg-gold/25 text-gold font-semibold text-sm rounded-full border border-gold/40 hover:border-gold/60 shadow-[0_0_16px_rgba(212,175,55,0.18)] hover:shadow-[0_0_22px_rgba(212,175,55,0.32)] transition-all cursor-pointer"
+                  >查看全部 8 項 →</button
+                >
               </div>
             </div>
             <div data-testid="spa-flow-concierge-reminder" class="relative flex gap-5 items-start">
-              <div class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold border border-gold flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.35)]">
+              <div
+                class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold border border-gold flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.35)]"
+              >
                 <span class="text-base">🚗</span>
               </div>
               <div class="pt-1.5">
                 <p class="text-gold font-semibold text-sm">您的免費回程接送也已備妥</p>
-                <p class="text-white/70 text-sm mt-1 leading-relaxed">當您結束時——餐飲後、服務剛結束、任何時間——只需傳訊息給我們。同一輛豪華專車會回來接您，送往您的酒店、機場、碼頭，或澳門境內任何地點。與接送同樣零費用。</p>
+                <p class="text-white/70 text-sm mt-1 leading-relaxed">
+                  當您結束時——餐飲後、服務剛結束、任何時間——只需傳訊息給我們。同一輛豪華專車會回來接您，送往您的酒店、機場、碼頭，或澳門境內任何地點。與接送同樣零費用。
+                </p>
               </div>
             </div>
           </div>
@@ -341,11 +417,31 @@ const spaFlow = data.flow || [
   </section>
 
   <!-- Contact Section -->
-  <ContactSection lang={lang} message={`你好，我對「${data.name}」有興趣，可以安排嗎？`} />
+  <section id="contact" class={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 `}>
+    <div class="bg-gradient-to-r from-[#141414] to-[#1a1a1a] border border-gold/10 rounded-2xl p-8 sm:p-12 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4">
+        預約您的<span class="text-gold">VIP 體驗</span>
+      </h2>
+      <p class="text-white/50 mb-8 max-w-md mx-auto">傳一則訊息給我們，剩下的交給我們處理。</p>
+
+      <ContactSection lang={lang} message={`你好，我對「${data.name}」有興趣，可以安排嗎？`} client:visible />
+      <p class="mt-6 text-sm text-white/40">
+        官方網站：<a
+          href="https://numberninespa.com"
+          target="_blank"
+          rel="noopener"
+          class="text-gold hover:text-gold-light transition-colors">numberninespa.com</a
+        >
+      </p>
+    </div>
+  </section>
 
   <!-- Back to Home Link -->
   <div class="mt-12 text-center">
-    <a href={`/${lang}/`} class="inline-flex items-center gap-2 text-white/40 hover:text-gold transition-colors text-sm">
+    <a
+      href={`/${lang}/`}
+      class="inline-flex items-center gap-2 text-white/40 hover:text-gold transition-colors text-sm"
+    >
       <Icon name="lucide:arrow-left" />
       返回首頁
     </a>

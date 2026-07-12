@@ -1,0 +1,222 @@
+---
+import { getAsset } from '~/utils/permalinks';
+
+ 
+export interface Props {
+  lang: string;
+  message?: string;
+  class?: string;
+}
+
+const { lang, message = '你好，我想預約澳門桑拿，可以安排嗎？', class: className = '' } = Astro.props as Props;
+
+
+// 联系渠道配置
+const channels = [
+  {
+    name: 'WhatsApp',
+    href: `https://wa.me/85365670348?text=${message}`,
+    icon: getAsset('images/whatsapp.svg'),
+    description: '立即聯繫',
+    type: 'link'
+  },
+  {
+    name: 'Telegram',
+    href: `https://t.me/Aomensauna?text=${message}`,
+    icon: getAsset('images/telegram.svg'),
+    description: '@Aomensauna',
+    type: 'link'
+  },
+  {
+    name: 'WeChat',
+    href: '#',
+    icon: getAsset('images/wechat.svg'),
+    description: 'AN99348',
+    type: 'wechat'
+  },
+  {
+    name: 'LINE',
+    href: 'https://line.me/ti/p/VZHFDSZnq9',
+    icon: getAsset('images/line.svg'),
+    description: '16880348',
+    type: 'link'
+  }
+];
+
+const weChatQrCode = getAsset('images/wechat-qr.png');
+
+---
+
+<!-- 联系我们 -->
+<section id="contact" class="pt-2 pb-2 sm:pt-8 sm:pb-8 px-4 scroll-mt-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        {channels.map((ch) => (
+          ch.type === 'wechat' ? (
+            <button
+              type="button"
+              data-wechat-trigger="true"
+              class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-gold/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
+            >
+              <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                <img src={ch.icon} alt={ch.name} class="w-7 h-7 rounded-md" />
+              </div>
+              <div>
+                <div class="text-white/40 text-xs mb-1">{ch.name}</div>
+                <div class="text-white font-medium">{ch.description}</div>
+              </div>
+            </button>
+          ) : (
+            <a
+              href={`${ch.href}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-gold/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
+            >
+              <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                <img src={ch.icon} alt={ch.name} class="w-7 h-7 rounded-md" />
+              </div>
+              <div>
+                <div class="text-white/40 text-xs mb-1">{ch.name}</div>
+                <div class="text-white font-medium">{ch.description}</div>
+              </div>
+            </a>
+          )
+        ))}
+ 
+    </div>
+  </div>
+</section>
+
+ 
+
+
+
+<!-- WeChat Modal -->
+<div
+  id="wechat-modal"
+  data-testid="wechat-modal"
+  class="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-200"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="wechat-modal-title"
+  hidden
+>
+  <div class="bg-[#141414] rounded-2xl p-6 sm:p-8 max-w-sm w-full border border-gold/20 relative">
+    <button
+      id="wechat-modal-close"
+      type="button"
+      class="absolute top-3 right-3 w-10 h-10 flex items-center justify-center text-white/50 hover:text-gold transition-colors"
+      aria-label="關閉"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <h3 id="wechat-modal-title" class="text-lg font-bold text-gold text-center mb-4">加我們的微信</h3>
+
+    <div class="bg-white rounded-xl p-3 mb-4 flex items-center justify-center">
+      <img
+        src={weChatQrCode}
+        alt="WeChat QR Code for AN99348"
+        class="w-full h-auto max-w-[240px] rounded-lg"
+        loading="lazy"
+      />
+    </div>
+
+    <p class="text-center text-sm text-white/70 mb-4">
+      <span class="text-gold">方式一：掃描上方 QR code</span><br />
+      <span class="text-gold">方式二：複製 ID，在微信中搜尋</span>
+    </p>
+
+    <button
+      id="wechat-copy-btn"
+      type="button"
+      data-copy-wechat="AN99348"
+      data-copied-label="✓ 已複製！打開微信搜尋加我們"
+      class="w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-3 rounded-lg transition-colors"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+      </svg>
+      <span id="wechat-copy-label">複製微信 ID：AN99348</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var modal = document.getElementById('wechat-modal');
+    var closeBtn = document.getElementById('wechat-modal-close');
+    var copyBtn = document.getElementById('wechat-copy-btn');
+    var copyLabel = document.getElementById('wechat-copy-label');
+    if (!modal) return;
+
+    var origLabel = copyLabel ? copyLabel.textContent : '';
+    var labelResetTimer = null;
+
+    function doCopy() {
+      if (!copyBtn) return;
+      var id = copyBtn.getAttribute('data-copy-wechat');
+      var copied = copyBtn.getAttribute('data-copied-label') || 'Copied!';
+      if (!id) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(id).catch(function () {});
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = id;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (_) {}
+        document.body.removeChild(ta);
+      }
+      if (copyLabel) {
+        copyLabel.textContent = copied;
+        if (labelResetTimer) clearTimeout(labelResetTimer);
+        labelResetTimer = setTimeout(function () {
+          if (copyLabel) copyLabel.textContent = origLabel;
+        }, 2000);
+      }
+    }
+
+    function open() {
+      modal.removeAttribute('hidden');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = '';
+      setTimeout(function () {
+        if (modal.classList.contains('opacity-0')) modal.setAttribute('hidden', '');
+      }, 250);
+    }
+
+    // Document-level delegation — any element with [data-wechat-trigger]
+    // opens the modal, whether static Astro HTML or React-hydrated island.
+    document.addEventListener('click', function (e) {
+      var target = e.target;
+      if (!target || !target.closest) return;
+      var trigger = target.closest('[data-wechat-trigger]');
+      if (trigger) {
+        e.preventDefault();
+        open();
+        return;
+      }
+      if (target === modal) close();
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+
+    if (copyBtn) copyBtn.addEventListener('click', doCopy);
+  })();
+</script>
