@@ -1,0 +1,10 @@
+---
+publishDate: 2026-04-22
+title: 澳門桑拿價格攻略 2026：門票、檔次、過夜費用一次看懂（附省錢方法）
+excerpt: While easy to get started, Astrowind is quite complex internally.  This page provides documentation on some of the more intricate parts.
+image: https://images.unsplash.com/photo-1534307671554-9a6d81f4d629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1651&q=80
+category: 價格
+tags:
+  - 價格
+
+---

@@ -1,5 +1,6 @@
+
 import { useState, useMemo, useCallback } from 'react';
-import { getAsset } from '~/utils/permalinks';
+
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
 /* ------------------------------------------------------------------ */
@@ -70,27 +71,6 @@ const CONTACT_INFO = {
   line: 'https://line.me/ti/p/VZHFDSZnq9',
 };
 
-const preloadImages = [
-  'images/whatsapp.svg',
-  'images/telegram.svg',
-  'images/wechat.svg',
-  'images/line.svg',
-];
-
-/* ------------------------------------------------------------------ */
-/*  Experience → Venue Priority Map (from production D table)          */
-/* ------------------------------------------------------------------ */
-
-const EXPERIENCE_PRIORITY: Record<string, string[]> = {
-  lineup: ['manhao-spa', 'oceanic-royal-spa', 'number-one-sauna'],
-  theme: ['east-castle-spa', 'majesty-spa', 'the-excellent-spa'],
-  value: ['victoria-sauna', 'shang-pin-spa', 'majesty-spa'],
-  japanese: ['oceanic-royal-spa', 'victoria-sauna', 'number-nine-sauna'],
-  new: ['manhao-spa', 'empire-spa', 'number-nine-sauna'],
-  ktv: ['majesty-spa', 'm-club'],
-  classic: ['familia-nobre', 'number-one-spa', 'oceanic-royal-spa'],
-};
-
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
 /* ------------------------------------------------------------------ */
@@ -103,114 +83,45 @@ function btnClass(active: boolean) {
 
 function scoreVenue(
   v: Venue,
-  index: number,
-  prefs: { party: string; experience: string; time: string; origin: string; overnight: boolean },
+  prefs: { party: string; experience: string; time: string; origin: string; noOvernight: boolean },
 ): number {
-  // A. Base score
-  let score = 50;
-
-  // B. Experience priority weighting (from production logic)
-  const priorityList = EXPERIENCE_PRIORITY[prefs.experience];
-  if (priorityList) {
-    const rank = priorityList.indexOf(v.slug);
-    if (rank === 0) score += 40;
-    else if (rank === 1) score += 30;
-    else if (rank === 2) score += 20;
-    else score += 6; // Even if not in the top 3, having the tag gives a bonus
-  }
-
-  // C. Overnight correction (from production logic)
-  if (prefs.overnight) {
-    if (v.overnightAllowed) {
-      if (v.freeOvernightRoom) score += 22;
-      else if (v.rating >= 5 || v.themeRooms) score += 8;
-      else score -= 2;
-    } else {
-      score -= 12; // Heavy penalty if user wants overnight but venue doesn't allow it
-    }
-  }
-
-  // D. Party size correction (from production logic)
-  if (prefs.party === '5+' || prefs.party === '3-4') {
-    if (v.isNew || v.ktv || v.recommendedShow) score += 6;
-  } else if (prefs.party === '1') {
-    if (v.themeRooms || v.freeOvernightRoom) score += 4;
-  }
-
-  // E. Time correction (from production logic)
-  if (prefs.time === 'now') {
-    if (v.open24h || v.isNew || v.themeRooms) score += 4;
-  } else if (prefs.time === 'tonight' || prefs.time === 'tomorrow') {
-    if (v.open24h || v.isNew) score += 3;
-  } else if (prefs.time === 'sat' || prefs.time === 'sun') {
-    if (v.isNew || v.ktv || v.recommendedShow) score += 4;
-  }
-
-  // F. Origin correction (from production logic, including airport -1)
-  if (prefs.origin === 'border') {
-    if (v.district === '澳門半島') score += 3;
-  } else if (prefs.origin === 'airport') {
-    if (v.district === '氹仔') score += 5;
-    else score -= 1; // Penalty if airport selected but venue not in Taipa
-  }
-
-  // G. Index tiebreaker & cap (from production logic)
-  score -= index * 0.01; // Prevents ordering flickering on identical scores
-  score = Math.min(100, Math.round(score));
-
+  let score = 0;
+  if (prefs.experience === 'new' && v.isNew) score += 30;
+  if (prefs.experience === 'ktv' && v.ktv) score += 30;
+  if (prefs.experience === 'theme' && v.themeRooms) score += 30;
+  if (prefs.experience === 'lineup' && v.buckets.includes('lineup')) score += 30;
+  if (prefs.experience === 'overnight' && v.overnightAllowed) score += 25;
+  if (prefs.experience === 'classic' && v.rating >= 4) score += 20;
+  if (prefs.experience === 'value' && v.priceMin <= 2400) score += 25;
+  if (prefs.experience === 'japanese' && v.buckets.includes('japanese')) score += 30;
+  if (prefs.noOvernight && !v.overnightAllowed) score += 10;
+  if (prefs.noOvernight && v.freeOvernightRoom) score -= 5;
+  if (prefs.time === 'now' && v.open24h) score += 10;
+  if (prefs.time === 'tonight' && v.open24h) score += 8;
+  if (prefs.origin === 'hotel' && v.district === '氹仔') score += 8;
+  if (prefs.origin === 'border' && v.district === '澳門半島') score += 8;
+  score += v.rating * 3;
+  if (v.recommendedShow) score += 12;
   return score;
 }
 
 function buildContactMessage(
   venueName: string,
-  prefs: { party: string; time: string; origin: string; overnight: boolean; experience: string },
-  lang: string, // Added lang parameter for i18n
+  prefs: { party: string; time: string; origin: string; noOvernight: boolean; experience: string },
 ) {
   const expLabel = EXPERIENCE_OPTIONS.find((o) => o.key === prefs.experience)?.label ?? '';
   const timeLabel = TIME_OPTIONS.find((o) => o.key === prefs.time)?.label ?? '';
   const originLabel = ORIGIN_OPTIONS.find((o) => o.key === prefs.origin)?.label ?? '';
   const partyLabel = PARTY_OPTIONS.find((o) => o.key === prefs.party)?.label ?? '';
-
-  // Multi-language prefill templates (from production logic, without Japanese)
-  if (lang === 'en') {
-    const lines = [
-      `Hi, I matched a venue on your site. Experience: ${expLabel}`,
-      `· Group: ${partyLabel}`,
-      `· Time: ${timeLabel}`,
-      `· Coming from: ${originLabel}`,
-      prefs.overnight ? '· Overnight: yes (booking perk / private sleep room)' : '· Overnight: no',
-      venueName ? `· Interested in: ${venueName}` : '',
-      '',
-      'Please confirm pricing and VIP arrangements. Thanks!',
-    ].filter(Boolean);
-    return encodeURIComponent(lines.join('\n'));
-  }
-
-  if (lang === 'zh-CN') {
-    const lines = [
-      `你好，我在网站上匹配好了心水。体验：${expLabel}`,
-      `・人数：${partyLabel}`,
-      `・时间：${timeLabel}`,
-      `・出发地：${originLabel}`,
-      prefs.overnight ? '・过夜：要（预约优惠・独立睡房优先）' : '・过夜：不用',
-      venueName ? `・目前想去：${venueName}` : '',
-      '',
-      '麻烦帮我确认价钱及 VIP 安排，谢谢！',
-    ].filter(Boolean);
-    return encodeURIComponent(lines.join('\n'));
-  }
-
-  // Default: zh-TW
   const lines = [
     `你好，我在網站上配對好了心水。體驗：${expLabel}`,
     `・人數：${partyLabel}`,
     `・時間：${timeLabel}`,
     `・出發地：${originLabel}`,
-    prefs.overnight ? '・過夜：要（預約優惠・獨立睡房優先）' : '・過夜：不用',
-    venueName ? `・目前想去：${venueName}` : '',
-    '',
+    `・過夜：${prefs.noOvernight ? '不用' : '需要'}`,
+    `・目前想去：${venueName}`,
     '麻煩幫我確認價錢及 VIP 安排，謝謝！',
-  ].filter(Boolean);
+  ];
   return encodeURIComponent(lines.join('\n'));
 }
 
@@ -223,16 +134,16 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
   const [experience, setExperience] = useState('new');
   const [time, setTime] = useState('tonight');
   const [origin, setOrigin] = useState('hotel');
-  const [overnight, setOvernight] = useState(false); // Changed name and semantics
+  const [noOvernight, setNoOvernight] = useState(false);
   const [animKey, setAnimKey] = useState(0);
 
   const prefs = useMemo(
-    () => ({ party, experience, time, origin, overnight }), // Updated to use 'overnight'
-    [party, experience, time, origin, overnight], // Updated dependency
+    () => ({ party, experience, time, origin, noOvernight }),
+    [party, experience, time, origin, noOvernight],
   );
 
   const ranked = useMemo(() => {
-    const scored = venues.map((v, i) => ({ venue: v, score: scoreVenue(v, i, prefs) })); // Pass index to scoring function
+    const scored = venues.map((v) => ({ venue: v, score: scoreVenue(v, prefs) }));
     scored.sort((a, b) => b.score - a.score);
     return scored;
   }, [venues, prefs]);
@@ -246,8 +157,8 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
   }, []);
 
   const msg = useMemo(
-    () => buildContactMessage(topVenue?.venue.name ?? '', prefs, lang), // Pass 'lang' for i18n
-    [topVenue, prefs, lang], // Add 'lang' to dependency
+    () => buildContactMessage(topVenue?.venue.name ?? '', prefs),
+    [topVenue, prefs],
   );
 
   const detailHref = `/${lang}/spa/${topVenue?.venue.slug}/`;
@@ -256,9 +167,10 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
 
   return (
     <>
-      {preloadImages.map((src, idx) => (
-        <link key={`preImg-${idx}`} rel="preload" as="image" href={`${getAsset(src)}`} />
-      ))} 
+      <link rel="preload" as="image" href="/icons/whatsapp.svg" />
+      <link rel="preload" as="image" href="/icons/telegram.svg" />
+      <link rel="preload" as="image" href="/icons/wechat.svg" />
+      <link rel="preload" as="image" href="/icons/line.svg" />
 
       <div className="qm-root rounded-3xl border border-gold/25 bg-gradient-to-b from-gold/[0.07] to-white/[0.02] p-5 sm:p-8">
         {/* Header */}
@@ -348,25 +260,23 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
             <button
               type="button"
               role="switch"
-              aria-checked={overnight} // Updated to use 'overnight'
+              aria-checked={noOvernight}
               className="flex w-full flex-col gap-1.5 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-left transition-colors hover:bg-white/[0.05]"
-              onClick={() => handlePrefChange(setOvernight, !overnight)} // Updated to use 'overnight'
+              onClick={() => handlePrefChange(setNoOvernight, !noOvernight)}
             >
               <span className="flex items-center gap-3">
                 <span
                   className={`relative h-6 w-11 flex-shrink-0 rounded-full border transition-colors ${
-                    overnight ? 'border-gold/50 bg-gold' : 'border-white/15 bg-white/15' // Updated styling logic
+                    noOvernight ? 'border-gold bg-gold' : 'border-white/15 bg-white/15'
                   }`}
                 >
                   <span
                     className={`absolute top-0.5 h-[18px] w-[18px] rounded-full bg-white shadow transition-transform ${
-                      overnight ? 'translate-x-[22px]' : 'translate-x-0.5' // Updated translate logic
+                      noOvernight ? 'translate-x-[22px]' : 'translate-x-0.5'
                     }`}
                   />
                 </span>
-                <span className={`text-sm font-bold ${overnight ? 'text-white' : 'text-white/55'}`}> {/* Updated text logic */}
-                  {overnight ? '要過夜' : '不過夜'}
-                </span>
+                <span className="text-sm font-bold text-white/55">不過夜</span>
               </span>
               <span className="text-xs text-white/45">預約優惠・獨立睡房優先</span>
             </button>
@@ -423,7 +333,7 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
                       rel="noopener"
                       className="flex items-center justify-center gap-2 rounded-xl bg-[#25d366] px-3 py-2.5 text-sm font-bold text-white transition-transform hover:-translate-y-0.5"
                     >
-                      <img alt="" width="16" height="16" src={getAsset(preloadImages[0])}  />
+                      <img alt="" width="16" height="16" src="/icons/whatsapp.svg" />
                       WhatsApp
                     </a>
                     <a
@@ -432,7 +342,7 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
                       rel="noopener"
                       className="flex items-center justify-center gap-2 rounded-xl bg-[#229ed9] px-3 py-2.5 text-sm font-bold text-white transition-transform hover:-translate-y-0.5"
                     >
-                      <img alt="" width="16" height="16" src={getAsset(preloadImages[1])}  />
+                      <img alt="" width="16" height="16" src="/icons/telegram.svg" />
                       Telegram
                     </a>
                   </div>
@@ -444,7 +354,7 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
                       title="微信"
                       className="flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] py-2 transition-colors hover:bg-white/[0.08]"
                     >
-                      <img alt="WeChat" className="h-5 w-5 rounded-md" src={getAsset(preloadImages[2])} />
+                      <img alt="WeChat" className="h-5 w-5 rounded-md" src="/icons/wechat.svg" />
                     </button>
                     <a
                       href={CONTACT_INFO.line}
@@ -454,7 +364,7 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
                       title="LINE"
                       className="flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] py-2 transition-colors hover:bg-white/[0.08]"
                     >
-                      <img alt="LINE" className="h-5 w-5 rounded-md" src={getAsset(preloadImages[3])} />
+                      <img alt="LINE" className="h-5 w-5 rounded-md" src="/icons/line.svg" />
                     </a>
                   </div>
                 </div>
@@ -517,4 +427,4 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
       `}</style>
     </>
   );
-}
+} 

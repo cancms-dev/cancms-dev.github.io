@@ -1,0 +1,147 @@
+---
+// 微信二维码 Modal 组件
+// 点击带有 data-wechat-trigger 属性的元素，全屏展示微信二维码
+
+export interface Props {
+  /** 二维码图片路径 */
+  qrCodeSrc: string;
+  /** 微信 ID */
+  wechatId: string;
+}
+
+const { qrCodeSrc, wechatId } = Astro.props as Props;
+
+const modalId = 'wechat-modal';
+const closeBtnId = `${modalId}-close`;
+---
+
+<div
+  id={modalId}
+  class="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-200"
+  role="dialog"
+  aria-modal="true"
+  hidden
+>
+  <div class="bg-[#141414] rounded-2xl p-6 sm:p-8 max-w-sm w-full border border-gold/20 relative">
+    <button
+      id={closeBtnId}
+      type="button"
+      class="absolute top-3 right-3 w-10 h-10 flex items-center justify-center text-white/50 hover:text-gold transition-colors"
+      aria-label="關閉"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <h3 class="text-lg font-bold text-gold text-center mb-4">加我們的微信</h3>
+
+    <div class="bg-white rounded-xl p-3 mb-4 flex items-center justify-center">
+      <img
+        src={qrCodeSrc}
+        alt="WeChat QR Code"
+        class="w-full h-auto max-w-[240px] rounded-lg"
+        loading="lazy"
+      />
+    </div>
+
+    <p class="text-center text-sm text-white/70 mb-4">
+      <span class="text-gold">方式一：掃描上方 QR code</span><br />
+      <span class="text-gold">方式二：複製 ID，在微信中搜尋</span>
+    </p>
+
+    <button
+      id="wechat-copy-btn"
+      type="button"
+      data-copy-wechat={wechatId}
+      data-copied-label="✓ 已複製！打開微信搜尋加我們"
+      class="w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-3 rounded-lg transition-colors"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+      </svg>
+      <span id="wechat-copy-label">複製微信 ID：{wechatId}</span>
+    </button>
+  </div>
+</div>
+
+<script define:vars={{ modalId, closeBtnId }}>
+  (function () {
+    const modal = document.getElementById(modalId);
+    const closeBtn = document.getElementById(closeBtnId);
+    const copyBtn = document.getElementById('wechat-copy-btn');
+    const copyLabel = document.getElementById('wechat-copy-label');
+
+    if (!modal) return;
+
+    function open() {
+      modal.removeAttribute('hidden');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        if (modal.classList.contains('opacity-0')) {
+          modal.setAttribute('hidden', '');
+        }
+      }, 250);
+    }
+
+    // 点击带有 data-wechat-trigger 的元素打开 modal
+    document.addEventListener('click', function (e) {
+      const target = e.target;
+      if (!target || !target.closest) return;
+      const trigger = target.closest('[data-wechat-trigger]');
+      if (trigger) {
+        e.preventDefault();
+        open();
+        return;
+      }
+      // 点击背景关闭
+      if (target === modal) close();
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+
+    // 复制微信 ID
+    if (copyBtn && copyLabel) {
+      const origLabel = copyLabel.textContent || '';
+      let labelResetTimer = null;
+
+      copyBtn.addEventListener('click', function () {
+        const id = copyBtn.getAttribute('data-copy-wechat');
+        const copied = copyBtn.getAttribute('data-copied-label') || 'Copied!';
+        if (!id) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(id).catch(() => {});
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = id;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); } catch (_) {}
+          document.body.removeChild(ta);
+        }
+        copyLabel.textContent = copied;
+        if (labelResetTimer) clearTimeout(labelResetTimer);
+        labelResetTimer = setTimeout(() => {
+          copyLabel.textContent = origLabel;
+        }, 2000);
+      });
+    }
+
+    // 暴露控制函数到全局（供其他脚本调用）
+    window.__modal = window.__modal || {};
+    window.__modal[modalId] = { open, close };
+  })();
+</script>
