@@ -10,10 +10,25 @@ const t = useTranslations(lang);
 
 // 服务流程卡牌数据
 const howItWorksCards = [
-  { step: '1', title: '聯絡我們', desc: '透過 WhatsApp、微信或 Telegram 告訴我們您的需求與偏好，我們立即為您配對最適合的會所。', icon: '💬' },
-  { step: '2', title: '免費接送', desc: '我們安排私人專車到您指定的地點接您，澳門全區免費接送，直達會所門口。', icon: '🚗' },
+  {
+    step: '1',
+    title: '聯絡我們',
+    desc: '透過 WhatsApp、微信或 Telegram 告訴我們您的需求與偏好，我們立即為您配對最適合的會所。',
+    icon: '💬',
+  },
+  {
+    step: '2',
+    title: '免費接送',
+    desc: '我們安排私人專車到您指定的地點接您，澳門全區免費接送，直達會所門口。',
+    icon: '🚗',
+  },
   { step: '3', title: 'VIP 入場', desc: '抵達會所後無需排隊，由專人接待直接入場，享受貴賓級禮遇。', icon: '🎫' },
-  { step: '4', title: '盡情享受', desc: '現場觀賞技師走秀、自選心儀技師，享受按摩、水療、餐飲等全套服務。', icon: '💆' },
+  {
+    step: '4',
+    title: '盡情享受',
+    desc: '現場觀賞技師走秀、自選心儀技師，享受按摩、水療、餐飲等全套服務。',
+    icon: '💆',
+  },
   { step: '5', title: '優惠結帳', desc: '以合作優惠價格結帳，比現場價格更划算，部分會所更可享專屬折扣。', icon: '💰' },
   { step: '6', title: '專車送回', desc: '享受完畢後，我們安排專車免費送您返回酒店，全程無憂。', icon: '🏨' },
 ];
@@ -27,15 +42,282 @@ const vipGifts = [
   { item: '延長使用時間', note: '額外贈送 30-60 分鐘' },
   { item: '專屬折扣碼', note: '下次消費可用' },
 ];
-
 ---
 
 <section id="vip-treats" data-testid="vip-treats-section" class="py-16 sm:py-24 px-4 scroll-mt-6">
   <div class="max-w-3xl mx-auto">
-    
+    <div class="text-center mb-3">
+      <div
+        class="inline-block bg-green-500/15 text-green-400 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4"
+      >
+        預約即享・無需加價
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-bold mb-3">服務流程</h2>
+      <div class="w-20 h-0.5 bg-gold mx-auto mb-6"></div>
+      <p class="text-white/60 max-w-none mx-auto sm:whitespace-nowrap">
+        我們替您打點一切——推薦、接送、VIP 入場、VIP 尊享，以及您的回程接送。
+      </p>
+    </div>
+    <div
+      role="tablist"
+      data-testid="vip-tablist"
+      class=" top-16 sm:top-20 z-40 -mx-4 px-4 sm:mx-0 sm:px-0 flex border-b border-gold/15 mb-6 bg-[#0a0a0a]/95 backdrop-blur-sm"
+    >
+      <button
+        role="tab"
+        type="button"
+        data-tab-target="how"
+        data-testid="tab-how"
+        aria-selected="true"
+        aria-controls="panel-how"
+        class="vip-tab flex-1 px-4 py-3 text-sm sm:text-base font-semibold tracking-wide border-b-2 transition-colors border-gold text-gold"
+      >
+        服務流程
+      </button><button
+        role="tab"
+        type="button"
+        data-tab-target="gifts"
+        data-testid="tab-gifts"
+        aria-selected="false"
+        aria-controls="panel-gifts"
+        class="vip-tab flex-1 px-4 py-3 text-sm sm:text-base font-semibold tracking-wide border-b-2 transition-colors hover:text-white/85 border-transparent text-white/55"
+      >
+        VIP 尊享
+      </button>
+    </div>
+    <!-- Gifts panel -->
+    <div
+      id="panel-gifts"
+      role="tabpanel"
+      data-tab-panel="gifts"
+      data-testid="panel-gifts"
+      aria-labelledby="tab-gifts"
+      class="bg-[#0f0f0f] border border-gold/15 rounded-2xl overflow-hidden hidden"
+    >
+      <div class="px-4 sm:px-6 py-3 sm:py-4 bg-gold/5 border-b border-gold/10">
+        <span class="text-gold font-semibold text-sm tracking-wider">任選 1 項，由服務團隊為您準備！</span>
+      </div>
+      <table class="w-full text-sm sm:text-base">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th
+              scope="col"
+              class="text-left pl-4 sm:pl-6 pr-2 pt-3 pb-2 text-xs uppercase tracking-wider text-white/40 font-normal"
+              >服務項目</th
+            >
+            <th
+              scope="col"
+              class="text-right px-2 pt-3 pb-2 text-xs uppercase tracking-wider text-white/40 font-normal whitespace-nowrap"
+              >價值</th
+            >
+            <th
+              scope="col"
+              class="text-right pl-2 pr-4 sm:pr-6 pt-3 pb-2 text-xs uppercase tracking-wider text-gold font-normal whitespace-nowrap"
+              >VIP</th
+            >
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-white/5">
+            <td class="py-3 sm:py-4 pl-4 sm:pl-6 pr-2 align-top">
+              <div class="flex items-start gap-3 sm:gap-4">
+                <span class="text-2xl sm:text-3xl leading-none shrink-0 select-none mt-0.5">🧎‍♀️</span>
+                <div class="min-w-0">
+                  <div class="font-semibold text-white">擦背服務</div>
+                  <div class="text-white/55 text-xs sm:text-sm leading-relaxed mt-0.5">
+                    專業擦背服務，舒緩肩頸與背部緊繃。
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="text-right text-white/45 align-top py-3 sm:py-4 px-2 whitespace-nowrap line-through">298 MOP</td>
+            <td class="text-right text-gold font-semibold align-top py-3 sm:py-4 pl-2 pr-5 sm:pr-7 whitespace-nowrap"
+              >免費</td
+            >
+          </tr><tr class="border-b border-white/5">
+            <td class="py-3 sm:py-4 pl-4 sm:pl-6 pr-2 align-top">
+              <div class="flex items-start gap-3 sm:gap-4">
+                <span class="text-2xl sm:text-3xl leading-none shrink-0 select-none mt-0.5">🦵</span>
+                <div class="min-w-0">
+                  <div class="font-semibold text-white">腿部按摩</div>
+                  <div class="text-white/55 text-xs sm:text-sm leading-relaxed mt-0.5">
+                    大腿前後深層放鬆，桑拿後最對症。
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="text-right text-white/45 align-top py-3 sm:py-4 px-2 whitespace-nowrap line-through">288 MOP</td>
+            <td class="text-right text-gold font-semibold align-top py-3 sm:py-4 pl-2 pr-5 sm:pr-7 whitespace-nowrap"
+              >免費</td
+            >
+          </tr><tr class="border-b border-white/5">
+            <td class="py-3 sm:py-4 pl-4 sm:pl-6 pr-2 align-top">
+              <div class="flex items-start gap-3 sm:gap-4">
+                <span class="text-2xl sm:text-3xl leading-none shrink-0 select-none mt-0.5">💆</span>
+                <div class="min-w-0">
+                  <div class="font-semibold text-white">頭部按摩</div>
+                  <div class="text-white/55 text-xs sm:text-sm leading-relaxed mt-0.5">
+                    頭皮揉壓，緩解頭痛與精神疲勞。
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="text-right text-white/45 align-top py-3 sm:py-4 px-2 whitespace-nowrap line-through">230 MOP</td>
+            <td class="text-right text-gold font-semibold align-top py-3 sm:py-4 pl-2 pr-5 sm:pr-7 whitespace-nowrap"
+              >免費</td
+            >
+          </tr><tr class="border-b border-white/5">
+            <td class="py-3 sm:py-4 pl-4 sm:pl-6 pr-2 align-top">
+              <div class="flex items-start gap-3 sm:gap-4">
+                <span class="text-2xl sm:text-3xl leading-none shrink-0 select-none mt-0.5">🦶</span>
+                <div class="min-w-0">
+                  <div class="font-semibold text-white">足底按摩</div>
+                  <div class="text-white/55 text-xs sm:text-sm leading-relaxed mt-0.5">穴位按壓，喚醒疲憊雙足。</div>
+                </div>
+              </div>
+            </td>
+            <td class="text-right text-white/45 align-top py-3 sm:py-4 px-2 whitespace-nowrap line-through">230 MOP</td>
+            <td class="text-right text-gold font-semibold align-top py-3 sm:py-4 pl-2 pr-5 sm:pr-7 whitespace-nowrap"
+              >免費</td
+            >
+          </tr><tr class="border-b border-white/5">
+            <td class="py-3 sm:py-4 pl-4 sm:pl-6 pr-2 align-top">
+              <div class="flex items-start gap-3 sm:gap-4">
+                <span class="text-2xl sm:text-3xl leading-none shrink-0 select-none mt-0.5">🤚</span>
+                <div class="min-w-0">
+                  <div class="font-semibold text-white">修手指甲</div>
+                  <div class="text-white/55 text-xs sm:text-sm leading-relaxed mt-0.5">修剪、塑形、護理甲緣。</div>
+                </div>
+              </div>
+            </td>
+            <td class="text-right text-white/45 align-top py-3 sm:py-4 px-2 whitespace-nowrap line-through">220 MOP</td>
+            <td class="text-right text-gold font-semibold align-top py-3 sm:py-4 pl-2 pr-5 sm:pr-7 whitespace-nowrap"
+              >免費</td
+            >
+          </tr><tr class="border-b border-white/5">
+            <td class="py-3 sm:py-4 pl-4 sm:pl-6 pr-2 align-top">
+              <div class="flex items-start gap-3 sm:gap-4">
+                <span class="text-2xl sm:text-3xl leading-none shrink-0 select-none mt-0.5">🧴</span>
+                <div class="min-w-0">
+                  <div class="font-semibold text-white">修腳指甲</div>
+                  <div class="text-white/55 text-xs sm:text-sm leading-relaxed mt-0.5">
+                    泡腳、修甲、甲緣護理、足部放鬆。
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="text-right text-white/45 align-top py-3 sm:py-4 px-2 whitespace-nowrap line-through">220 MOP</td>
+            <td class="text-right text-gold font-semibold align-top py-3 sm:py-4 pl-2 pr-5 sm:pr-7 whitespace-nowrap"
+              >免費</td
+            >
+          </tr><tr class="border-b border-white/5">
+            <td class="py-3 sm:py-4 pl-4 sm:pl-6 pr-2 align-top">
+              <div class="flex items-start gap-3 sm:gap-4">
+                <span class="text-2xl sm:text-3xl leading-none shrink-0 select-none mt-0.5">🤲</span>
+                <div class="min-w-0">
+                  <div class="font-semibold text-white">手部按摩</div>
+                  <div class="text-white/55 text-xs sm:text-sm leading-relaxed mt-0.5">釋放手腕與前臂的緊繃感。</div>
+                </div>
+              </div>
+            </td>
+            <td class="text-right text-white/45 align-top py-3 sm:py-4 px-2 whitespace-nowrap line-through">200 MOP</td>
+            <td class="text-right text-gold font-semibold align-top py-3 sm:py-4 pl-2 pr-5 sm:pr-7 whitespace-nowrap"
+              >免費</td
+            >
+          </tr><tr class="border-b border-white/5">
+            <td class="py-3 sm:py-4 pl-4 sm:pl-6 pr-2 align-top">
+              <div class="flex items-start gap-3 sm:gap-4">
+                <span class="text-2xl sm:text-3xl leading-none shrink-0 select-none mt-0.5">👂</span>
+                <div class="min-w-0">
+                  <div class="font-semibold text-white">採耳</div>
+                  <div class="text-white/55 text-xs sm:text-sm leading-relaxed mt-0.5">
+                    傳統採耳體驗，意外地讓人放鬆。
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="text-right text-white/45 align-top py-3 sm:py-4 px-2 whitespace-nowrap line-through">200 MOP</td>
+            <td class="text-right text-gold font-semibold align-top py-3 sm:py-4 pl-2 pr-5 sm:pr-7 whitespace-nowrap"
+              >免費</td
+            >
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- How It Works panel -->
+    <div
+      id="panel-how"
+      role="tabpanel"
+      data-tab-panel="how"
+      data-testid="panel-how"
+      aria-labelledby="tab-how"
+      class="bg-[#0f0f0f] border border-gold/15 rounded-2xl px-4 sm:px-6 py-5 sm:py-6"
+    >
+      <ol class="space-y-5">
+        <li class="flex gap-3" data-testid="step-1">
+          <span
+            class="w-7 h-7 shrink-0 rounded-full bg-gold/20 text-gold flex items-center justify-center text-sm font-bold"
+          >
+            1
+          </span>
+          <div class="flex-1 text-sm sm:text-base text-white/80 leading-relaxed">
+            <strong class="block text-gold text-base sm:text-lg font-semibold mb-1">由我們為您推薦 💬</strong> 透過我們的內部網絡為您預約。您不必煩惱該選哪一間桑拿——告訴我們您的喜好，或讓我們的團隊為您配對。我們有多年經驗，熟知每間桑拿的特色與優勢。
+          </div>
+        </li><li class="flex gap-3" data-testid="step-2">
+          <span
+            class="w-7 h-7 shrink-0 rounded-full bg-gold/20 text-gold flex items-center justify-center text-sm font-bold"
+          >
+            2
+          </span>
+          <div class="flex-1 text-sm sm:text-base text-white/80 leading-relaxed">
+            <strong class="block text-gold text-base sm:text-lg font-semibold mb-1">即時專車接送 🚗</strong> 酒店大堂、機場、外港碼頭、氹仔碼頭、甚至街角——告訴我們您在哪，我們幾分鐘內到達。完成後，澳門境內任何地點皆可送達。
+            <div class="mt-2 px-3 py-2 bg-gold/5 border-l-2 border-gold rounded-r text-xs sm:text-sm text-white/75">
+              <strong class="text-gold">與朋友同行？</strong> 我們的七人座輕鬆容納——同樣的禮遇人人享有，毫無額外費用。
+            </div>
+          </div>
+        </li><li class="flex gap-3" data-testid="step-3">
+          <span
+            class="w-7 h-7 shrink-0 rounded-full bg-gold/20 text-gold flex items-center justify-center text-sm font-bold"
+          >
+            3
+          </span>
+          <div class="flex-1 text-sm sm:text-base text-white/80 leading-relaxed">
+            <strong class="block text-gold text-base sm:text-lg font-semibold mb-1">VIP 入場・內部優惠價 ⚡</strong> 透過內部網絡預約，您可直接進場、無需排隊。每間桑拿都為我們的客人保留專屬優惠價——告訴我們您想去哪一間，我們替您鎖定折扣。
+          </div>
+        </li><li class="flex gap-3" data-testid="step-4">
+          <span
+            class="w-7 h-7 shrink-0 rounded-full bg-gold/20 text-gold flex items-center justify-center text-sm font-bold"
+          >
+            4
+          </span>
+          <div class="flex-1 text-sm sm:text-base text-white/80 leading-relaxed">
+            <strong class="block text-gold text-base sm:text-lg font-semibold mb-1">任選 1 項 VIP 尊享 🎁</strong> 我們對您透過我們預約的小小心意——我們會事先通知場地您的到訪，到場時您可直接挑選
+            VIP 尊享（頭部按摩、足底按摩、修甲等）。
+          </div>
+        </li><li class="flex gap-3" data-testid="step-5">
+          <span
+            class="w-7 h-7 shrink-0 rounded-full bg-gold/20 text-gold flex items-center justify-center text-sm font-bold"
+          >
+            5
+          </span>
+          <div class="flex-1 text-sm sm:text-base text-white/80 leading-relaxed">
+            <strong class="block text-gold text-base sm:text-lg font-semibold mb-1">回程專車接送 🚗</strong> 當您結束時——餐飲後、服務剛結束、任何時間——只需傳訊息給我們。同一輛專車會回來接您，送往您的酒店、機場、碼頭，或澳門境內任何地點。與接送同樣零費用。
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+
+{/* VIP 服务区域 
+<section id="vip-treats" data-testid="vip-treats-section" class="py-16 sm:py-24 px-4 scroll-mt-6">
+  <div class="max-w-3xl mx-auto">
     <!-- 标题区域 -->
     <div class="text-center mb-3">
-      <div class="inline-block bg-green-500/15 text-green-400 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4">
+      <div
+        class="inline-block bg-green-500/15 text-green-400 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4"
+      >
         預約即享・無需加價
       </div>
       <h2 class="text-3xl sm:text-4xl font-bold mb-3">服務流程</h2>
@@ -46,13 +328,31 @@ const vipGifts = [
     </div>
 
     <!-- Tab 导航栏 -->
-    <div role="tablist" data-testid="vip-tablist" class=" top-16 sm:top-20 z-40 -mx-4 px-4 sm:mx-0 sm:px-0 flex border-b border-gold/15 mb-6 bg-[#0a0a0a]/95 backdrop-blur-sm">
-      <button role="tab" type="button" data-tab-target="how" data-testid="tab-how" aria-selected="true" aria-controls="panel-how"
-        class="vip-tab flex-1 px-4 py-3 text-sm sm:text-base font-semibold tracking-wide border-b-2 transition-colors border-gold text-gold">
+    <div
+      role="tablist"
+      data-testid="vip-tablist"
+      class="top-16 sm:top-20 z-40 -mx-4 px-4 sm:mx-0 sm:px-0 flex border-b border-gold/15 mb-6 bg-[#0a0a0a]/95 backdrop-blur-sm"
+    >
+      <button
+        role="tab"
+        type="button"
+        data-tab-target="how"
+        data-testid="tab-how"
+        aria-selected="true"
+        aria-controls="panel-how"
+        class="vip-tab flex-1 px-4 py-3 text-sm sm:text-base font-semibold tracking-wide border-b-2 transition-colors border-gold text-gold"
+      >
         服務流程
       </button>
-      <button role="tab" type="button" data-tab-target="gifts" data-testid="tab-gifts" aria-selected="false" aria-controls="panel-gifts"
-        class="vip-tab flex-1 px-4 py-3 text-sm sm:text-base font-semibold tracking-wide border-b-2 transition-colors border-transparent text-white/55 hover:text-white/85">
+      <button
+        role="tab"
+        type="button"
+        data-tab-target="gifts"
+        data-testid="tab-gifts"
+        aria-selected="false"
+        aria-controls="panel-gifts"
+        class="vip-tab flex-1 px-4 py-3 text-sm sm:text-base font-semibold tracking-wide border-b-2 transition-colors border-transparent text-white/55 hover:text-white/85"
+      >
         VIP 尊享
       </button>
     </div>
@@ -69,7 +369,9 @@ const vipGifts = [
                 </div>
                 <div class="min-w-0">
                   <div class="flex items-center gap-2 mb-1">
-                    <span class="shrink-0 w-5 h-5 rounded-full bg-gold/15 text-gold font-bold text-[10px] flex items-center justify-center">{card.step}</span>
+                    <span class="shrink-0 w-5 h-5 rounded-full bg-gold/15 text-gold font-bold text-[10px] flex items-center justify-center">
+                      {card.step}
+                    </span>
                     <h3 class="text-white font-semibold text-sm">{card.title}</h3>
                   </div>
                   <p class="text-white/50 text-xs leading-relaxed">{card.desc}</p>
@@ -82,16 +384,28 @@ const vipGifts = [
     </div>
 
     <!-- VIP 尊享面板 -->
-    <div id="panel-gifts" role="tabpanel" data-tab-panel="gifts" data-testid="panel-gifts" aria-labelledby="tab-gifts"
-      class="bg-[#0f0f0f] border border-gold/15 rounded-2xl overflow-hidden hidden">
+    <div
+      id="panel-gifts"
+      role="tabpanel"
+      data-tab-panel="gifts"
+      data-testid="panel-gifts"
+      aria-labelledby="tab-gifts"
+      class="bg-[#0f0f0f] border border-gold/15 rounded-2xl overflow-hidden hidden"
+    >
       <div class="px-4 sm:px-6 py-3 sm:py-4 bg-gold/5 border-b border-gold/10">
         <span class="text-gold font-semibold text-sm tracking-wider">任選 1 項，由服務團隊為您準備！</span>
       </div>
       <table class="w-full text-sm sm:text-base">
         <thead>
           <tr class="border-b border-white/10">
-            <th scope="col" class="text-left pl-4 sm:pl-6 pr-2 pt-3 pb-2 text-xs uppercase tracking-wider text-white/40 font-normal">服務項目</th>
-            <th scope="col" class="text-right px-2 pt-3 pb-2 text-xs uppercase tracking-wider text-white/40 font-normal">備註</th>
+            <th
+              scope="col"
+              class="text-left pl-4 sm:pl-6 pr-2 pt-3 pb-2 text-xs uppercase tracking-wider text-white/40 font-normal"
+              >服務項目</th
+            >
+            <th scope="col" class="text-right px-2 pt-3 pb-2 text-xs uppercase tracking-wider text-white/40 font-normal"
+              >備註</th
+            >
           </tr>
         </thead>
         <tbody>
@@ -100,7 +414,20 @@ const vipGifts = [
               <tr class="border-b border-white/5 last:border-b-0 hover:bg-gold/[0.03] transition-colors">
                 <td class="pl-4 sm:pl-6 pr-2 py-3 text-white/80 font-medium">
                   <span class="inline-flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gold shrink-0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="text-gold shrink-0"
+                    >
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
                     {gift.item}
                   </span>
                 </td>
@@ -111,9 +438,10 @@ const vipGifts = [
         </tbody>
       </table>
     </div>
-
   </div>
 </section>
+*/}
+
 
 <script>
   (function () {

@@ -1,13 +1,12 @@
 ---
-import { useTranslations } from '~/i18n/index';
 import { getCollection } from 'astro:content';
+import QuickMatchIsland from '~/components/islands/QuickMatch';
 
 interface Props {
   lang: string;
 }
 
 const { lang } = Astro.props as Props;
-const t = useTranslations(lang);
 const allSpas = await getCollection('spa');
 
 const venues = allSpas.map((spa) => ({
@@ -27,147 +26,10 @@ const venues = allSpas.map((spa) => ({
   name: spa.data.name,
   cover: spa.data.cover,
 }));
-
-const venuesJson = JSON.stringify(venues);
 ---
 
 <section id="quickmatch" class="pb-20 sm:pb-28 px-4 scroll-mt-6">
-  <div class="max-w-5xl mx-auto">
-    <div>
-      <div id="quickmatch-root" class="bg-[#0f0f0f] border border-gold/10 rounded-2xl p-6 sm:p-10">
-        <div class="text-center mb-8">
-          <h2 class="text-2xl sm:text-3xl font-bold mb-3">一分鐘，找出最適合你的桑拿</h2>
-          <div class="w-20 h-0.5 bg-gold mx-auto mb-4"></div>
-          <p class="text-white/50 text-sm max-w-lg mx-auto">回答幾個簡單問題，馬上為你推薦最合適的場館</p>
-        </div>
-
-        <div id="qm-bucket-tabs" class="flex flex-wrap justify-center gap-2 mb-8">
-          <button type="button" data-qm-bucket="all" class="qm-bucket-btn px-5 py-2 rounded-full text-sm font-semibold border transition-all bg-gold/15 border-gold text-gold">全部</button>
-          <button type="button" data-qm-bucket="lineup" class="qm-bucket-btn px-5 py-2 rounded-full text-sm font-semibold border transition-all border-white/15 text-white/55 hover:border-gold/40 hover:text-gold">優選走秀</button>
-          <button type="button" data-qm-bucket="new" class="qm-bucket-btn px-5 py-2 rounded-full text-sm font-semibold border transition-all border-white/15 text-white/55 hover:border-gold/40 hover:text-gold">新場推薦</button>
-          <button type="button" data-qm-bucket="value" class="qm-bucket-btn px-5 py-2 rounded-full text-sm font-semibold border transition-all border-white/15 text-white/55 hover:border-gold/40 hover:text-gold">高性價比</button>
-          <button type="button" data-qm-bucket="overnight" class="qm-bucket-btn px-5 py-2 rounded-full text-sm font-semibold border transition-all border-white/15 text-white/55 hover:border-gold/40 hover:text-gold">過夜首選</button>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <div>
-            <label class="block text-xs text-white/40 mb-2 uppercase tracking-wider">地區</label>
-            <select id="qm-district" class="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:border-gold/50 focus:outline-none">
-              <option value="">不限地區</option>
-              <option value="澳門半島">澳門半島</option>
-              <option value="氹仔">氹仔</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs text-white/40 mb-2 uppercase tracking-wider">預算</label>
-            <select id="qm-budget" class="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:border-gold/50 focus:outline-none">
-              <option value="">不限預算</option>
-              <option value="2000-4000">MOP 2,000 - 4,000</option>
-              <option value="4000-6000">MOP 4,000 - 6,000</option>
-              <option value="6000-99999">MOP 6,000+</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs text-white/40 mb-2 uppercase tracking-wider">特色</label>
-            <div class="flex flex-wrap gap-2">
-              <label class="flex items-center gap-1.5 text-sm text-white/60 cursor-pointer">
-                <input type="checkbox" id="qm-overnight" class="qm-filter-check rounded border-white/20 bg-[#1a1a1a]"> 過夜
-              </label>
-              <label class="flex items-center gap-1.5 text-sm text-white/60 cursor-pointer">
-                <input type="checkbox" id="qm-ktv" class="qm-filter-check rounded border-white/20 bg-[#1a1a1a]"> KTV
-              </label>
-              <label class="flex items-center gap-1.5 text-sm text-white/60 cursor-pointer">
-                <input type="checkbox" id="qm-theme" class="qm-filter-check rounded border-white/20 bg-[#1a1a1a]"> 主題房
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <p id="qm-result-count" class="text-center text-white/40 text-sm mb-6">找到 <span class="text-gold font-bold">0</span> 間會所</p>
-
-        <div id="qm-results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        </div>
-
-        <div id="qm-empty" class="hidden text-center py-12">
-          <p class="text-white/40 text-lg">沒有找到符合條件的會所</p>
-          <p class="text-white/25 text-sm mt-2">試試調整你的篩選條件</p>
-        </div>
-      </div>
-    </div>
+  <div class="max-w-5xl mx-auto fade-up in-view">
+    <QuickMatchIsland client:visible venues={venues} lang={lang} />
   </div>
 </section>
-
-<style>
-  .qm-card-img { animation: qm-fade .45s ease; }
-  @keyframes qm-fade { from { opacity: .25; transform: scale(1.04); } to { opacity: 1; transform: scale(1); } }
-  @media (prefers-reduced-motion: reduce) { .qm-card-img { animation: none; } }
-</style>
-
-<script define:vars={{ venuesJson }}>
-  (function () {
-    console.log('venuesJson:', venuesJson);
-    const venues = JSON.parse(venuesJson);
-    console.log('venues:', venues);
-    const resultsEl = document.getElementById('qm-results');
-    const countEl = document.getElementById('qm-result-count');
-    const emptyEl = document.getElementById('qm-empty');
-    const bucketBtns = document.querySelectorAll('[data-qm-bucket]');
-    const districtSelect = document.getElementById('qm-district');
-    const budgetSelect = document.getElementById('qm-budget');
-    let activeBucket = 'all';
-
-    function getStarsHtml(rating) {
-      let stars = '';
-      for (let i = 0; i < 5; i++) stars += i < rating ? '★' : '☆';
-      return stars;
-    }
-
-    function renderCard(v) {
-      return '<a href="/zh-TW/spa/' + v.slug + '/" class="qm-card group block bg-[#141414] border border-white/10 rounded-xl overflow-hidden hover:border-gold/50 transition-all duration-300">' +
-        '<div class="aspect-[16/10] overflow-hidden bg-[#1d1d1d]">' +
-        '<img src="' + v.cover + '" alt="' + v.name + '" loading="lazy" class="qm-card-img w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" onerror="this.src=\'/images/spas/placeholder.jpg\'">' +
-        '</div>' +
-        '<div class="p-4">' +
-        '<div class="flex items-center justify-between mb-2"><h3 class="text-white font-bold text-sm">' + v.name + '</h3><span class="text-gold text-xs font-semibold">' + getStarsHtml(v.rating) + '</span></div>' +
-        '<div class="flex items-center gap-2 text-xs text-white/40 mb-2"><span>' + v.district + '</span><span>·</span><span>MOP ' + v.priceMin + ' - ' + v.priceMax + '</span></div>' +
-        '<div class="flex flex-wrap gap-1">' + v.buckets.map(function(b) { return '<span class="text-[10px] px-2 py-0.5 rounded-full bg-gold/10 text-gold/80">' + b + '</span>'; }).join('') + '</div>' +
-        '</div></a>';
-    }
-
-    function applyFilters() {
-      var filtered = venues.slice();
-      if (activeBucket !== 'all') filtered = filtered.filter(function(v) { return v.buckets.indexOf(activeBucket) >= 0; });
-      var district = districtSelect ? districtSelect.value : '';
-      if (district) filtered = filtered.filter(function(v) { return v.district === district; });
-      var budget = budgetSelect ? budgetSelect.value : '';
-      if (budget) { var parts = budget.split('-').map(Number); filtered = filtered.filter(function(v) { return v.priceMin >= parts[0] && v.priceMax <= parts[1]; }); }
-      var overnightCb = document.getElementById('qm-overnight');
-      var ktvCb = document.getElementById('qm-ktv');
-      var themeCb = document.getElementById('qm-theme');
-      if (overnightCb && overnightCb.checked) filtered = filtered.filter(function(v) { return v.overnightAllowed; });
-      if (ktvCb && ktvCb.checked) filtered = filtered.filter(function(v) { return v.ktv; });
-      if (themeCb && themeCb.checked) filtered = filtered.filter(function(v) { return v.themeRooms; });
-
-      if (resultsEl) resultsEl.innerHTML = filtered.map(function(v) { return renderCard(v); }).join('');
-      if (countEl) countEl.innerHTML = '找到 <span class="text-gold font-bold">' + filtered.length + '</span> 閾所';
-      if (emptyEl) { if (filtered.length > 0) emptyEl.classList.add('hidden'); else emptyEl.classList.remove('hidden'); }
-    }
-
-    bucketBtns.forEach(function(btn) {
-      btn.addEventListener('click', function () {
-        var bucket = btn.getAttribute('data-qm-bucket') || 'all';
-        activeBucket = bucket;
-        bucketBtns.forEach(function(b) { b.classList.remove('bg-gold/15', 'border-gold', 'text-gold'); b.classList.add('border-white/15', 'text-white/55'); });
-        btn.classList.add('bg-gold/15', 'border-gold', 'text-gold');
-        btn.classList.remove('border-white/15', 'text-white/55');
-        applyFilters();
-      });
-    });
-
-    if (districtSelect) districtSelect.addEventListener('change', applyFilters);
-    if (budgetSelect) budgetSelect.addEventListener('change', applyFilters);
-    document.querySelectorAll('.qm-filter-check').forEach(function(cb) { cb.addEventListener('change', applyFilters); });
-
-    applyFilters();
-  })();
-</script>
