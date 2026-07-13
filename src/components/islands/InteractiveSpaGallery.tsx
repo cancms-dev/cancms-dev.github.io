@@ -5,6 +5,7 @@ interface GalleryImage {
   caption: string;
   alt: string;
   url?: string;
+  urlBig?: string;
 }
 
 export interface Props {
@@ -59,7 +60,7 @@ export default function InteractiveSpaGallery({ images, galleryTitle = "會所�
               aria-label={`${viewLarger}: ${img.caption}`}
             >
               <img
-                src={img.url || `/media/thumb-${img.id}.webp`}
+                src={img.url}
                 alt={img.alt}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -115,9 +116,9 @@ export default function InteractiveSpaGallery({ images, galleryTitle = "會所�
           {/* Image + Caption */}
           <div className="max-w-5xl max-h-[85vh] flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
             <img
-              src={currentImage.url || `/media/${currentImage.id}.webp`}
+              src={currentImage.urlBig}
               alt={currentImage.alt}
-              className="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl"
+              className="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl 8888888888888"
             />
             <p className="text-white/70 text-sm mt-4 text-center max-w-2xl leading-relaxed">
               {currentImage.caption}

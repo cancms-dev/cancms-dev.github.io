@@ -7,7 +7,6 @@ priceMax: 6088
 rating: 5
 overnightAllowed: false
 freeOvernightRoom: false
-website: "[曼濠水療官方網站](https://manhaospa.com) ↗ manhaospa.com"
 websiteUrl: "manhaospa.com"
 open24h: false
 ktv: false
@@ -28,50 +27,62 @@ cover: "/images/spas/macau-sauna-spa-manhao-01-marble-gold-signage-lg.webp"
 images:
   - id: 1
     url: "images/spas/macau-sauna-spa-manhao-01-marble-gold-signage-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-01-marble-gold-signage-lg.webp"
     caption: "標誌性金色皇冠 MH 標誌映於卡拉拉雲石牆面，「皇者氣派」格調自入口一見即顯。"
     alt: "曼濠水療金色皇冠雲石招牌"
   - id: 2
     url: "images/spas/macau-sauna-spa-manhao-02-blue-showcase-hall-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-02-blue-showcase-hall-thumb.webp"
     caption: "曼濠水療的招牌亮點——全澳最大規模走秀大廳，多層玻璃欄杆走道配深藍霓虹燈光，讓挑選技師化作主場時刻。"
     alt: "曼濠水療走秀大廳"
   - id: 3
     url: "images/spas/macau-sauna-spa-manhao-03-red-water-bed-suite-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-03-red-water-bed-suite-thumb.webp"
     caption: "招牌紅色水床在單束戲劇性聚光燈下發亮，睡房結合水床的整合式套房，盡顯私密格調。"
     alt: "曼濠水療招牌紅色水床套房"
   - id: 4
     url: "images/spas/macau-sauna-spa-manhao-04-mural-bedroom-suite-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-04-mural-bedroom-suite-thumb.webp"
     caption: "壁畫牆面睡房套房，超大床、沙發與柔和檯燈配置，酒店級舒適打造從容私密的休憩空間。"
     alt: "曼濠水療壁畫睡房套房"
   - id: 5
     url: "images/spas/macau-sauna-spa-manhao-05-tree-mural-luxury-suite-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-05-tree-mural-luxury-suite-thumb.webp"
     caption: "樹影壁畫奢華套房，自然意境牆面配低調氛圍燈光，靜雅得宛如私人退隱之所。"
     alt: "曼濠水療樹影壁畫奢華套房"
   - id: 6
     url: "images/spas/macau-sauna-spa-manhao-06-marble-locker-room-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-06-marble-locker-room-thumb.webp"
     caption: "更衣室以卡拉拉雲石主牆、金色搭扣訂製木櫃與軟墊長椅立下格調基準。"
     alt: "曼濠水療雲石更衣室"
   - id: 7
     url: "images/spas/macau-sauna-spa-manhao-07-marble-shower-stalls-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-07-marble-shower-stalls-thumb.webp"
     caption: "雲石沖洗間設獨立私密淋浴位置，配全新潔淨設備，服務前從容梳洗。"
     alt: "曼濠水療雲石沖洗間"
   - id: 8
     url: "images/spas/macau-sauna-spa-manhao-08-jacuzzi-bathing-zone-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-08-jacuzzi-bathing-zone-thumb.webp"
     caption: "浸泡濕區採深色馬賽克瓷磚與綠紋雲石，獨立泡池空間寬敞，適合服務前舒緩浸泡。"
     alt: "曼濠水療浸泡濕區"
   - id: 9
     url: "images/spas/macau-sauna-spa-manhao-09-dark-steam-shower-room-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-09-dark-steam-shower-room-thumb.webp"
     caption: "私密獨立的深色蒸氣淋浴間，全新設備帶來靜謐沉浸的濕區片刻。"
     alt: "曼濠水療深色蒸氣淋浴間"
   - id: 10
     url: "images/spas/macau-sauna-spa-manhao-10-marble-dining-bar-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-10-marble-dining-bar-thumb.webp"
     caption: "雲石餐廳大堂以酒店級座椅配私人酒吧氛圍，免費餐飲在此從容享用。"
     alt: "曼濠水療雲石餐廳大堂"
   - id: 11
     url: "images/spas/macau-sauna-spa-manhao-11-starlight-recliner-lounge-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-11-starlight-recliner-lounge-thumb.webp"
     caption: "專屬星空休息區，光線柔和配奢華躺椅，讓您服務前後靜心歇息。"
     alt: "曼濠水療星空休息區"
   - id: 12
     url: "images/spas/macau-sauna-spa-manhao-12-mural-corridor-thumb.webp"
+    urlBig: "images/spas/macau-sauna-spa-manhao-12-mural-corridor-thumb.webp"
     caption: "壁畫迴廊串連各區，雅緻牆面藝術配柔和燈光，盡顯精品酒店般的場館格調。"
     alt: "曼濠水療壁畫迴廊"
 seoTitle: "澳門曼濠水療｜價格、過夜、預約 - 澳門桑拿預約站"

@@ -217,7 +217,7 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
             <p class="text-white/50 text-sm ml-7">技師 {practicalInfo.staffHours}</p>
           </div>
 
-          {data.website && (
+          {data.websiteUrl && (
           <div class="border-b border-white/5 px-5 py-4">
             <div class="flex items-center gap-2 mb-1">
               <Icon name="lucide:globe" class="w-5 h-5 text-gold shrink-0" />
@@ -229,7 +229,7 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
                 target="_blank"
                 rel="noopener"
                 class="text-gold font-medium hover:text-gold-light transition-colors"
-                >曼濠水療官方網站 ↗
+                >{data.name}官方網站 ↗
               </a><span class="ml-2 text-white/40 text-sm">{data.websiteUrl}</span>
             </p>
           </div>
@@ -352,7 +352,11 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
     <!-- Debug: data.images JSON -->
     <!-- <pre style="display:none">{JSON.stringify(data.images, null, 2)}</pre> -->
     <SpaGallery
-      images={data.images?.map((img) => ({ ...img, url: img.url ? getAsset(img.url) : undefined }))}
+      images={data.images?.map((img) => ({ 
+        ...img, 
+        url: img.url ? getAsset(img.url) : undefined,
+        urlBig: img.url ? getAsset(img.urlBig) : undefined,
+      }))}
       galleryTitle="會所相冊"
       client:visible
     />
@@ -437,10 +441,10 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
       <ContactSection lang={lang} message={message} />
       <p class="mt-6 text-sm text-white/40">
         官方網站：<a
-          href="https://numberninespa.com"
+          href={`https://${data.websiteUrl}`}
           target="_blank"
           rel="noopener"
-          class="text-gold hover:text-gold-light transition-colors">numberninespa.com</a
+          class="text-gold hover:text-gold-light transition-colors">{data.websiteUrl}</a
         >
       </p>
     </div>

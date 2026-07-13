@@ -135,7 +135,7 @@ const spaCollection = defineCollection({
     staffHours: z.string().optional(),
     address: z.string().optional(),
     cover: z.string(),
-    images: z.array(z.object({ id: z.number(), url: z.string(), caption: z.string(), alt: z.string() })),
+    images: z.array(z.object({ id: z.number(), url: z.string(), urlBig: z.string(), caption: z.string(), alt: z.string() })),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
   }).catchall(z.unknown()), // MD 文件加任何字段都不会报错
