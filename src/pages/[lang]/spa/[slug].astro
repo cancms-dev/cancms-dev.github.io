@@ -108,8 +108,9 @@ const spaFlow = data.flow || [
   { step: 8, title: '休息區', description: '服務後可在休息區放鬆，直至離開時間。' },
 ];
  
-const lineLink = `https://line.me/ti/p/${SITE.params.contacts.line.id}`
-const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=你好，我對「${data.name}」有興趣，可以安排嗎？`
+const message = `你好，我對「${data.name}」有興趣，可以安排嗎？`;
+const lineLink = `https://line.me/ti/p/${SITE.params.contacts.line.id}`;
+const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${message}`;
 
 ---
 
@@ -433,7 +434,7 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=你
       </h2>
       <p class="text-white/50 mb-8 max-w-md mx-auto">傳一則訊息給我們，剩下的交給我們處理。</p>
 
-      <ContactSection lang={lang} message={`你好，我對「${data.name}」有興趣，可以安排嗎？`} />
+      <ContactSection lang={lang} message={message} />
       <p class="mt-6 text-sm text-white/40">
         官方網站：<a
           href="https://numberninespa.com"
