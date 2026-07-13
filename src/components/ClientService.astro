@@ -1,0 +1,21 @@
+---
+import { SITE } from 'astrowind:config';
+import { useTranslations } from '~/i18n';
+
+const { lang, translations } = useTranslations(Astro);
+const logoText = translations['logo.text'] || '澳門桑拿預約站';
+---
+
+<a
+  id="floating-contact-pill"
+  data-testid="floating-contact-pill"
+  data-home-mode="true"
+  href="#contact"
+  aria-label="聯繫客服 — 前往聯繫區"
+  class="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-[120] inline-flex items-center gap-1.5 bg-gold/80 hover:bg-gold backdrop-blur-md text-black font-semibold text-xs px-3.5 py-2 sm:text-[13px] sm:px-4 sm:py-2 rounded-full shadow-md shadow-black/20 ring-1 ring-gold/20 transition-opacity duration-300 ease-out motion-reduce:transition-none opacity-100 pointer-events-auto"
+>
+  <span class="relative flex w-2 h-2">
+    <span class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping"></span>
+    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+  </span> 客服
+</a>
