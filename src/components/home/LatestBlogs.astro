@@ -1,0 +1,70 @@
+---
+import { Icon } from 'astro-icon/components';
+import { fetchPosts } from '~/utils/blog';
+import { getFormattedDate } from '~/utils/utils';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props as Props;
+
+// 获取所有博客并按日期排序，取最新的3篇
+const allPosts = await fetchPosts();
+const latestPosts = allPosts.slice(0, 3);
+
+// 构建图片路径
+function getCoverImageUrl(post: any): string {
+  if (post.coverImage) {
+    // 如果 coverImage 是完整路径，直接使用
+    if (post.coverImage.startsWith('/') || post.coverImage.startsWith('http')) {
+      return post.coverImage;
+    }
+    // 否则构建路径: /images/blog/_resources/{slug}/{filename}
+    // return `/images/blog/_resources/${post.slug}/${post.coverImage}`;
+  }
+  return '';
+}
+---
+
+<section class="latest-blogs py-14 sm:py-20 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="fade-up in-view">
+      <div class="flex items-end justify-between mb-8">
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-wide">最新桑拿攻略</h2>
+        <a
+          href={`/${lang}/blog/`}
+          class="text-gold hover:text-gold-dark text-sm font-semibold transition-colors whitespace-nowrap">查看全部 →</a
+        >
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {latestPosts.map((post) => (
+          <a
+            href={`/${lang}/blog/${post.slug}/`}
+            class="group block bg-[#161616] border border-white/10 rounded-xl overflow-hidden hover:border-gold/60 transition-colors"
+          >
+            <div class="aspect-[16/10] overflow-hidden bg-[#1d1d1d]">
+              <img
+                src={getCoverImageUrl(post)}
+                alt={post.title || '博客封面'}
+                loading="lazy"
+                class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+              />
+            </div>
+            <div class="p-4">
+              <span class="text-gold text-[11px] font-bold uppercase tracking-[0.12em]">
+                {post.category?.title || '文章'}
+              </span>
+              <h3 class="mt-1 text-sm font-bold leading-snug text-white/90 line-clamp-2">
+                {post.title}
+              </h3>
+              <p class="mt-2 text-[11px] text-white/40">
+                {getFormattedDate(post.publishDate)} · {post.readingTime || 1} 分鐘
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

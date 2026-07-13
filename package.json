@@ -8,9 +8,11 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
+    "dev0": " astro dev",
+    "dev": "npm run cancms-prebuild && astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "cancms-prebuild": "node vendor/cancms/scripts/prebuild.mjs",
+    "build": "npm run cancms-prebuild && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "check": "npm run check:astro && npm run check:eslint && npm run check:prettier",

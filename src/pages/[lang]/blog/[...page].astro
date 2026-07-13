@@ -5,6 +5,8 @@ import BlogList from '~/components/blog/List.astro';
 import Headline from '~/components/blog/Headline.astro';
 import Pagination from '~/components/blog/Pagination.astro';
 import { blogListRobots, getStaticPathsBlogList, fetchPosts } from '~/utils/blog';
+import { Icon } from 'astro-icon/components';
+import { langLink } from '~/utils/permalinks';
 
 export const prerender = true;
 
@@ -23,6 +25,8 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { page } = Astro.props as Props;
 const currentPage = page.currentPage ?? 1;
 
+// console.log('Current Page:', page);
+
 const metadata = {
   title: `桑拿攻略${currentPage > 1 ? ` — 第 ${currentPage} 頁` : ''}`,
   robots: {
@@ -36,11 +40,46 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="px-6 sm:px-6 pt-[9.5rem] sm:pt-[12rem]  mx-auto max-w-4xl">
-    <Headline subtitle="最新的澳門桑拿攻略、新場介紹、實地評測與精選推薦">
-      桑拿攻略
-    </Headline>
+  <section class="relative pb-10 s px-4 pt-[9.5rem] sm:pt-[12rem]">
+    <div class="absolute inset-0 bg-gradient-to-b from-[#141414] via-[#0f0f0f] to-[#0a0a0a]"></div>
+    <div class="relative z-10 max-w-5xl mx-auto">
+      <div class="fade-up">
+        <a
+          href={langLink('/')}
+          class="inline-flex items-center gap-2 text-white/50 hover:text-gold transition-colors mb-8 text-sm"
+        >
+          <Icon name="lucide:arrow-left" class="w-4 h-4" />
+          返回首頁
+        </a>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-wider">桑拿攻略</h1>
+        <p class="text-white/50 text-base sm:text-lg max-w-xl leading-relaxed">
+          實地走訪的澳門桑拿攻略、新場比較與市場更新。
+        </p>
+        <div class="w-20 h-0.5 bg-gold mt-6"></div>
+      </div>
+
+      <!-- 在 <script> 标签上添加 data-astro-rerun 属性，Astro 会在每次页面切换后重新执行该脚本 -->
+      <script type="module" data-astro-rerun>
+        setTimeout(() => {
+          document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
+        }, 200);
+      </script>
+    </div>
+ 
+  </section>
+
+  <section class="px-4 pb-20 sm:pb-28"> 
     <BlogList posts={page.data} />
     <Pagination prevUrl={page.url?.prev} nextUrl={page.url?.next} />
   </section>
+  
+
+
+{/* 
+  <section class="px-6 sm:px-6 pt-[9.5rem] sm:pt-[12rem] mx-auto max-w-4xl">
+    <Headline subtitle="最新的澳門桑拿攻略、新場介紹、實地評測與精選推薦"> 桑拿攻略 </Headline>
+    <BlogList posts={page.data} />
+    <Pagination prevUrl={page.url?.prev} nextUrl={page.url?.next} />
+  </section>
+  */}
 </Layout>

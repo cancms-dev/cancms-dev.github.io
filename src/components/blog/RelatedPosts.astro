@@ -4,7 +4,7 @@ import { APP_BLOG } from 'astrowind:config';
 import { getRelatedPosts } from '~/utils/blog';
 import BlogHighlightedPosts from '../widgets/BlogHighlightedPosts.astro';
 import type { Post } from '~/types';
-import { getBlogPermalink } from '~/utils/permalinks';
+import { getBlogPermalink, langLink } from '~/utils/permalinks';
 
 export interface Props {
   post: Post;
@@ -14,7 +14,7 @@ const { post } = Astro.props;
 
 const relatedPosts = post.tags ? await getRelatedPosts(post, 4) : [];
 ---
-
+{/*  
 {
   APP_BLOG.isRelatedPostsEnabled ? (
     <BlogHighlightedPosts
@@ -29,3 +29,37 @@ const relatedPosts = post.tags ? await getRelatedPosts(post, 4) : [];
     />
   ) : null
 }
+   */}
+
+
+
+
+ <div class="border-t border-white/10 pt-8" >
+      <p class="text-gold text-[11px] font-bold uppercase tracking-[0.12em] mb-4" >
+        延伸閱讀
+      </p>
+      {relatedPosts && relatedPosts.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" >
+          {relatedPosts.map((relatedPost) => {
+            // 从 langLink 构建正确路径
+            const lang = 'zh-TW'; // 可以从 props 传入
+            // const href = `/${lang}/blog/${relatedPost.slug}/`;
+            const href = langLink(`blog/${relatedPost.slug}/`);
+            return (
+              <a
+                href={href}
+                class="block bg-[#161616] border border-white/10 rounded-xl p-4 hover:border-gold/60 transition-colors"
+              >
+                <span class="text-gold text-[10px] uppercase tracking-[0.1em]">
+                  {relatedPost.category?.title || '文章'}
+                </span>
+                <p class="mt-1 text-sm font-semibold text-white/90 line-clamp-2">
+                  {relatedPost.title}
+                </p>
+              </a>
+            );
+          })}
+        </div>
+      ) : (
+        <p class="text-white/40 text-sm">暫無相關文章</p>
+      )}

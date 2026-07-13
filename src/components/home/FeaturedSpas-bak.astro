@@ -1,0 +1,154 @@
+---
+import { getAsset } from '~/utils/permalinks';
+
+export interface Props {
+  spas: any[];
+  lang?: string;
+  title?: string;
+  description?: string;
+  maxCount?: number;
+}
+
+const {
+  spas = [],
+  lang = 'zh-TW',
+  title = '精選會所',
+  description = '探索澳門頂級桑拿水療會所，從奢華裝潢到獨特主題，每間都為你帶來難忘體驗',
+  maxCount = 12,
+} = Astro.props;
+
+// 按 rating 星级降序排序，取前 maxCount 个
+const sortedSpas = [...spas]
+  .sort((a, b) => (b.data.rating || 0) - (a.data.rating || 0))
+  .slice(0, maxCount);
+
+// 从所有 spa 中收集 buckets 用于筛选
+const allBuckets = new Set<string>();
+sortedSpas.forEach((spa) => {
+  const buckets = spa.data.buckets || [];
+  buckets.forEach((b: string) => allBuckets.add(b));
+});
+
+// bucket 显示名称映射
+const bucketLabels: Record<string, string> = {
+  all: '全部',
+  new: '最新',
+  overnight: '過夜首選',
+  theme: '主題房',
+  ktv: 'KTV',
+  lineup: '走秀陣容',
+  value: '性價比',
+};
+---
+
+<section id="spas" class="py-20 sm:py-28 px-4 scroll-mt-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="fade-up text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-white">{title}</h2>
+      <div class="w-20 h-0.5 bg-gold mx-auto mb-4"></div>
+      <p class="text-white/60 max-w-2xl mx-auto text-base">{description}</p>
+    </div>
+    <div class=" top-[5.5rem] sm:top-[6.5rem] z-30 -mx-4 px-2 sm:px-4 py-2 sm:py-3 bg-black/70 backdrop-blur-md border-b border-white/5">
+      <div class="flex sm:flex-wrap sm:justify-center gap-1.5 sm:gap-2 max-w-7xl mx-auto" role="group" aria-label="全部" data-spa-filter>
+        <button type="button" data-bucket="all" aria-pressed="true" class="flex-1 sm:flex-none min-w-0 rounded-full px-3 sm:px-5 py-2 text-xs sm:text-sm font-medium transition-all duration-200 bg-gold text-black">全部</button>
+        {Array.from(allBuckets).map((bucket) => (
+          <button type="button" data-bucket={bucket} aria-pressed="false" class="flex-1 sm:flex-none min-w-0 rounded-full px-3 sm:px-5 py-2 text-xs sm:text-sm font-medium transition-all duration-200 bg-white/10 text-white hover:bg-white/20">
+            {bucketLabels[bucket] || bucket}
+          </button>
+        ))}
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6" data-spa-grid>
+      {sortedSpas.map((spa, index) => {
+        const { data } = spa;
+        const desc = data.seoDescription || '';
+        const truncatedDesc = desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
+        const rating = data.rating || 0;
+        const isGold = rating >= 4.5;
+        const isSilver = rating >= 3.5 && rating < 4.5;
+        const glowStyle = isGold ? 'animation: goldGlow 2s ease-in-out infinite' : isSilver ? 'animation: silverGlow 3s ease-in-out infinite' : '';
+        const borderClass = isGold ? 'border-2 border-gold/60 hover:border-gold/80' : isSilver ? 'border-2 border-white/30 hover:border-gold/40' : 'border border-gold/25 hover:border-gold/40';
+        const buckets = (data.buckets || []).join(' ');
+        return (
+          <div class="fade-up" style={`transition-delay: ${(index * 0.03).toFixed(2)}s`} data-testid="spa-card" data-buckets={buckets}>
+            <a href={`/${lang}/spa/${data.slug}/`} class={`group block bg-[#141414] rounded-2xl overflow-hidden transition-all duration-500 shadow-lg hover:shadow-gold/5 ${borderClass}`} style={glowStyle}>
+              <div class="relative aspect-[4/3] overflow-hidden">
+                {data.badge && (<span class="absolute top-3 right-3 z-10 text-xs font-bold px-2.5 py-1 rounded-full shadow-lg bg-gold text-black">{data.badge}</span>)}
+                <img src={data.cover} alt={`${data.name} — 澳門頂級桑拿會所`} loading={index < 3 ? 'eager' : 'lazy'} decoding="async" width="800" height="600" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+                {data.suspended && (<div class="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"><span class="px-5 py-2 rounded-full border border-gold/60 bg-black/55 text-gold-light text-sm font-bold tracking-wide shadow-lg">暫停預約</span></div>)}
+              </div>
+              <div class="p-5">
+                <h3 class="text-lg font-semibold text-white group-hover:text-gold transition-colors duration-300 mb-2">{data.name}</h3>
+                <p class="text-white/50 text-sm leading-relaxed line-clamp-2">{truncatedDesc}</p>
+                <div class="mt-4 flex items-center text-gold text-sm font-medium opacity-70 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300"><span>了解更多</span><span class="ml-1 transition-transform group-hover:translate-x-1">→</span></div>
+              </div>
+            </a>
+          </div>
+        );
+      })}
+    </div>
+    <p class="text-center text-sm text-white/50 mt-8" data-spa-hidden-note hidden>另有 <strong class="text-white" data-hidden-count>0</strong> 間未顯示・<button type="button" class="text-gold underline underline-offset-2 hover:text-gold-light" data-spa-jump-all>查看全部</button></p>
+  </div>
+</section>
+
+<style>
+  .fade-up {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+  @keyframes goldGlow { 0%, to { box-shadow: 0 0 8px #d4af374d; } 50% { box-shadow: 0 0 20px #d4af3799; } }
+  @keyframes silverGlow { 0%, to { box-shadow: 0 0 10px #c0c0d259; } 50% { box-shadow: 0 0 22px #c0c0d2a6; } }
+  .text-gold-light{color:#f0d78c}.bg-gold{background-color:#d4af37}.text-gold{color:#d4af37}
+  .border-gold\/60{border-color:rgba(212,175,55,.6)}.border-gold\/80{border-color:rgba(212,175,55,.8)}
+  .border-gold\/25{border-color:rgba(212,175,55,.25)}.border-gold\/40{border-color:rgba(212,175,55,.4)}
+  .hover\:border-gold\/80:hover{border-color:rgba(212,175,55,.8)}.hover\:border-gold\/40:hover{border-color:rgba(212,175,55,.4)}
+  .hover\:shadow-gold\/5:hover{box-shadow:0 10px 15px -3px rgba(212,175,55,.05),0 4px 6px -2px rgba(212,175,55,.025)}
+  .bg-gold\/50{background-color:rgba(212,175,55,.5)}.hover\:text-gold:hover{color:#d4af37}
+  .group-hover\:text-gold:hover{color:#d4af37}.hover\:text-gold-light:hover{color:#f0d78c}
+  .bg-black\/55{background-color:rgba(0,0,0,.55)}.bg-black\/70{background-color:rgba(0,0,0,.7)}
+  .bg-white\/5{background-color:rgba(255,255,255,.05)}.bg-white\/10{background-color:rgba(255,255,255,.1)}
+  .hover\:bg-white\/20:hover{background-color:rgba(255,255,255,.2)}
+  .text-white\/50{color:rgba(255,255,255,.5)}.text-white\/60{color:rgba(255,255,255,.6)}
+  .border-white\/5{border-color:rgba(255,255,255,.05)}.border-white\/30{border-color:rgba(255,255,255,.3)}
+  .backdrop-blur-md{backdrop-filter:blur(12px)}
+  .line-clamp-2{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+  .underline-offset-2{text-underline-offset:2px}
+</style>
+
+<script>
+  (function () {
+    var grid = document.querySelector('[data-spa-grid]');
+    var pills = document.querySelectorAll('[data-spa-filter] button[data-bucket]');
+    var note = document.querySelector('[data-spa-hidden-note]');
+    if (!grid || !pills.length) return;
+    var cards = grid.querySelectorAll('[data-buckets]');
+    var bar = document.querySelector('[data-spa-filter]')?.closest('.sticky');
+    function jumpToFirstCard() {
+      var isMobile = window.matchMedia && window.matchMedia('(max-width: 639px)').matches;
+      var navH = isMobile ? 64 : 80;
+      var barH = bar ? Math.ceil(bar.getBoundingClientRect().height) : 0;
+      var buffer = 12;
+      var rect = grid.getBoundingClientRect();
+      var targetY = window.scrollY + rect.top - navH - barH - buffer;
+      if (targetY < 0) targetY = 0;
+      window.scrollTo({ top: targetY, behavior: 'instant' });
+    }
+    function apply(btn) {
+      var bucket = btn.getAttribute('data-bucket');
+      pills.forEach(function (p) { p.setAttribute('aria-pressed', p === btn ? 'true' : 'false'); });
+      var hidden = 0;
+      cards.forEach(function (card) {
+        var list = (card.getAttribute('data-buckets') || '').split(/\s+/).filter(Boolean);
+        if (bucket === 'all' || list.indexOf(bucket) !== -1) { card.removeAttribute('hidden'); }
+        else { card.setAttribute('hidden', ''); hidden++; }
+      });
+      if (note) {
+        if (bucket === 'all' || hidden === 0) { note.setAttribute('hidden', ''); }
+        else { var c = note.querySelector('[data-hidden-count]'); if (c) c.textContent = String(hidden); note.removeAttribute('hidden'); }
+      }
+    }
+    pills.forEach(function (p) { p.addEventListener('click', function () { apply(p); jumpToFirstCard(); }); });
+    if (note) { note.addEventListener('click', function (e) { if (e.target.closest('[data-spa-jump-all]')) { var all = document.querySelector('[data-spa-filter] button[data-bucket="all"]'); if (all) { apply(all); jumpToFirstCard(); } } }); }
+  })();
+</script>

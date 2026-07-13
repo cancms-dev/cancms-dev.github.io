@@ -88,8 +88,16 @@ const postFolderCollection = defineCollection({
     title: z.string(),
     excerpt: z.string().optional(),
 
+    coverImage: z.string().optional(),
     // 替换原来单 image 字段，改为图片数组（本地资源，自动优化）
-    images: z.array(image()).default([]),
+    // images: z.array(image()).default([]),
+    // 数组内是对象，包含 src（图片资源）+ alt（文本）
+    images: z.array(
+      z.object({
+        file: image(),
+        alt: z.string().optional(),
+      })
+    ).default([]),
 
     category: z.string().optional(),
     tags: z.array(z.string()).optional(),
@@ -135,6 +143,7 @@ const spaCollection = defineCollection({
 
 
 export const collections = {
-  post: postCollection,
+  // post: postCollection,
+  post: postFolderCollection, // 以文件夹为单位的博客集合
   spa: spaCollection,
 };

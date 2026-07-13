@@ -3,12 +3,12 @@ import { getAsset } from '~/utils/permalinks';
 import ModalWechat from '~/components/common/ModalWechat.astro';
 
 export interface Props {
-  lang: string;
+  lang?: string;
   message?: string;
   class?: string;
 }
 
-const { lang, message = '你好，我想預約澳門桑拿，可以安排嗎？', class: className = '' } = Astro.props as Props;
+const { lang = 'zh-TW', message = '你好，我想預約澳門桑拿，可以安排嗎？', class: className = '' } = Astro.props as Props;
 
 
 // 联系渠道配置

@@ -2,8 +2,20 @@ import type { PaginateFunction } from 'astro';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import type { Post, Taxonomy } from '~/types';
-import { APP_BLOG } from 'astrowind:config';
-import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
+import { SITE, APP_BLOG } from 'astrowind:config';
+import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE, getAsset } from './permalinks';
+
+
+// blog图片在build之前已经全部拷贝了一份到public/images/blog/目录下  
+// ex:    public\images\blog\澳門桑拿價格攻略2026\b2.jpg
+function getCoverImage(post: any) {
+  // console.log('getCoverImage: ', post);
+  let src = '';
+  if (post && post.id) {
+    src = `images/blog/${post.id}/${post.data.coverImage}`;
+  }  
+  return getAsset(src);
+}
 
 const generatePermalink = async ({
   id,
@@ -33,23 +45,32 @@ const generatePermalink = async ({
     .replace('%minute%', minute)
     .replace('%second%', second);
 
-  return permalink
+  let link = permalink
     .split('/')
     .map((el) => trimSlash(el))
     .filter((el) => !!el)
     .join('/');
+
+  if (SITE.trailingSlash == false && link && link.endsWith('/')) {
+    return link.slice(0, -1);
+  } else if (SITE.trailingSlash == true && link && !link.endsWith('/')) {
+    return link + '/';
+  }
+
+  return link;  
 };
 
 const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> => {
   const { id, data } = post;
-  const { Content, remarkPluginFrontmatter } = await render(post);
+  const { Content } = await render(post);
 
   const {
     publishDate: rawPublishDate = new Date(),
     updateDate: rawUpdateDate,
     title,
     excerpt,
-    image,
+    coverImage,
+    images = [],
     tags: rawTags = [],
     category: rawCategory,
     author,
@@ -73,6 +94,23 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     title: tag,
   }));
 
+  // 提取 h2 标题作为 TOC
+  const headings: { text: string; id: string }[] = [];
+  
+  // 从 render 返回值中获取 headings（Astro 内置）
+  const { headings: renderHeadings } = await render(post);
+  
+  if (renderHeadings && renderHeadings.length > 0) {
+    // 过滤出 h2 级别的标题
+    const h2Headings = renderHeadings.filter(
+      (h: { depth: number; text: string; slug: string }) => h.depth === 2
+    );
+    h2Headings.forEach((h: { text: string; slug: string }) => {
+      headings.push({ text: h.text, id: h.slug });
+    });
+  }
+
+  // console.log('getNormalizedPost: ', { id, slug, publishDate, updateDate, title, excerpt, coverImage, images, category, tags, author, draft, metadata });
   return {
     id: id,
     slug: slug,
@@ -83,8 +121,8 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
 
     title: title,
     excerpt: excerpt,
-    image: image,
-
+    images: images,
+    coverImage: getCoverImage(post),
     category: category,
     tags: tags,
     author: author,
@@ -96,12 +134,18 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     Content: Content,
     // or 'content' in case you consume from API
 
-    readingTime: remarkPluginFrontmatter?.readingTime,
+    readingTime: undefined,
+    headings: headings,
   };
 };
 
 const load = async function (): Promise<Array<Post>> {
   const posts = await getCollection('post');
+
+  // if (posts && posts.length > 0) {
+  //   scanAllBlogImages(); // 扫描所有blog图片
+  // }
+
   const normalizedPosts = posts.map(async (post) => await getNormalizedPost(post));
 
   const results = (await Promise.all(normalizedPosts))
@@ -220,8 +264,7 @@ export const getStaticPathsBlogCategory = async ({ paginate }: { paginate: Pagin
 
 /** */
 export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFunction }) => {
-  // 临时禁用标签分页功能以解决构建问题
-  return [];
+  
   if (!isBlogEnabled || !isBlogTagRouteEnabled) return [];
 
   const posts = await fetchPosts();

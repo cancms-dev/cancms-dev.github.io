@@ -3,20 +3,22 @@ import { fileURLToPath } from 'url';
 
 import { defineConfig } from 'astro/config';
 
-import { unified } from '@astrojs/markdown-remark';
 
+
+
+import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
-import react from '@astrojs/react';
+
 import type { AstroIntegration } from 'astro';
 
 import astrowind from './vendor/integration';
 
-import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/utils/frontmatter';
+import { responsiveTablesRehypePlugin } from './src/utils/frontmatter';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,6 +29,7 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 export default defineConfig({
   output: 'static',
 
+  // 打开首页默认跳转到 语言版本的首页
   redirects: {
     '/': '/zh-TW/'
   },
@@ -99,10 +102,8 @@ export default defineConfig({
   },
 
   markdown: {
-    processor: unified({
-      remarkPlugins: [readingTimeRemarkPlugin],
-      rehypePlugins: [responsiveTablesRehypePlugin],
-    }),
+    remarkPlugins: [],
+    rehypePlugins: [responsiveTablesRehypePlugin],
   },
 
   vite: {
