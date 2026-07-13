@@ -64,6 +64,18 @@ const navLinks = sourceLinks.map(link => {
   if (href.startsWith('/') && !href.startsWith('//') && !href.startsWith('#')) {
     href = langLink(href, lang, 'page');
   }
+
+  // console.log('Header navLinks ', link, href);
+
+  if (link.href?.startsWith('/#')) {
+    // 首页锚点链接特殊处理：langLink 可能返回带尾部斜杠的路径，需要移除后再拼接锚点
+    // 如果最后字符是 /，则去掉
+    if (href.endsWith('/')) {
+      href = href.slice(0, -1);
+    }
+
+    // console.log('Header navLinks: href starts with /#', href);
+  }
   return {
     text: translated || key,
     href: href,

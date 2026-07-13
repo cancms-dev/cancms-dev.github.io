@@ -12,7 +12,7 @@ export interface FooterLink {
 }
 
 export const headerLinks: NavLink[] = [
-  { key: 'nav.spa', href: '/#spa' },
+  { key: 'nav.spa', href: '/#spas' },
   { key: 'nav.ranking', href: '/ranking' },
   { key: 'nav.guide', href: '/guide' },
   { key: 'nav.faq', href: '/faq' },

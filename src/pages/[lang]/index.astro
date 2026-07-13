@@ -17,7 +17,8 @@ import Hero from '~/components/widgets/Hero.astro';
 // 导入国际化函数
 import { t } from '~/i18n';
 import { getCollection } from 'astro:content';
-import FeaturedSpas from '~/components/home/FeaturedSpas.astro';
+// import FeaturedSpas from '~/components/home/FeaturedSpas.astro';
+import FeaturedSpas from '~/components/islands/FeaturedSpas.tsx';
 import VipTreats from '~/components/home/VipTreats.astro';   // ✅ 已导入
 import QuickMatch from '~/components/home/QuickMatch.astro';
 import WhyUs from '~/components/home/WhyUs.astro';
@@ -69,7 +70,10 @@ const metadata = {
     ]}
   />
 
-  <FeaturedSpas spas={spas} />
+  <section id="spas" class="py-20 sm:py-28 px-4 scroll-mt-6"> 
+      <FeaturedSpas spas={spas} client:load />
+  </section>
+
 
    <VipTreats lang={lang} />       <!-- ✅ 服务流程，放在 FeaturedSpas 后面 -->
 
