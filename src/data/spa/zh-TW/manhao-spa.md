@@ -8,6 +8,7 @@ rating: 5
 overnightAllowed: false
 freeOvernightRoom: false
 website: "[曼濠水療官方網站](https://manhaospa.com) ↗ manhaospa.com"
+websiteUrl: "manhaospa.com"
 open24h: false
 ktv: false
 themeRooms: false

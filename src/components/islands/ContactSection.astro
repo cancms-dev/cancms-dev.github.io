@@ -1,6 +1,10 @@
 ---
 import { getAsset } from '~/utils/permalinks';
 import ModalWechat from '~/components/common/ModalWechat.astro';
+import { SITE } from 'astrowind:config';
+
+
+// console.log('contacts=======', SITE);
 
 export interface Props {
   lang?: string;
@@ -10,42 +14,46 @@ export interface Props {
 
 const { lang = 'zh-TW', message = '你好，我想預約澳門桑拿，可以安排嗎？', class: className = '' } = Astro.props as Props;
 
+// 从 config 中解构 contacts
+const { contacts } = SITE.params || {};
+const { whatsApp, line, telegram, wechat } = contacts || {};
 
-// 联系渠道配置
+
+
+// 联系渠道配置 - 使用配置值
 const channels = [
   {
     name: 'WhatsApp',
-    href: `https://wa.me/85365670348?text=${message}`,
+    href: `https://wa.me/${whatsApp?.id || '85365670348'}?text=${encodeURIComponent(message)}`,
     icon: getAsset('images/whatsapp.svg'),
-    description: '立即聯繫',
+    description: whatsApp?.desc || '立即聯繫',
     type: 'link'
   },
   {
     name: 'Telegram',
-    href: `https://t.me/Aomensauna?text=${message}`,
+    href: `https://t.me/${telegram?.id || 'Aomensauna'}?text=${encodeURIComponent(message)}`,
     icon: getAsset('images/telegram.svg'),
-    description: '@Aomensauna',
+    description: telegram?.desc || '',
     type: 'link'
   },
   {
     name: 'WeChat',
     href: '#',
     icon: getAsset('images/wechat.svg'),
-    description: 'AN99348',
+    description: wechat?.id || '',
     type: 'wechat'
   },
   {
     name: 'LINE',
-    href: 'https://line.me/ti/p/VZHFDSZnq9',
+    href: `https://line.me/ti/p/${line?.id || 'VZHFDSZnq9'}`,
     icon: getAsset('images/line.svg'),
-    description: '16880348',
+    description: line?.desc || '',
     type: 'link'
   }
 ];
 
-const weChatQrCode = getAsset('images/wechat-qr.png');
-const wechatId = 'AN99348';
-
+const weChatQrCode = getAsset(wechat?.qrCodeImg || 'images/wechat-qr.png');
+const wechatId = wechat?.id || '';
 ---
 
 <!-- 联系我们 -->

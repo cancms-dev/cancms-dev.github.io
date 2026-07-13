@@ -9,6 +9,7 @@ import { Icon } from 'astro-icon/components';
 import { getAsset } from '~/utils/permalinks';
 import MarkdownText from '~/components/common/MarkdownText.astro';
 import RelatedSpas from '~/components/widgets/RelatedSpas.astro';
+import { SITE } from 'astrowind:config';
 
 export async function getStaticPaths() {
   const allSpas = await getCollection('spa');
@@ -106,6 +107,10 @@ const spaFlow = data.flow || [
   { step: 7, title: '享受服務', description: '在舒適的環境中享受專業按摩或服務。' },
   { step: 8, title: '休息區', description: '服務後可在休息區放鬆，直至離開時間。' },
 ];
+ 
+const lineLink = `https://line.me/ti/p/${SITE.params.contacts.line.id}`
+const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=你好，我對「${data.name}」有興趣，可以安排嗎？`
+
 ---
 
 <Layout metadata={metadata}>
@@ -210,22 +215,25 @@ const spaFlow = data.flow || [
             <p class="text-white font-medium ml-7">{practicalInfo.openingHours}</p>
             <p class="text-white/50 text-sm ml-7">技師 {practicalInfo.staffHours}</p>
           </div>
+
+          {data.website && (
           <div class="border-b border-white/5 px-5 py-4">
             <div class="flex items-center gap-2 mb-1">
               <Icon name="lucide:globe" class="w-5 h-5 text-gold shrink-0" />
               <span class="text-white/40 text-xs uppercase tracking-wider">官方網站</span>
             </div>
-            {
-              data.website && (
-                <div class="ml-7 mt-1">
-                  <MarkdownText
-                    text={String(data.website)}
-                    class="text-gold hover:text-gold-light text-sm transition-colors [&_a]:text-gold [&_a]:hover:text-gold-light [&_a]:underline"
-                  />
-                </div>
-              )
-            }
+            <p class="ml-7">
+              <a
+                href={`https://${data.websiteUrl}`}
+                target="_blank"
+                rel="noopener"
+                class="text-gold font-medium hover:text-gold-light transition-colors"
+                >曼濠水療官方網站 ↗
+              </a><span class="ml-2 text-white/40 text-sm">{data.websiteUrl}</span>
+            </p>
           </div>
+          )}
+
           <div class="border-b border-white/5 px-5 py-4">
             <div class="flex items-center gap-2">
               <Icon name="lucide:moon" class="w-5 h-5 text-gold shrink-0" />
@@ -233,7 +241,8 @@ const spaFlow = data.flow || [
             </div>
             <p class="text-white font-medium ml-7 mt-1">
               {practicalInfo.overnight}<span class="text-white/50 text-sm">
-                {practicalInfo.overnightNote && `— ${practicalInfo.overnightNote}`}</span>
+                {practicalInfo.overnightNote && `— ${practicalInfo.overnightNote}`}</span
+              >
             </p>
           </div>
           <div class="border-b border-white/5 px-5 py-4">
@@ -285,7 +294,7 @@ const spaFlow = data.flow || [
         <div class="mt-3 px-1">
           <div class="flex items-center gap-3 justify-center">
             <a
-              href="https://line.me/ti/p/your-line-id"
+              href={lineLink}
               target="_blank"
               rel="noopener noreferrer"
               class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-gold/30 rounded-lg transition-colors"
@@ -294,7 +303,7 @@ const spaFlow = data.flow || [
               <span class="text-white/70 text-sm">LINE</span>
             </a>
             <a
-              href="https://wa.me/your-whatsapp-number"
+              href={whatsAppLink}
               target="_blank"
               rel="noopener noreferrer"
               class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-gold/30 rounded-lg transition-colors"
@@ -424,7 +433,7 @@ const spaFlow = data.flow || [
       </h2>
       <p class="text-white/50 mb-8 max-w-md mx-auto">傳一則訊息給我們，剩下的交給我們處理。</p>
 
-      <ContactSection lang={lang} message={`你好，我對「${data.name}」有興趣，可以安排嗎？`}  />
+      <ContactSection lang={lang} message={`你好，我對「${data.name}」有興趣，可以安排嗎？`} />
       <p class="mt-6 text-sm text-white/40">
         官方網站：<a
           href="https://numberninespa.com"

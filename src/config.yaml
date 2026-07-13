@@ -5,6 +5,23 @@ site:
   base: '/'
   trailingSlash: true
 
+  
+  params:
+    contacts:
+      whatsApp: 
+        id: 85365670348
+        desc: '立即聯繫'
+      line:
+        id: VZHFDSZnq9
+        desc: '16880348'
+      telegram:
+        id: Aomensauna
+        desc: '@Aomensauna'
+      wechat:
+        id: AN99348
+        qrCodeImg: 'images/wechat-qr.png'
+
+
   # googleSiteVerificationId: orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M
 
 # Default SEO metadata
