@@ -77,7 +77,7 @@ export default defineConfig({
         },
       },
       Image: false,
-      JavaScript: true,
+      JavaScript: false,
       SVG: false,
       Logger: 1,
     }),
@@ -112,6 +112,10 @@ export default defineConfig({
       alias: {
         '~': path.resolve(__dirname, './src'),
       },
+    },
+    build: {
+      minify: false,  // 禁用压缩
+      sourcemap: true, // 生成 sourcemap，方便调试
     },
   },
 });

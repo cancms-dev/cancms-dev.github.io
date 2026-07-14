@@ -101,7 +101,7 @@ Astro.locals.__i18n = {
     <ClientRouter fallback="swap" />
 
     <!-- 将语言信息注入到客户端 -->
-    <script>
+    <script  data-astro-rerun>
       window.__GLOBAL = { lang: '{{ currentLang }}' };
     </script>
 

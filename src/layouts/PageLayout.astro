@@ -4,7 +4,7 @@ import Header from '~/components/widgets/Header.astro';
 import Footer from '~/components/widgets/Footer.astro';
 import Announcement from '~/components/widgets/Announcement.astro';
 import ClientService from '~/components/ClientService.astro';
-import VipExtrasDrawer from '~/components/islands/VipExtrasDrawer.tsx';
+import VipExtrasDrawer from '~/components/widgets/VipExtrasDrawer.astro';
 
 import { headerData, footerData } from '~/navigation';
 
@@ -31,23 +31,12 @@ const { metadata } = Astro.props;
     <slot />
     
     <ClientService />
-    <div>
-      <VipExtrasDrawer client:load />
-      <script>
-        document.addEventListener('astro:page-load', () => {
-          const buttons = document.querySelectorAll('[data-open-vip-drawer]');
-          buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-              // 触发抽屉打开
-              window.dispatchEvent(new CustomEvent('open-vip-drawer'));
-            });
-          });
-        });
-      </script>
-    </div>
     
   </main>
   <slot name="footer">
     <Footer {...footerData} />
   </slot>
+  
+  <!-- 全局 VIP 抽屉 - 挂载在 body 末尾 -->
+  <VipExtrasDrawer />
 </Layout>
