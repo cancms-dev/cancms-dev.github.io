@@ -2,6 +2,10 @@
 import { getCollection } from 'astro:content';
 import { Icon } from 'astro-icon/components';
 import PageLayout from '~/layouts/PageLayout.astro';
+import { SITE } from 'astrowind:config';
+import ContactSection from '~/components/widgets/ContactSection.astro';
+import QuickMatch from '~/components/home/QuickMatch.astro';
+import Testimonials from '~/components/home/Testimonials.astro';
 
 export async function getStaticPaths() {
   const languages = ['zh-TW', 'zh-CN', 'en', 'ja'];
@@ -18,6 +22,80 @@ const metadata = {
 const allSpas = await getCollection('spa');
 const countSpas = allSpas.length;
 
+const message = `你好，我想預約澳門桑拿，可以安排嗎？`;
+const lineLink = `https://line.me/ti/p/${SITE.params.contacts.line.id}`;
+const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${message}`;
+
+// 从数据文件读取的会所信息
+// name, slug, seoDescription 直接从数据文件提取
+const featuredSpas = [
+  {
+    id: 'empire-sauna',
+    tag: '新開頂級奢華',
+    name: '巨亨桑拿',
+    description:
+      '帝濠桑拿是澳門最新的奢華桑拿水療會所，於 2026 年 5 月 1 日進駐氹仔君怡酒店全新開業。全澳最大走秀大廳，國際技師團隊，極致奢華體驗。',
+  },
+  {
+    id: 'majesty-spa',
+    tag: '豪華環境',
+    name: '尊貴水療',
+    description:
+      '尊貴水療是澳門最奢華的頂級水療會所之一，斥資過億裝修，房間全澳最大且設有獨立浴缸。全澳唯一提供免費獨立休息房過夜，無需與他人共用躺椅區，是最舒適的留宿選擇。',
+  },
+  {
+    id: 'manhao-spa',
+    tag: '全澳最大走秀舞台',
+    name: '曼濠水療',
+    description:
+      '曼濠水療是澳門最新的奢華桑拿水療會所，於 2026 年 5 月 1 日進駐氹仔君怡酒店全新開業。全澳最大走秀大廳，國際技師團隊，極致奢華體驗。',
+  },
+  {
+    id: 'number-nine-sauna',
+    tag: '全新體驗',
+    name: '玖號水療',
+    description:
+      '玖號水療是澳門最新的現代奢華水療會所，2026 年 4 月全新開業。配備專業舞台燈光技師介紹、多款氛圍主題房間，提供巴厘島式及日式按摩。開業優惠期間價格最具吸引力。',
+  },
+  {
+    id: 'shangpin-spa',
+    tag: '入住葡京人（路氹）',
+    name: '尚品國際水療',
+    description:
+      '尚品國際水療位於路氹葡京人酒店內，住在該區域可零步驟抵達。澳門最新場所之一，裝潢高檔，並有全天買一送一優惠。',
+  },
+  {
+    id: 'the-excellent-sauna',
+    tag: '24小時體驗',
+    name: '極品桑拿',
+    description:
+      '極品桑拿是全澳唯一24小時有技師在班的場所，不受時間限制。同時提供水床服務及主題房間（辦公室、教室、醫院等），是唯一可以兩種體驗都嘗試的場所。',
+  },
+];
+// 实用贴士数据
+const tips = [
+  {
+    text: '晚上 7 點後入場，技師選擇最豐富。大部分技師在下午 1 點陸續上班，到晚上 7 點後基本全部到齊，技師介紹表演也在此時開始。',
+  },
+  {
+    text: '過夜記得帶耳塞和眼罩。桑拿休息區為共享空間（尊貴水療除外），其他客人進出及場內音樂可能影響睡眠，這兩樣小物件能大幅提升過夜舒適度。',
+  },
+  {
+    text: '使用澳門幣現金付款可節省 1-3% 匯率差。信用卡及電子支付會按國際匯率加收手續費，使用澳門幣現金是最經濟的付款方式。可在口岸或酒店 ATM 兌換。',
+  },
+  {
+    text: '輕裝即可——浴袍和拖鞋現場提供。帶手機、錢包、證件就好，其他都可以鎖在儲物櫃裡。大多數客人穿便服進場後直接換上場所的浴袍——沒有著裝要求，不用拎著行李到處走。',
+  },
+  {
+    text: '出發前先詢問我們最新優惠及技師在線情況。各場所不定期推出優惠活動，技師到崗情況每天不同。提前詢問可避免到場後發現心儀類型技師不在的情況。',
+  },
+  {
+    text: '事先告訴我們您偏好的語言。我們會為您配對能夠用英語（或國語、粵語、日語、韓語，視當天情況）流利溝通的場所與技師。和技師清楚溝通對體驗影響很大——也省去新手不少猜測的麻煩。',
+  },
+  {
+    text: '當日來回澳門？24 小時的儲物櫃讓您可以抵達後直接桑拿、再從容離開，全程不用辦理酒店入住。已退房的客人也一樣——把行李安全寄放，享受到出發前一刻。',
+  },
+];
 ---
 
 <PageLayout metadata={metadata}>
@@ -35,7 +113,7 @@ const countSpas = allSpas.length;
       <div class="fade-up" style="transition-delay: 0.4s">
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href={`/${lang}/guide/#contact`}
+            href={`#contact`}
             data-smooth-scroll
             class="px-8 py-3.5 bg-[#D4AF37] hover:bg-[#b8962e] text-black font-semibold rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/20 tracking-wider"
             >立即聯繫我們</a
@@ -73,7 +151,7 @@ const countSpas = allSpas.length;
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-gold/20 transition-all duration-300">
           <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
-            <Icon name="lucide:shield" class=" w-6 h-6 text-gold"  />
+            <Icon name="lucide:shield" class="w-6 h-6 text-gold" />
           </div>
           <h3 class="text-lg font-semibold mb-2">安全合法</h3>
           <p class="text-white/50 text-sm leading-relaxed">
@@ -91,7 +169,7 @@ const countSpas = allSpas.length;
           class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-gold/20 transition-all duration-300"
         >
           <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
-            <Icon name="lucide:sparkles" class=" w-6 h-6 text-gold"  />
+            <Icon name="lucide:sparkles" class="w-6 h-6 text-gold" />
           </div>
           <h3 class="text-lg font-semibold mb-2">一站式體驗</h3>
           <p class="text-white/50 text-sm leading-relaxed">
@@ -102,7 +180,7 @@ const countSpas = allSpas.length;
           class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-gold/20 transition-all duration-300"
         >
           <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
-            <Icon name="lucide:users" class=" w-6 h-6 text-gold"  />
+            <Icon name="lucide:users" class="w-6 h-6 text-gold" />
           </div>
           <h3 class="text-lg font-semibold mb-2">專人安排</h3>
           <p class="text-white/50 text-sm leading-relaxed">
@@ -112,7 +190,7 @@ const countSpas = allSpas.length;
           class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-gold/20 transition-all duration-300"
         >
           <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
-            <Icon name="lucide:gift" class=" w-6 h-6 text-gold"  />
+            <Icon name="lucide:gift" class="w-6 h-6 text-gold" />
           </div>
           <h3 class="text-lg font-semibold mb-2">VIP 尊享</h3>
           <p class="text-white/50 text-sm leading-relaxed">
@@ -166,116 +244,137 @@ const countSpas = allSpas.length;
   <!-- Full Process Section -->
   <section class="py-12 sm:py-16 px-4 bg-gradient-to-b from-[#0a0a0a] via-[#0f0f0f] to-[#0a0a0a]">
     <div class="max-w-4xl mx-auto">
-      <div class="fade-up text-center mb-8">
+      <div class="fade-up text-center mb-8 in-view">
         <h2 class="text-2xl sm:text-3xl font-bold mb-4">完整流程</h2>
-        <div class="w-16 h-0.5 bg-[#D4AF37] mx-auto mb-4"></div>
+        <div class="w-16 h-0.5 bg-gold mx-auto mb-4"></div>
         <p class="text-white/40 text-sm italic max-w-xl mx-auto">各場所略有不同，聯繫我們了解詳情。</p>
       </div>
       <div class="relative max-w-2xl mx-auto">
-        <div class="absolute left-5 top-2 bottom-2 w-px bg-[#D4AF37]/20"></div>
+        <div class="absolute left-5 top-2 bottom-2 w-px bg-gold/20"></div>
         <div class="space-y-6">
-          <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0s">
+          <div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.00s">
             <div
-              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
             >
-              <span class="text-[#D4AF37] font-bold text-sm">1</span>
+              <span class="text-gold font-bold text-sm">1</span>
             </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">聯繫我們</h3>
               <p class="text-white/50 text-sm leading-relaxed">
-                告訴我們你的喜好（場所風格、預算範圍、技師類別偏好），我們會根據你的需求推薦最適合的場所。
+                告訴我們你的喜好（場所風格、預算範圍、技師類別偏好），我們會根據你的需求推薦最適合的場所。我們熟悉每間場所的特色及最新動態，能為你做出最精準的配對。
               </p>
             </div>
-          </div>
-          <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.04s">
+          </div><div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.04s">
             <div
-              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
             >
-              <span class="text-[#D4AF37] font-bold text-sm">2</span>
+              <span class="text-gold font-bold text-sm">2</span>
             </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">免費接送</h3>
               <p class="text-white/50 text-sm leading-relaxed">
-                確認場所後，我們安排七人座私人專車到你指定的地點接你，澳門任何酒店或位置均可。全程免費。
+                確認場所後，我們安排七人座私人專車（Alphard／奔馳）到你指定的地點接你，澳門任何酒店或位置均可。全程免費，無需自行搭的士或找路，輕鬆抵達。
               </p>
             </div>
-          </div>
-          <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.08s">
+          </div><div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.08s">
             <div
-              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
             >
-              <span class="text-[#D4AF37] font-bold text-sm">3</span>
+              <span class="text-gold font-bold text-sm">3</span>
             </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">抵達入場</h3>
               <p class="text-white/50 text-sm leading-relaxed">
-                到達後在前台登記，領取手牌及儲物櫃鑰匙，前往更衣室換上浴袍並寄存行李。
+                到達後在前台登記，領取手牌及儲物櫃鑰匙，前往更衣室換上浴袍並寄存行李。所有場所均提供免費安全儲物櫃，無需擔心個人物品。
               </p>
             </div>
-          </div>
-          <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.12s">
+          </div><div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.12s">
             <div
-              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
             >
-              <span class="text-[#D4AF37] font-bold text-sm">4</span>
+              <span class="text-gold font-bold text-sm">4</span>
             </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">沐浴放鬆</h3>
               <p class="text-white/50 text-sm leading-relaxed">
-                先花20-30分鐘享用按摩浴缸、乾蒸及濕蒸桑拿，讓身體放鬆下來。
+                先花20-30分鐘享用按摩浴缸、乾蒸及濕蒸桑拿，讓身體放鬆下來。這是調整狀態的重要一步，也是體驗的一部分——不要急，慢慢享受。
               </p>
             </div>
-          </div>
-          <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.16s">
+          </div><div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.16s">
             <div
-              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
             >
-              <span class="text-[#D4AF37] font-bold text-sm">5</span>
+              <span class="text-gold font-bold text-sm">5</span>
             </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">免費用餐</h3>
               <p class="text-white/50 text-sm leading-relaxed">
-                所有場所均提供免費無限量餐飲，包括精選牛排、新鮮海鮮、粵式燉湯、川式精緻小炒、炒飯、新鮮水果、凍啤酒及各式飲品。
+                所有場所均提供免費無限量餐飲，包括精選牛排、新鮮海鮮、粵式燉湯、川式精緻小炒、炒飯、炒麵、新鮮水果、凍啤酒及各式飲品。全程免費供應，無需額外付費。部分場所的招牌牛排、海鮮拼盤及老火靚湯特別出名，值得細嚐。
               </p>
             </div>
-          </div>
-          <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.2s">
+          </div><div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.20s">
             <div
-              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
             >
-              <span class="text-[#D4AF37] font-bold text-sm">6</span>
+              <span class="text-gold font-bold text-sm">6</span>
             </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">走秀環節</h3>
               <p class="text-white/50 text-sm leading-relaxed">
-                這是最精彩的環節——技師們會在大廳走秀介紹，你可以近距離觀賞後選擇心儀的技師。技師介紹通常在晚上 7
-                點後開始。
+                這是最精彩的環節——技師們會在大廳走秀介紹，你可以近距離觀賞後選擇心儀的技師。每間場所的形式不同：壹號桑拿有
+                140+ 人大型走秀、十八桑拿有池邊長龍、帝湖有舞台介紹。技師介紹通常在晚上 7 點後開始，氣氛最為熱烈。
               </p>
             </div>
-          </div>
-          <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.24s">
+          </div><div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.24s">
             <div
-              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
             >
-              <span class="text-[#D4AF37] font-bold text-sm">7</span>
+              <span class="text-gold font-bold text-sm">7</span>
             </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">60分鐘服務</h3>
               <p class="text-white/50 text-sm leading-relaxed">
-                選擇技師後進入獨立房間，享受 60 分鐘的一對一專屬服務。全程在私密空間內進行。
+                選擇技師後進入獨立房間，享受 60
+                分鐘的一對一專屬服務。服務內容視場所及技師類別而定，可包括按摩、水床體驗或主題情境體驗。全程在私密空間內進行。
               </p>
             </div>
-          </div>
-          <div class="fade-up relative flex gap-5 items-start" style="transition-delay: 0.28s">
+          </div><div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.28s">
             <div
-              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center"
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
             >
-              <span class="text-[#D4AF37] font-bold text-sm">8</span>
+              <span class="text-gold font-bold text-sm">8</span>
             </div>
             <div class="pt-1.5 pb-2">
               <h3 class="font-semibold text-base mb-1">休息過夜</h3>
               <p class="text-white/50 text-sm leading-relaxed">
-                服務結束後無需急著離開。所有場所均設有休息區躺椅，可免費休息或直接過夜（12-15小時）。繼續享用免費餐飲、沐浴設施。
+                服務結束後無需急著離開。所有場所均設有休息區躺椅，可免費休息或直接過夜（12-15小時）。繼續享用免費餐飲、沐浴設施，在舒適的環境中放鬆至翌日。透過我們預約獲得的
+                VIP
+                尊享（擦背、頭部按摩、足底按摩、修甲、採耳等）也通常在這段休息時間內為您安排，讓整段過夜體驗更加豐富。想要最佳過夜體驗，推薦尊貴水療——設有免費獨立休息房。
+              </p>
+            </div>
+          </div><div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.32s">
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
+            >
+              <span class="text-gold font-bold text-sm">9</span>
+            </div>
+            <div class="pt-1.5 pb-2">
+              <h3 class="font-semibold text-base mb-1">早餐離場</h3>
+              <p class="text-white/50 text-sm leading-relaxed">
+                翌日享用免費早餐，再次沐浴梳洗後從容離場。整個體驗從入場到離場可長達15小時，相當於省下一晚酒店費用（MOP
+                1,000-3,000），同時享受了餐飲、沐浴、服務及休息。
+              </p>
+            </div>
+          </div><div class="fade-up relative flex gap-5 items-start in-view" style="transition-delay:0.36s">
+            <div
+              class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-gold/15 border border-gold/30 flex items-center justify-center"
+            >
+              <span class="text-gold font-bold text-sm">10</span>
+            </div>
+            <div class="pt-1.5 pb-2">
+              <h3 class="font-semibold text-base mb-1">免費回程 — 澳門境內任何地點</h3>
+              <p class="text-white/50 text-sm leading-relaxed">
+                準備離場時只需傳訊息給我們——餐飲後、服務剛結束、任何時間都可以。同一輛私人專車會回來接您，送往您的酒店、機場、碼頭，或澳門境內任何地點。門到門接送，與接送同樣零費用——無需自行找的士、不用研究路線。
               </p>
             </div>
           </div>
@@ -290,7 +389,7 @@ const countSpas = allSpas.length;
       <p class="text-white/50 text-sm mb-3">不想慢慢看？直接問我們</p>
       <div class="flex items-center gap-3 justify-center">
         <a
-          href="https://line.me/ti/p/VZHFDSZnq9"
+          href={lineLink}
           target="_blank"
           rel="noopener noreferrer"
           class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-[#D4AF37]/30 rounded-lg transition-colors"
@@ -299,7 +398,7 @@ const countSpas = allSpas.length;
           <span class="text-white/70 text-sm">LINE</span>
         </a>
         <a
-          href="https://wa.me/85257934448"
+          href={whatsAppLink}
           target="_blank"
           rel="noopener noreferrer"
           class="flex items-center gap-1.5 px-3 py-2 bg-[#141414] border border-white/10 hover:border-[#D4AF37]/30 rounded-lg transition-colors"
@@ -307,191 +406,90 @@ const countSpas = allSpas.length;
           <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-5 h-5 rounded-md" />
           <span class="text-white/70 text-sm">WhatsApp</span>
         </a>
-        <a
-          href={`/${lang}/guide/#contact`}
-          data-smooth-scroll
-          class="text-[#D4AF37] text-sm hover:text-[#e5c34a] transition-colors">所有聯繫方式 →</a
+        <a href="#contact" data-smooth-scroll class="text-[#D4AF37] text-sm hover:text-[#e5c34a] transition-colors"
+          >所有聯繫方式 →</a
         >
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick match -->
+  <section class="py-12 sm:py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="fade-up text-center mb-8 in-view">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4">場所推薦</h2>
+        <div class="w-16 h-0.5 bg-gold mx-auto"></div>
+      </div>
+
+      <QuickMatch lang={lang} />
+
+      <div class="fade-up flex items-center gap-4 my-8 in-view">
+        <span class="h-px flex-1 bg-white/10"></span>
+        <span class="text-white/45 text-sm whitespace-nowrap">或隨心情瀏覽，了解每間的特色</span>
+        <span class="h-px flex-1 bg-white/10"></span>
+      </div>
+
+      <div class="each-features grid grid-cols-1 md:grid-cols-2 gap-4">
+        {
+          featuredSpas.map((spa, index) => (
+            <div class="fade-up in-view" style={`transition-delay: ${index * 0.04}s`}>
+              <a
+                href={`/${lang}/spa/${spa.id}/`}
+                class="block bg-[#141414] border border-white/5 hover:border-gold/30 rounded-xl p-2.5 transition-all duration-300 group"
+              >
+                <div class="text-white/40 text-xs mb-2">
+                  我想要： <span class="text-gold/80">{spa.tag}</span>
+                </div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <h3 class="font-semibold text-base group-hover:text-gold transition-colors">{spa.name}</h3>
+                  <Icon
+                    name="lucide:chevron-right"
+                    class="w-4 h-4 text-white/20 group-hover:text-gold/60 transition-colors"
+                  />
+                </div>
+                <p class="text-white/50 text-sm">{spa.description}</p>
+              </a>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
   <!-- Practical Tips Section -->
-  <section class="py-12 sm:py-16 px-4 bg-gradient-to-b from-[#0a0a0a] via-[#0f0f0f] to-[#0a0a0a]">
+   <section class="practical-tips py-12 sm:py-16 px-4 bg-gradient-to-b from-[#0a0a0a] via-[#0f0f0f] to-[#0a0a0a]">
     <div class="max-w-4xl mx-auto">
-      <div class="fade-up text-center mb-8">
+      <div class="fade-up text-center mb-8 in-view">
         <h2 class="text-2xl sm:text-3xl font-bold mb-4">實用貼士</h2>
-        <div class="w-16 h-0.5 bg-[#D4AF37] mx-auto"></div>
+        <div class="w-16 h-0.5 bg-gold mx-auto"></div>
       </div>
       <div class="max-w-2xl mx-auto space-y-4">
-        <div
-          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
-          style="transition-delay: 0s"
-        >
-          <div
-            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-4 h-4 text-[#D4AF37]"
-              ><path
-                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
+        {
+          tips.map((tip, index) => (
+            <div
+              class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4 in-view"
+              style={`transition-delay: ${index * 0.04}s`}
             >
-          </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">
-            晚上 7 點後入場，技師選擇最豐富。大部分技師在下午 1 點陸續上班，到晚上 7 點後基本全部到齊。
-          </p>
-        </div>
-        <div
-          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
-          style="transition-delay: 0.04s"
-        >
-          <div
-            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-4 h-4 text-[#D4AF37]"
-              ><path
-                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
-            >
-          </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">
-            過夜記得帶耳塞和眼罩。桑拿休息區為共享空間，其他客人進出及場內音樂可能影響睡眠。
-          </p>
-        </div>
-        <div
-          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
-          style="transition-delay: 0.08s"
-        >
-          <div
-            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-4 h-4 text-[#D4AF37]"
-              ><path
-                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
-            >
-          </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">
-            使用澳門幣現金付款可節省 1-3% 匯率差。信用卡及電子支付會按國際匯率加收手續費。
-          </p>
-        </div>
-        <div
-          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
-          style="transition-delay: 0.12s"
-        >
-          <div
-            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-4 h-4 text-[#D4AF37]"
-              ><path
-                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
-            >
-          </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">
-            輕裝即可——浴袍和拖鞋現場提供。帶手機、錢包、證件就好，其他都可以鎖在儲物櫃裡。
-          </p>
-        </div>
-        <div
-          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
-          style="transition-delay: 0.16s"
-        >
-          <div
-            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-4 h-4 text-[#D4AF37]"
-              ><path
-                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
-            >
-          </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">
-            出發前先詢問我們最新優惠及技師在線情況。各場所不定期推出優惠活動，技師到崗情況每天不同。
-          </p>
-        </div>
-        <div
-          class="fade-up flex items-start gap-4 bg-[#141414] border border-white/5 rounded-xl p-4"
-          style="transition-delay: 0.2s"
-        >
-          <div
-            class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mt-0.5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-4 h-4 text-[#D4AF37]"
-              ><path
-                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-              ></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg
-            >
-          </div>
-          <p class="text-white/70 text-sm leading-relaxed pt-1">
-            事先告訴我們您偏好的語言。我們會為您配對能夠用英語、國語、粵語、日語、韓語流利溝通的場所與技師。
-          </p>
-        </div>
+              <div
+                class="flex-shrink-0 w-8 h-8 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center mt-0.5"
+              >
+                <Icon
+                  name="lucide:lightbulb"
+                  class="w-4 h-4 text-gold"
+                />
+              </div>
+              <p class="text-white/70 text-sm leading-relaxed pt-1">{tip.text}</p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
+  <Testimonials lang={lang} />
+
   <!-- Contact CTA Section -->
-  <section id="contact" class="py-12 sm:py-16 px-4">
+  <section id="contact2" class="py-12 sm:py-16 px-4">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-8">
         <h2 class="text-2xl sm:text-3xl font-bold mb-4">還有疑問？</h2>
@@ -516,73 +514,8 @@ const countSpas = allSpas.length;
           >
         </a>
       </div>
-      <div class="mt-10 max-w-md mx-auto">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a
-            href="https://wa.me/85257934448?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
-          >
-            <div
-              class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors"
-            >
-              <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">WhatsApp</div>
-              <div class="text-white font-medium">立即聯繫</div>
-            </div>
-          </a>
-          <a
-            href="https://t.me/Aomensauna?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
-          >
-            <div
-              class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors"
-            >
-              <img src="/images/telegram.svg" alt="Telegram" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">Telegram</div>
-              <div class="text-white font-medium">@Aomensauna</div>
-            </div>
-          </a>
-          <button
-            type="button"
-            data-wechat-trigger
-            class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
-          >
-            <div
-              class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors"
-            >
-              <img src="/images/wechat.svg" alt="WeChat" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">微信</div>
-              <div class="text-white font-medium">AN99348</div>
-            </div>
-          </button>
-          <a
-            href="https://line.me/ti/p/VZHFDSZnq9"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full"
-          >
-            <div
-              class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors"
-            >
-              <img src="/images/line.svg" alt="LINE" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">LINE</div>
-              <div class="text-white font-medium">16880348</div>
-            </div>
-          </a>
-        </div>
-      </div>
+
+      <ContactSection lang={lang} message={message} />
     </div>
   </section>
 
@@ -594,16 +527,17 @@ const countSpas = allSpas.length;
   </script>
 
   <!-- Smooth Scroll Script -->
+
   <script type="module">
-    document.querySelectorAll('[data-smooth-scroll]').forEach((link) => {
-      link.addEventListener('click', (e) => {
-        const href = link.getAttribute('href');
-        if (href && href.includes('#')) {
-          e.preventDefault();
-          const target = document.querySelector(href.split('#')[1]);
-          if (target) target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('[data-smooth-scroll]');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (href && href.includes('#')) {
+        e.preventDefault();
+        const target = document.querySelector('#' + href.split('#')[1]);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   </script>
 </PageLayout>
