@@ -157,20 +157,7 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
         </a>
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold">{data.name}</h1>
       </div>
-      <script type="module">
-        const observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-                observer.unobserve(entry.target);
-              }
-            }
-          },
-          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
-        );
-        document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => observer.observe(el));
-      </script>
+      
     </div>
   </section>
 
@@ -318,17 +305,7 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
           </div>
         </div>
       </div>
-      <script type="module">
-        document.querySelectorAll('[data-smooth-scroll]').forEach((link) => {
-          link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
-            if (!href?.startsWith('#')) return;
-            e.preventDefault();
-            const targetId = href.slice(1);
-            document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
-          });
-        });
-      </script>
+     
     </div>
 
     <!-- Features Section -->
@@ -460,4 +437,34 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
       返回首頁
     </a>
   </div>
+
+
+<script type="module">
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+        );
+        document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => observer.observe(el));
+      </script>
+
+ <script type="module">
+        document.querySelectorAll('[data-smooth-scroll]').forEach((link) => {
+          link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (!href?.startsWith('#')) return;
+            e.preventDefault();
+            const targetId = href.slice(1);
+            document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+          });
+        });
+      </script>
+
+
 </Layout>
