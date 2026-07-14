@@ -439,7 +439,7 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
   </div>
 
 
-<script type="module">
+<script type="module"  data-astro-rerun>
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
@@ -454,7 +454,7 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
         document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => observer.observe(el));
       </script>
 
- <script type="module">
+ <script type="module"  data-astro-rerun>
         document.querySelectorAll('[data-smooth-scroll]').forEach((link) => {
           link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');

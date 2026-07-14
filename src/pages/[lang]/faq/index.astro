@@ -156,7 +156,7 @@ const faqCategories = [
 </script>
 
   <!-- FAQ Accordion Script -->
-  <script type="module">
+  <script type="module"  data-astro-rerun>
     document.querySelectorAll('[data-faq-toggle]').forEach(button => {
       button.addEventListener('click', () => {
         const panel = button.closest('.rounded-xl').querySelector('[role="region"]');
