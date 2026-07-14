@@ -1,4 +1,6 @@
 ---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
 import PageLayout from '~/layouts/PageLayout.astro';
 
 export async function getStaticPaths() {
@@ -12,6 +14,10 @@ const metadata = {
   title: '澳門桑拿新手指南｜第一次來就看這篇',
   description: '第一次來澳門桑拿？完整流程、場所推薦、實用貼士、客戶評價，我們幫你安排一切，從接送到場所推薦。',
 };
+
+const allSpas = await getCollection('spa');
+const countSpas = allSpas.length;
+
 ---
 
 <PageLayout metadata={metadata}>
@@ -20,13 +26,13 @@ const metadata = {
     <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-[#0a0a0a]/90 to-[#0a0a0a]"></div>
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.08),transparent_60%)]"></div>
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pb-12">
-      <div class="fade-up ">
+      <div class="fade-up">
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-wider">第一次來澳門桑拿？</h1>
       </div>
-      <div class="fade-up " style="transition-delay: 0.2s">
+      <div class="fade-up" style="transition-delay: 0.2s">
         <p class="text-lg text-white/60 mb-8 max-w-2xl mx-auto leading-relaxed">我們幫你安排一切，從接送到場所推薦</p>
       </div>
-      <div class="fade-up " style="transition-delay: 0.4s">
+      <div class="fade-up" style="transition-delay: 0.4s">
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href={`/${lang}/guide/#contact`}
@@ -62,114 +68,51 @@ const metadata = {
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-8">
         <h2 class="text-2xl sm:text-3xl font-bold mb-4">你可以期待什麼</h2>
-        <div class="w-16 h-0.5 bg-[#D4AF37] mx-auto"></div>
+        <div class="w-16 h-0.5 bg-gold mx-auto"></div>
       </div>
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div
-          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300"
-        >
-          <div
-            class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-6 h-6 text-[#D4AF37]"
-              ><path
-                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
-              ></path></svg
-            >
+        <div class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-gold/20 transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
+            <Icon name="lucide:shield" class=" w-6 h-6 text-gold"  />
           </div>
           <h3 class="text-lg font-semibold mb-2">安全合法</h3>
           <p class="text-white/50 text-sm leading-relaxed">
-            所有正規場所均持有澳門旅遊局發出的「蒸汽浴及按摩場所准照」，與賭場採用相同的政府監管制度。場所定期接受衛生局、消防局及旅遊局的聯合檢查，確保環境衛生及消防安全達標。
+            所有正規場所均持有澳門旅遊局發出的「蒸汽浴及按摩場所准照」，與賭場採用相同的政府監管制度。場所定期接受衛生局、消防局及旅遊局的聯合檢查，確保環境衛生及消防安全達標。你可以在澳門旅遊局官網查核任何場所的牌照狀態，完全公開透明。
           </p>
-        </div>
-        <div
-          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300"
-        >
-          <div
-            class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4"
+          <a
+            href="https://www.dst.gov.mo/zh-hant/public-services/licensed-entities.html?comType=10&ps=20&pn=1"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 mt-4 px-4 py-2 bg-gold/15 hover:bg-gold/25 text-gold font-semibold text-sm rounded-full border border-gold/40 hover:border-gold/60 transition-all"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-6 h-6 text-[#D4AF37]"
-              ><path
-                d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
-              ></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg
-            >
+            到旅遊局官網查詢牌照 <span aria-hidden="true">↗</span>
+          </a>
+        </div><div
+          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-gold/20 transition-all duration-300"
+        >
+          <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
+            <Icon name="lucide:sparkles" class=" w-6 h-6 text-gold"  />
           </div>
           <h3 class="text-lg font-semibold mb-2">一站式體驗</h3>
           <p class="text-white/50 text-sm leading-relaxed">
-            從踏入場所的一刻起，所有設施均已包含在內：沐浴區設有按摩浴缸、乾蒸及濕蒸桑拿；餐飲區提供免費無限量牛排、海鮮、粵式燉湯、川式精緻小炒、炒飯、新鮮水果及凍啤；娛樂區有技師介紹及互動環節；休息區設有躺椅可過夜。
+            從踏入場所的一刻起，所有設施均已包含在內：沐浴區設有按摩浴缸、乾蒸及濕蒸桑拿；餐飲區提供免費無限量牛排、海鮮、粵式燉湯、川式精緻小炒、炒飯、新鮮水果及凍啤；娛樂區有技師介紹及互動環節；休息區設有躺椅可過夜。整個體驗可長達
+            12-15 小時，一個地方滿足所有需求。
           </p>
-        </div>
-        <div
-          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300"
+        </div><div
+          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-gold/20 transition-all duration-300"
         >
-          <div
-            class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-6 h-6 text-[#D4AF37]"
-              ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"
-              ></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg
-            >
+          <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
+            <Icon name="lucide:users" class=" w-6 h-6 text-gold"  />
           </div>
           <h3 class="text-lg font-semibold mb-2">專人安排</h3>
           <p class="text-white/50 text-sm leading-relaxed">
-            你無需自行研究、比較或張羅任何事情。告訴我們你的喜好和預算，我們會推薦最適合的場所、安排免費私人專車接送（澳門任何地點）、為你爭取專屬優惠價格，並提前告知技師在線情況及等候時間。
+            你無需自行研究、比較或張羅任何事情。告訴我們你的喜好和預算，我們會推薦最適合的場所、安排免費私人專車接送（澳門任何地點）、為你爭取專屬優惠價格，並提前告知技師在線情況及等候時間。自行前往可能需等候1-2小時且價格較高，透過我們預約可完全避免。
           </p>
-        </div>
-        <div
-          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-[#D4AF37]/20 transition-all duration-300"
+        </div><div
+          class="bg-[#141414] border border-white/5 rounded-xl p-6 hover:border-gold/20 transition-all duration-300"
         >
-          <div
-            class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center mb-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-6 h-6 text-[#D4AF37]"
-              ><path d="M12 7v14"></path><path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"></path><path
-                d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"></path><rect
-                x="3"
-                y="7"
-                width="18"
-                height="4"
-                rx="1"></rect></svg
-            >
+          <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
+            <Icon name="lucide:gift" class=" w-6 h-6 text-gold"  />
           </div>
           <h3 class="text-lg font-semibold mb-2">VIP 尊享</h3>
           <p class="text-white/50 text-sm leading-relaxed">
@@ -177,6 +120,13 @@ const metadata = {
             尊享——可任選擦背服務、頭部按摩、足底按摩、修手指甲、修腳指甲、手部按摩、採耳等項目。我們會事先通知場地您的到訪，到場時可直接挑選。再加上
             VIP 優先入場，無需在前台排隊。
           </p>
+          <button
+            type="button"
+            data-open-vip-drawer
+            class="inline-flex items-center gap-1.5 mt-4 px-4 py-2 bg-gold/15 hover:bg-gold/25 text-gold font-semibold text-sm rounded-full border border-gold/40 hover:border-gold/60 shadow-[0_0_16px_rgba(212,175,55,0.18)] hover:shadow-[0_0_22px_rgba(212,175,55,0.32)] transition-all cursor-pointer"
+          >
+            查看全部 8 項 →
+          </button>
         </div>
       </div>
     </div>
@@ -190,12 +140,12 @@ const metadata = {
         class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#141414] border border-[#D4AF37]/15 hover:border-[#D4AF37]/40 rounded-xl p-5 transition-all duration-300 group"
       >
         <p class="text-white/65 text-sm leading-relaxed">
-          想看 12 間場館完整排名——價格、過夜、KTV，以及每次預約免費贈送的按摩護理？
+          想看 {countSpas} 間場館完整排名——價格、過夜、KTV，以及每次預約免費贈送的按摩護理？
         </p>
         <span
           class="inline-flex items-center gap-1.5 text-[#D4AF37] font-semibold text-sm whitespace-nowrap group-hover:text-[#e5c34a] transition-colors"
         >
-          查看全部 12 間澳門桑拿排名
+          查看全部 {countSpas} 間澳門桑拿排名
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -635,15 +585,13 @@ const metadata = {
       </div>
     </div>
   </section>
- 
 
   <!-- 在 <script> 标签上添加 data-astro-rerun 属性，Astro 会在每次页面切换后重新执行该脚本 -->
-<script type="module" data-astro-rerun>
-  setTimeout(() => {
-    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
-  }, 200);
-</script>
- 
+  <script type="module" data-astro-rerun>
+    setTimeout(() => {
+      document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
+    }, 200);
+  </script>
 
   <!-- Smooth Scroll Script -->
   <script type="module">

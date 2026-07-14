@@ -1,33 +1,55 @@
 ---
 import PageLayout from '~/layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+import ContactSection from '~/components/widgets/ContactSection.astro';
+import { Icon } from 'astro-icon/components';
+import { langLink } from '~/utils/permalinks';
 
 export async function getStaticPaths() {
   const languages = ['zh-TW', 'zh-CN', 'en', 'ja'];
-  return languages.map(lang => ({ params: { lang } }));
+  return languages.map((lang) => ({ params: { lang } }));
 }
 
 const { lang } = Astro.params;
 
-const metadata = {
-  title: '澳門桑拿排名 2026 — 12 間桑拿排名與推薦',
-  description: '一張表看懂澳門 12 間持牌桑拿水療：價格、過夜安排、特色玩法，以及每次預約都免費贈送的按摩與護理。',
-};
+// 使用 getCollection 从数据目录动态获取会所数据
+const allSpas = await getCollection('spa');
+const countSpas = allSpas.length;
 
-// Venue data for tables
-const venues = [
-  { name: '曼濠水療', slug: 'manhao-spa', district: '氹仔', therapists: '多國籍技師團隊', hours: '14:00 – 04:00', open24h: false, rating: 5, price: '2,488 – 6,088', serviceFee: '10%', buyOneGetOne: '問我們', overnight: false, freeRoom: false, lounge: false, ktv: false, theme: false, lineup: true, isNew: true },
-  { name: '玖號水療', slug: 'number-nine-sauna', district: '澳門半島', therapists: '80+', hours: '17:00 - 05:00', open24h: true, rating: 5, price: '2,299 – 6,999', serviceFee: '10%', buyOneGetOne: '問我們', overnight: true, freeRoom: false, lounge: true, ktv: false, theme: true, lineup: true, isNew: true },
-  { name: '尚品國際水療', slug: 'shang-pin-spa', district: '氹仔', therapists: '90+', hours: '15:00 - 05:00', open24h: true, rating: 5, price: '2,299 – 6,499', serviceFee: '10%', buyOneGetOne: 'OK', overnight: true, freeRoom: true, lounge: true, ktv: false, theme: false, lineup: false, isNew: false },
-  { name: '尊貴水療', slug: 'majesty-spa', district: '澳門半島', therapists: '70+', hours: '14:00 - 05:00', open24h: true, rating: 4, price: '2,799 – 6,699', serviceFee: '免服務費', buyOneGetOne: 'OK', overnight: true, freeRoom: true, lounge: true, ktv: true, theme: true, lineup: false, isNew: false },
-  { name: '極品桑拿', slug: 'the-excellent-sauna', district: '澳門半島', therapists: '40+', hours: '13:00 - 05:00', open24h: true, rating: 3, price: '2,488 – 6,388', serviceFee: '10%', buyOneGetOne: '–', overnight: true, freeRoom: false, lounge: true, ktv: false, theme: true, lineup: false, isNew: false },
-  { name: '東方皇堡水療', slug: 'oriental-fortress', district: '澳門半島', therapists: '60+', hours: '15:00 - 05:00', open24h: true, rating: 4, price: '2,388 – 6,498', serviceFee: '15%', buyOneGetOne: '–', overnight: true, freeRoom: false, lounge: true, ktv: false, theme: true, lineup: false, isNew: false },
-  { name: '巨亨桑拿', slug: 'empire-sauna', district: '澳門半島', therapists: '多國籍技師團隊', hours: '17:00 - 06:00', open24h: true, rating: 5, price: '2,488 – 7,388', serviceFee: '10%', buyOneGetOne: '問我們', overnight: true, freeRoom: false, lounge: true, ktv: false, theme: true, lineup: true, isNew: false },
-  { name: '凱旋桑拿', slug: 'victoria-sauna', district: '澳門半島', therapists: '70+', hours: '13:00 - 05:00', open24h: true, rating: 4, price: '2,298 – 6,998', serviceFee: '10%', buyOneGetOne: 'OK', overnight: true, freeRoom: false, lounge: true, ktv: false, theme: false, lineup: false, isNew: false },
-  { name: '晉會MCLUB', slug: 'm-club', district: '澳門半島', therapists: '60+', hours: '15:00 - 05:00', open24h: true, rating: 4, price: '2,388 – 6,498', serviceFee: '10%', buyOneGetOne: '–', overnight: true, freeRoom: false, lounge: true, ktv: true, theme: true, lineup: false, isNew: false },
-  { name: '帝湖桑拿', slug: 'di-hu', district: '氹仔', therapists: '140+', hours: '24 小時駐場', open24h: true, rating: 5, price: '2,299 – 7,099', serviceFee: '10%', buyOneGetOne: '問我們', overnight: true, freeRoom: false, lounge: true, ktv: false, theme: true, lineup: true, isNew: false },
-  { name: '壹號桑拿', slug: 'number-one-sauna', district: '澳門半島', therapists: '130+', hours: '13:00 - 05:00', open24h: true, rating: 5, price: '2,199 – 7,699', serviceFee: '10%', buyOneGetOne: '–', overnight: true, freeRoom: false, lounge: true, ktv: false, theme: false, lineup: true, isNew: false },
-  { name: '豪門桑拿殿', slug: 'haomen-sauna', district: '澳門半島', therapists: '80+', hours: '16:00 - 06:00', open24h: true, rating: 5, price: '2,388 – 6,988', serviceFee: '免服務費', buyOneGetOne: '–', overnight: true, freeRoom: false, lounge: true, ktv: false, theme: false, lineup: false, isNew: false },
-];
+// 构建 venues 数据
+const venues = allSpas.map((entry) => {
+  const d = entry.data;
+  return {
+    name: d.name || '',
+    slug: d.slug || '',
+    district: d.district || '',
+    therapists: d.staffCount || d.staffNationalities || '—',
+    hours: d.openingHours || d.staffHours || '—',
+    open24h: d.open24h || false,
+    rating: d.rating || 3,
+    price: d.priceMin && d.priceMax ? `${d.priceMin} – ${d.priceMax}` : '—',
+    serviceFee: d.serviceFee || '10%',
+    buyOneGetOne: d.buyOneGetOne || '–',
+    overnight: d.overnightAllowed || false,
+    freeRoom: d.freeOvernightRoom || false,
+    lounge: d.lounge || false,
+    ktv: d.ktv || false,
+    theme: d.themeRooms || false,
+    lineup: d.recommendedShow || false,
+    isNew: d.isNew || false,
+  };
+});
+
+// 排序：按 rating 降序，同分按名称排序
+venues.sort((a, b) => {
+  if (b.rating !== a.rating) return b.rating - a.rating;
+  return a.name.localeCompare(b.name);
+});
+
+const metadata = {
+  title: `澳門桑拿排名 2026 — ${countSpas} 間桑拿排名與推薦`,
+  description: `一張表看懂澳門 ${countSpas}  間持牌桑拿水療：價格、過夜安排、特色玩法，以及每次預約都免費贈送的按摩與護理。`,
+};
 
 const freeMassages = [
   { icon: '🧎‍♀️', name: '全身擦背按摩', price: '298 MOP', desc: '專業擦背服務，舒緩肩頸與背部緊繃。' },
@@ -41,29 +63,61 @@ const freeMassages = [
 ];
 
 const quickPicks = [
-  { icon: '🎬', label: '主題房體驗', name: '極品桑拿', desc: 'DJ 室、電影院、醫院等情境主題房', slug: 'the-excellent-sauna' },
-  { icon: '💰', label: '高性價比', name: '尚品國際水療', desc: '全日買一送一，日式泡泡浴招牌', slug: 'shang-pin-spa' },
+  {
+    icon: '🎬',
+    label: '主題房體驗',
+    name: '極品桑拿',
+    desc: 'DJ 室、電影院、醫院等情境主題房',
+    slug: 'the-excellent-sauna',
+  },
+  { icon: '💰', label: '高性價比', name: '尚品國際水療', desc: '全日買一送一，日式泡泡浴招牌', slug: 'shangpin-spa' },
   { icon: '🎭', label: '走秀推薦', name: '曼濠水療', desc: '氹仔人氣新場，技師走秀吸睛', slug: 'manhao-spa' },
   { icon: '🛏️', label: '最適合過夜', name: '尊貴水療', desc: '預約送免費獨立睡房，另設 KTV 房', slug: 'majesty-spa' },
-  { icon: '✨', label: '最新最熱', name: '玖號水療', desc: '2026 全新開幕，主舞台 LED 走秀', slug: 'number-nine-sauna' },
+  {
+    icon: '✨',
+    label: '最新最熱',
+    name: '玖號水療',
+    desc: '2026 全新開幕，主舞台 LED 走秀',
+    slug: 'number-nine-sauna',
+  },
 ];
+
+const message = `你好，我想預約澳門桑拿，可以安排嗎？`;
 ---
 
 <PageLayout metadata={metadata}>
   <!-- Hero Section -->
-  <section class="relative   pb-8 pt-[9.5rem] sm:pt-[12rem] sm:pb-12 px-4 overflow-hidden">
+  <section class="relative pb-8 pt-[9.5rem] sm:pt-[12rem] sm:pb-12 px-4 overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-[#0a0a0a]/90 to-[#0a0a0a]"></div>
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.08),transparent_60%)]"></div>
     <div class="relative z-10 max-w-5xl mx-auto">
-      <a href={`/${lang}/`} class="inline-flex items-center gap-2 text-white/50 hover:text-[#D4AF37] transition-colors mb-6 text-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+      <a
+        href={`/${lang}/`}
+        class="inline-flex items-center gap-2 text-white/50 hover:text-[#D4AF37] transition-colors mb-6 text-sm"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg
+        >
         返回首頁
       </a>
       <div class="fade-up">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-wider">澳門桑拿排名 2026 — 12 間桑拿排名與推薦</h1>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-wider">
+          澳門桑拿排名 2026 — {countSpas} 間桑拿排名與推薦
+        </h1>
       </div>
       <div class="fade-up" style="transition-delay: 0.15s">
-        <p class="text-white/60 text-base sm:text-lg max-w-2xl leading-relaxed">一張表看懂澳門 12 間持牌桑拿水療：價格、過夜安排、特色玩法，以及每次預約都免費贈送的按摩與護理。</p>
+        <p class="text-white/60 text-base sm:text-lg max-w-2xl leading-relaxed">
+          一張表看懂澳門 {countSpas} 間持牌桑拿水療：價格、過夜安排、特色玩法，以及每次預約都免費贈送的按摩與護理。
+        </p>
         <div class="w-20 h-0.5 bg-[#D4AF37] mt-6"></div>
       </div>
     </div>
@@ -74,16 +128,23 @@ const quickPicks = [
     <div class="max-w-5xl mx-auto">
       <h2 class="text-xl sm:text-2xl font-bold mb-4">各類需求首選</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {quickPicks.map((pick) => (
-          <a href={`/${lang}/spa/${pick.slug}/`} class="flex items-start gap-3 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-4 transition-all duration-300 group">
-            <span class="text-2xl leading-none" aria-hidden="true">{pick.icon}</span>
-            <span class="min-w-0">
-              <span class="block text-[#D4AF37] text-xs font-semibold tracking-wide">{pick.label}</span>
-              <span class="block font-semibold group-hover:text-[#D4AF37] transition-colors">{pick.name}</span>
-              <span class="block text-white/50 text-sm leading-relaxed">{pick.desc}</span>
-            </span>
-          </a>
-        ))}
+        {
+          quickPicks.map((pick) => (
+            <a
+              href={`/${lang}/spa/${pick.slug}/`}
+              class="flex items-start gap-3 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-4 transition-all duration-300 group"
+            >
+              <span class="text-2xl leading-none" aria-hidden="true">
+                {pick.icon}
+              </span>
+              <span class="min-w-0">
+                <span class="block text-[#D4AF37] text-xs font-semibold tracking-wide">{pick.label}</span>
+                <span class="block font-semibold group-hover:text-[#D4AF37] transition-colors">{pick.name}</span>
+                <span class="block text-white/50 text-sm leading-relaxed">{pick.desc}</span>
+              </span>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -92,14 +153,26 @@ const quickPicks = [
   <section class="px-4 pb-6">
     <div class="max-w-5xl mx-auto">
       <div class="rounded-xl border border-[#D4AF37]/15 bg-[#D4AF37]/[0.04] p-5">
-        <h2 class="text-sm font-semibold text-[#D4AF37] mb-3 tracking-wide">12 間場館全部包含</h2>
+        <h2 class="text-sm font-semibold text-[#D4AF37] mb-3 tracking-wide">{countSpas} 間場館全部包含</h2>
         <ul class="flex flex-wrap gap-x-5 gap-y-2">
-          <li class="flex items-center gap-1.5 text-white/70 text-sm"><span class="text-green-400" aria-hidden="true">✓</span>免費無限餐飲</li>
-          <li class="flex items-center gap-1.5 text-white/70 text-sm"><span class="text-green-400" aria-hidden="true">✓</span>免費儲物櫃</li>
-          <li class="flex items-center gap-1.5 text-white/70 text-sm"><span class="text-green-400" aria-hidden="true">✓</span>沐浴・乾濕蒸桑拿</li>
-          <li class="flex items-center gap-1.5 text-white/70 text-sm"><span class="text-green-400" aria-hidden="true">✓</span>免費專車接送</li>
-          <li class="flex items-center gap-1.5 text-white/70 text-sm"><span class="text-green-400" aria-hidden="true">✓</span>免費 VIP 按摩護理（任選）</li>
-          <li class="flex items-center gap-1.5 text-white/70 text-sm"><span class="text-green-400" aria-hidden="true">✓</span>付款：現金・刷卡・微信・支付寶</li>
+          <li class="flex items-center gap-1.5 text-white/70 text-sm">
+            <span class="text-green-400" aria-hidden="true">✓</span>免費無限餐飲
+          </li>
+          <li class="flex items-center gap-1.5 text-white/70 text-sm">
+            <span class="text-green-400" aria-hidden="true">✓</span>免費儲物櫃
+          </li>
+          <li class="flex items-center gap-1.5 text-white/70 text-sm">
+            <span class="text-green-400" aria-hidden="true">✓</span>沐浴・乾濕蒸桑拿
+          </li>
+          <li class="flex items-center gap-1.5 text-white/70 text-sm">
+            <span class="text-green-400" aria-hidden="true">✓</span>免費專車接送
+          </li>
+          <li class="flex items-center gap-1.5 text-white/70 text-sm">
+            <span class="text-green-400" aria-hidden="true">✓</span>免費 VIP 按摩護理（任選）
+          </li>
+          <li class="flex items-center gap-1.5 text-white/70 text-sm">
+            <span class="text-green-400" aria-hidden="true">✓</span>付款：現金・刷卡・微信・支付寶
+          </li>
         </ul>
       </div>
     </div>
@@ -116,29 +189,53 @@ const quickPicks = [
           <table class="w-full border-collapse text-sm">
             <thead>
               <tr class="border-b border-white/10">
-                <th class="sticky left-0 z-10 bg-[#141414] text-left font-semibold text-white/80 px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]">場館</th>
+                <th
+                  class="sticky left-0 z-10 bg-[#141414] text-left font-semibold text-white/80 px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]"
+                  >場館</th
+                >
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">地區</th>
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">技師人數</th>
-                <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">技師當班時段</th>
+                <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">技師當班時段</th
+                >
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">24 小時</th>
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">推薦指數</th>
               </tr>
             </thead>
             <tbody>
-              {venues.map((v) => (
-                <tr class="border-b border-white/5 last:border-0">
-                  <th scope="row" class="sticky left-0 z-10 bg-[#141414] text-left px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]">
-                    <a href={`/${lang}/spa/${v.slug}/`} class="text-[#D4AF37] hover:text-[#e5c34a] hover:underline font-medium text-xs sm:text-sm leading-tight">{v.name}</a>
-                  </th>
-                  <td class="text-center px-2 sm:px-3 py-3 text-white/70 whitespace-nowrap">{v.district}</td>
-                  <td class="text-center px-2 sm:px-3 py-3 text-white/70 whitespace-nowrap">{v.therapists}</td>
-                  <td class="text-center px-2 sm:px-3 py-3 text-white/60 whitespace-nowrap">{v.hours}</td>
-                  <td class="text-center px-2 sm:px-3 py-3">
-                    {v.open24h ? <span class="text-green-400 font-semibold">OK</span> : <span class="text-white/25">–</span>}
-                  </td>
-                  <td class="text-center px-2 sm:px-3 py-3 text-[#D4AF37] whitespace-nowrap" aria-label={`${v.rating}/5`}>{'★'.repeat(v.rating)}{'☆'.repeat(5 - v.rating)}</td>
-                </tr>
-              ))}
+              {
+                venues.map((v) => (
+                  <tr class="border-b border-white/5 last:border-0">
+                    <th
+                      scope="row"
+                      class="sticky left-0 z-10 bg-[#141414] text-left px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]"
+                    >
+                      <a
+                        href={`/${lang}/spa/${v.slug}/`}
+                        class="text-[#D4AF37] hover:text-[#e5c34a] hover:underline font-medium text-xs sm:text-sm leading-tight"
+                      >
+                        {v.name}
+                      </a>
+                    </th>
+                    <td class="text-center px-2 sm:px-3 py-3 text-white/70 whitespace-nowrap">{v.district}</td>
+                    <td class="text-center px-2 sm:px-3 py-3 text-white/70 whitespace-nowrap">{v.therapists}</td>
+                    <td class="text-center px-2 sm:px-3 py-3 text-white/60 whitespace-nowrap">{v.hours}</td>
+                    <td class="text-center px-2 sm:px-3 py-3">
+                      {v.open24h ? (
+                        <span class="text-green-400 font-semibold">OK</span>
+                      ) : (
+                        <span class="text-white/25">–</span>
+                      )}
+                    </td>
+                    <td
+                      class="text-center px-2 sm:px-3 py-3 text-[#D4AF37] whitespace-nowrap"
+                      aria-label={`${v.rating}/5`}
+                    >
+                      {'★'.repeat(v.rating)}
+                      {'☆'.repeat(5 - v.rating)}
+                    </td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
@@ -152,25 +249,44 @@ const quickPicks = [
           <table class="w-full border-collapse text-sm">
             <thead>
               <tr class="border-b border-white/10">
-                <th class="sticky left-0 z-10 bg-[#141414] text-left font-semibold text-white/80 px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]">場館</th>
-                <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">價格範圍（MOP）</th>
+                <th
+                  class="sticky left-0 z-10 bg-[#141414] text-left font-semibold text-white/80 px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]"
+                  >場館</th
+                >
+                <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap"
+                  >價格範圍（MOP）</th
+                >
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">服務費</th>
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">買一送一</th>
               </tr>
             </thead>
             <tbody>
-              {venues.map((v) => (
-                <tr class="border-b border-white/5 last:border-0">
-                  <th scope="row" class="sticky left-0 z-10 bg-[#141414] text-left px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]">
-                    <a href={`/${lang}/spa/${v.slug}/`} class="text-[#D4AF37] hover:text-[#e5c34a] hover:underline font-medium text-xs sm:text-sm leading-tight">{v.name}</a>
-                  </th>
-                  <td class="text-center px-2 sm:px-3 py-3 text-white/70 whitespace-nowrap">{v.price}</td>
-                  <td class="text-center px-2 sm:px-3 py-3 text-white/60 whitespace-nowrap">{v.serviceFee}</td>
-                  <td class="text-center px-2 sm:px-3 py-3 whitespace-nowrap">
-                    {v.buyOneGetOne === 'OK' ? <span class="text-green-400 font-semibold">OK</span> : <span class="text-white/50">{v.buyOneGetOne}</span>}
-                  </td>
-                </tr>
-              ))}
+              {
+                venues.map((v) => (
+                  <tr class="border-b border-white/5 last:border-0">
+                    <th
+                      scope="row"
+                      class="sticky left-0 z-10 bg-[#141414] text-left px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]"
+                    >
+                      <a
+                        href={`/${lang}/spa/${v.slug}/`}
+                        class="text-[#D4AF37] hover:text-[#e5c34a] hover:underline font-medium text-xs sm:text-sm leading-tight"
+                      >
+                        {v.name}
+                      </a>
+                    </th>
+                    <td class="text-center px-2 sm:px-3 py-3 text-white/70 whitespace-nowrap">{v.price}</td>
+                    <td class="text-center px-2 sm:px-3 py-3 text-white/60 whitespace-nowrap">{v.serviceFee}</td>
+                    <td class="text-center px-2 sm:px-3 py-3 whitespace-nowrap">
+                      {v.buyOneGetOne === 'OK' ? (
+                        <span class="text-green-400 font-semibold">OK</span>
+                      ) : (
+                        <span class="text-white/50">{v.buyOneGetOne}</span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
@@ -184,23 +300,57 @@ const quickPicks = [
           <table class="w-full border-collapse text-sm">
             <thead>
               <tr class="border-b border-white/10">
-                <th class="sticky left-0 z-10 bg-[#141414] text-left font-semibold text-white/80 px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]">場館</th>
+                <th
+                  class="sticky left-0 z-10 bg-[#141414] text-left font-semibold text-white/80 px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]"
+                  >場館</th
+                >
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">可過夜</th>
-                <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">預約送獨立睡房</th>
-                <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">大廳躺椅過夜</th>
+                <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap"
+                  >預約送獨立睡房</th
+                >
+                <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">大廳躺椅過夜</th
+                >
               </tr>
             </thead>
             <tbody>
-              {venues.map((v) => (
-                <tr class="border-b border-white/5 last:border-0">
-                  <th scope="row" class="sticky left-0 z-10 bg-[#141414] text-left px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]">
-                    <a href={`/${lang}/spa/${v.slug}/`} class="text-[#D4AF37] hover:text-[#e5c34a] hover:underline font-medium text-xs sm:text-sm leading-tight">{v.name}</a>
-                  </th>
-                  <td class="text-center px-2 sm:px-3 py-3">{v.overnight ? <span class="text-green-400 font-semibold">OK</span> : <span class="text-white/25">–</span>}</td>
-                  <td class="text-center px-2 sm:px-3 py-3">{v.freeRoom ? <span class="text-green-400 font-semibold">OK</span> : <span class="text-white/25">–</span>}</td>
-                  <td class="text-center px-2 sm:px-3 py-3">{v.lounge ? <span class="text-green-400 font-semibold">OK</span> : <span class="text-white/25">–</span>}</td>
-                </tr>
-              ))}
+              {
+                venues.map((v) => (
+                  <tr class="border-b border-white/5 last:border-0">
+                    <th
+                      scope="row"
+                      class="sticky left-0 z-10 bg-[#141414] text-left px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]"
+                    >
+                      <a
+                        href={`/${lang}/spa/${v.slug}/`}
+                        class="text-[#D4AF37] hover:text-[#e5c34a] hover:underline font-medium text-xs sm:text-sm leading-tight"
+                      >
+                        {v.name}
+                      </a>
+                    </th>
+                    <td class="text-center px-2 sm:px-3 py-3">
+                      {v.overnight ? (
+                        <span class="text-green-400 font-semibold">OK</span>
+                      ) : (
+                        <span class="text-white/25">–</span>
+                      )}
+                    </td>
+                    <td class="text-center px-2 sm:px-3 py-3">
+                      {v.freeRoom ? (
+                        <span class="text-green-400 font-semibold">OK</span>
+                      ) : (
+                        <span class="text-white/25">–</span>
+                      )}
+                    </td>
+                    <td class="text-center px-2 sm:px-3 py-3">
+                      {v.lounge ? (
+                        <span class="text-green-400 font-semibold">OK</span>
+                      ) : (
+                        <span class="text-white/25">–</span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
@@ -214,7 +364,10 @@ const quickPicks = [
           <table class="w-full border-collapse text-sm">
             <thead>
               <tr class="border-b border-white/10">
-                <th class="sticky left-0 z-10 bg-[#141414] text-left font-semibold text-white/80 px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]">場館</th>
+                <th
+                  class="sticky left-0 z-10 bg-[#141414] text-left font-semibold text-white/80 px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]"
+                  >場館</th
+                >
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">KTV</th>
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">主題房</th>
                 <th class="text-center font-semibold text-white/60 px-2 sm:px-3 py-3 whitespace-nowrap">推薦走秀</th>
@@ -222,17 +375,47 @@ const quickPicks = [
               </tr>
             </thead>
             <tbody>
-              {venues.map((v) => (
-                <tr class="border-b border-white/5 last:border-0">
-                  <th scope="row" class="sticky left-0 z-10 bg-[#141414] text-left px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]">
-                    <a href={`/${lang}/spa/${v.slug}/`} class="text-[#D4AF37] hover:text-[#e5c34a] hover:underline font-medium text-xs sm:text-sm leading-tight">{v.name}</a>
-                  </th>
-                  <td class="text-center px-2 sm:px-3 py-3">{v.ktv ? <span class="text-green-400 font-semibold">OK</span> : <span class="text-white/25">–</span>}</td>
-                  <td class="text-center px-2 sm:px-3 py-3">{v.theme ? <span class="text-green-400 font-semibold">OK</span> : <span class="text-white/25">–</span>}</td>
-                  <td class="text-center px-2 sm:px-3 py-3">{v.lineup ? <span class="text-green-400 font-semibold">OK</span> : <span class="text-white/25">–</span>}</td>
-                  <td class="text-center px-2 sm:px-3 py-3">{v.isNew ? <span class="text-[#D4AF37]">✦</span> : <span class="text-white/25">–</span>}</td>
-                </tr>
-              ))}
+              {
+                venues.map((v) => (
+                  <tr class="border-b border-white/5 last:border-0">
+                    <th
+                      scope="row"
+                      class="sticky left-0 z-10 bg-[#141414] text-left px-2 sm:px-3 py-3 min-w-[5.5rem] sm:min-w-[9rem]"
+                    >
+                      <a
+                        href={`/${lang}/spa/${v.slug}/`}
+                        class="text-[#D4AF37] hover:text-[#e5c34a] hover:underline font-medium text-xs sm:text-sm leading-tight"
+                      >
+                        {v.name}
+                      </a>
+                    </th>
+                    <td class="text-center px-2 sm:px-3 py-3">
+                      {v.ktv ? (
+                        <span class="text-green-400 font-semibold">OK</span>
+                      ) : (
+                        <span class="text-white/25">–</span>
+                      )}
+                    </td>
+                    <td class="text-center px-2 sm:px-3 py-3">
+                      {v.theme ? (
+                        <span class="text-green-400 font-semibold">OK</span>
+                      ) : (
+                        <span class="text-white/25">–</span>
+                      )}
+                    </td>
+                    <td class="text-center px-2 sm:px-3 py-3">
+                      {v.lineup ? (
+                        <span class="text-green-400 font-semibold">OK</span>
+                      ) : (
+                        <span class="text-white/25">–</span>
+                      )}
+                    </td>
+                    <td class="text-center px-2 sm:px-3 py-3">
+                      {v.isNew ? <span class="text-[#D4AF37]">✦</span> : <span class="text-white/25">–</span>}
+                    </td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
@@ -246,21 +429,31 @@ const quickPicks = [
       <div class="fade-up mb-8">
         <h2 class="text-2xl sm:text-3xl font-bold mb-4">每次預約免費贈送的按摩與護理</h2>
         <div class="w-16 h-0.5 bg-[#D4AF37] mb-5"></div>
-        <p class="text-white/60 leading-relaxed max-w-2xl">透過我們預約任何一間澳門桑拿，都可免費任選 1 項以下按摩與護理——全身擦背按摩、足底按摩、頭部按摩、手部按摩等，平時皆需單獨收費。</p>
+        <p class="text-white/60 leading-relaxed max-w-2xl">
+          透過我們預約任何一間澳門桑拿，都可免費任選 1
+          項以下按摩與護理——全身擦背按摩、足底按摩、頭部按摩、手部按摩等，平時皆需單獨收費。
+        </p>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {freeMassages.map((m) => (
-          <div class="rounded-xl p-5 border bg-[#141414] border-white/5">
-            <div class="flex items-start justify-between gap-3 mb-1.5">
-              <h3 class="text-base font-semibold"><span class="mr-1.5" aria-hidden="true">{m.icon}</span>{m.name}</h3>
-              <span class="text-xs whitespace-nowrap">
-                <span class="text-white/30 line-through">{m.price}</span>
-                <span class="text-green-400 font-semibold ml-1">免費</span>
-              </span>
+        {
+          freeMassages.map((m) => (
+            <div class="rounded-xl p-5 border bg-[#141414] border-white/5">
+              <div class="flex items-start justify-between gap-3 mb-1.5">
+                <h3 class="text-base font-semibold">
+                  <span class="mr-1.5" aria-hidden="true">
+                    {m.icon}
+                  </span>
+                  {m.name}
+                </h3>
+                <span class="text-xs whitespace-nowrap">
+                  <span class="text-white/30 line-through">{m.price}</span>
+                  <span class="text-green-400 font-semibold ml-1">免費</span>
+                </span>
+              </div>
+              <p class="text-white/50 text-sm leading-relaxed">{m.desc}</p>
             </div>
-            <p class="text-white/50 text-sm leading-relaxed">{m.desc}</p>
-          </div>
-        ))}
+          ))
+        }
       </div>
       <p class="text-white/35 text-xs italic mt-5">各場所實際項目略有不同，預約時我們會為您確認。</p>
     </div>
@@ -269,46 +462,22 @@ const quickPicks = [
   <!-- Contact CTA Section -->
   <section id="contact" class="px-4 py-12 sm:py-16">
     <div class="max-w-3xl mx-auto">
-      <div class="bg-gradient-to-r from-[#141414] to-[#1a1a1a] border border-[#D4AF37]/10 rounded-2xl p-8 sm:p-12 text-center">
+      <div
+        class="bg-gradient-to-r from-[#141414] to-[#1a1a1a] border border-[#D4AF37]/10 rounded-2xl p-8 sm:p-12 text-center"
+      >
         <h2 class="text-2xl sm:text-3xl font-bold mb-4">想知道哪一間最適合你？</h2>
         <div class="w-16 h-0.5 bg-[#D4AF37] mx-auto mb-5"></div>
         <p class="text-white/55 mb-8 max-w-md mx-auto">告訴我們你的喜好與預算，我們免費為你推薦並安排專車接送。</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
-          <a href="https://wa.me/85257934448?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">WhatsApp</div>
-              <div class="text-white font-medium">立即聯繫</div>
-            </div>
-          </a>
-          <a href="https://t.me/Aomensauna?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/telegram.svg" alt="Telegram" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">Telegram</div>
-              <div class="text-white font-medium">@Aomensauna</div>
-            </div>
-          </a>
-          <button type="button" data-wechat-trigger class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/wechat.svg" alt="WeChat" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">微信</div>
-              <div class="text-white font-medium">AN99348</div>
-            </div>
-          </button>
-          <a href="https://line.me/ti/p/VZHFDSZnq9" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/line.svg" alt="LINE" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">LINE</div>
-              <div class="text-white font-medium">16880348</div>
-            </div>
+
+        <ContactSection lang={lang} message={message} />
+
+        <div class="mt-6">
+          <a
+            href={langLink('guide')}
+            class="inline-flex items-center gap-1.5 text-gold text-sm hover:text-gold-light transition-colors"
+          >
+            第一次來澳門桑拿？看新手指南 
+            <Icon name="lucide:chevron-right" class="w-4 h-4" />
           </a>
         </div>
       </div>
@@ -316,11 +485,11 @@ const quickPicks = [
   </section>
 
   <!-- Fade-up Animation Script -->
-  
+
   <!-- 在 <script> 标签上添加 data-astro-rerun 属性，Astro 会在每次页面切换后重新执行该脚本 -->
-<script type="module" data-astro-rerun>
-  setTimeout(() => {
-    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
-  }, 200);
-</script>
+  <script type="module" data-astro-rerun>
+    setTimeout(() => {
+      document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
+    }, 200);
+  </script>
 </PageLayout>

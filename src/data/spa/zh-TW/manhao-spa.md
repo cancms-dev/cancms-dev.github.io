@@ -7,6 +7,14 @@ priceMax: 6088
 rating: 5
 overnightAllowed: false
 freeOvernightRoom: false
+lounge: false
+serviceFee: "10%"
+buyOneGetOne: "問我們"
+staffCount: "80+"
+staffNationalities: "多国籍技师团队 | 中、越、泰、台、日、韓、俄、烏"
+openingHours: "14:00 – 04:00"
+staffHours: "14:00 – 04:00"
+address: "氹仔君怡酒店"
 websiteUrl: "manhaospa.com"
 open24h: false
 ktv: false
@@ -15,11 +23,6 @@ recommendedShow: true
 isNew: true
 buckets: ["new", "lineup"]
 features: ["推薦指數⭐⭐⭐⭐⭐", "全澳最大走秀大廳", "招牌紅色水床", "皇者奢華風格"]
-staffCount: "80+"
-staffNationalities: "多国籍技师团队 | 中、越、泰、台、日、韓、俄、烏"
-openingHours: "14:00 – 04:00"
-staffHours: "14:00 – 04:00"
-address: "氹仔君怡酒店"
 
 suitableFor: "最大走秀舞台／氹仔奢華首選"
 paymentMethods: "現金,刷卡,微信,支付寶"

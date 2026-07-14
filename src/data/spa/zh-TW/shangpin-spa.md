@@ -7,6 +7,11 @@ priceMax: 3500
 rating: 4
 overnightAllowed: true
 freeOvernightRoom: false
+lounge: true
+serviceFee: "10%"
+buyOneGetOne: "OK"
+staffCount: "90+"
+openingHours: "15:00 - 05:00"
 websiteUrl: "manhaospa.com"
 open24h: true
 ktv: false

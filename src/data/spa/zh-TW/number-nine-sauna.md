@@ -7,13 +7,18 @@ priceMax: 5000
 rating: 4
 overnightAllowed: true
 freeOvernightRoom: true
+lounge: true
+serviceFee: "10%"
+buyOneGetOne: "問我們"
+staffCount: "80+"
+openingHours: "17:00 - 05:00"
 websiteUrl: "manhaospa.com"
 open24h: true
 ktv: true
 themeRooms: true
 recommendedShow: true
-isNew: false
-buckets: ["overnight", "ktv"]
+isNew: true
+buckets: ["overnight", "ktv", "new"]
 features: ["24小時營業", "KTV包廂", "過夜免費"]
 cover: "/images/spas/macau-sauna-spa-number-nine-01-modern-luxury-themed-suite-lg.webp"
 images: [
