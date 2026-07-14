@@ -1,0 +1,26 @@
+/* ===== 滚动条样式 ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d4af37 #1a1a1a;
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c5a028;
+}
+ 
