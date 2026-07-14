@@ -1,5 +1,6 @@
 ---
 import PageLayout from '~/layouts/PageLayout.astro';
+import ContactSection from '~/components/widgets/ContactSection.astro';
 
 export async function getStaticPaths() {
   const languages = ['zh-TW', 'zh-CN', 'en', 'ja'];
@@ -12,6 +13,8 @@ const metadata = {
   title: '常見問題｜澳門桑拿預約站',
   description: '澳門桑拿常見問題解答：價格、安全、營業時間、過夜、付款方式等實用資訊',
 };
+
+const message = `你好，我想預約澳門桑拿，可以安排嗎？`;
 
 const faqCategories = [
   {
@@ -139,44 +142,7 @@ const faqCategories = [
           仍有疑問<span class="text-[#D4AF37]">?</span>
         </h2>
         <p class="text-white/50 mb-8 max-w-md mx-auto">歡迎隨時聯繫我們，專人為您解答</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
-          <a href="https://wa.me/85257934448?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">WhatsApp</div>
-              <div class="text-white font-medium">立即聯繫</div>
-            </div>
-          </a>
-          <a href="https://t.me/Aomensauna?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/telegram.svg" alt="Telegram" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">Telegram</div>
-              <div class="text-white font-medium">@Aomensauna</div>
-            </div>
-          </a>
-          <button type="button" data-wechat-trigger class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/wechat.svg" alt="WeChat" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">微信</div>
-              <div class="text-white font-medium">AN99348</div>
-            </div>
-          </button>
-          <a href="https://line.me/ti/p/VZHFDSZnq9" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/line.svg" alt="LINE" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">LINE</div>
-              <div class="text-white font-medium">16880348</div>
-            </div>
-          </a>
-        </div>
+        <ContactSection lang={lang} message={message} />
       </div>
     </div>
   </section>

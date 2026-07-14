@@ -1,5 +1,6 @@
 ---
 import PageLayout from '~/layouts/PageLayout.astro';
+import ContactSection from '~/components/widgets/ContactSection.astro';
 
 export async function getStaticPaths() {
   const languages = ['zh-TW', 'zh-CN', 'en', 'ja'];
@@ -146,44 +147,7 @@ const metadata = {
       <div class="fade-up">
         <h2 class="text-xl sm:text-2xl font-bold mb-3">需要安排接送？</h2>
         <p class="text-white/65 text-sm mb-6">告訴我們您的位置與時間，我們免費為您預約桑拿並安排私人專車接送。</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="https://wa.me/85257934448?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">WhatsApp</div>
-              <div class="text-white font-medium">立即聯繫</div>
-            </div>
-          </a>
-          <a href="https://t.me/Aomensauna?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%A0%90%E7%B4%84%E6%BE%B3%E9%96%80%E6%A1%91%E6%8B%BF%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E5%97%8E%EF%BC%9F" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/telegram.svg" alt="Telegram" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">Telegram</div>
-              <div class="text-white font-medium">@Aomensauna</div>
-            </div>
-          </a>
-          <button type="button" data-wechat-trigger class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/wechat.svg" alt="WeChat" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">微信</div>
-              <div class="text-white font-medium">AN99348</div>
-            </div>
-          </button>
-          <a href="https://line.me/ti/p/VZHFDSZnq9" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 bg-[#141414] border border-white/5 hover:border-[#D4AF37]/30 rounded-xl p-2.5 transition-all duration-300 group text-left w-full">
-            <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/20 transition-colors">
-              <img src="/images/line.svg" alt="LINE" class="w-7 h-7 rounded-md" />
-            </div>
-            <div>
-              <div class="text-white/40 text-xs mb-1">LINE</div>
-              <div class="text-white font-medium">16880348</div>
-            </div>
-          </a>
-        </div>
+        <ContactSection lang={lang} />
       </div>
     </div>
   </section>
@@ -195,7 +159,7 @@ const metadata = {
         <h2 class="text-center text-lg font-bold mb-5 text-white/70">還沒選好場館？</h2>
         <div class="grid gap-3 sm:grid-cols-2">
           <a href={`/${lang}/ranking/`} class="flex items-center justify-between rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3 text-sm text-white/75 hover:text-[#D4AF37] hover:border-[#D4AF37]/30 transition-colors">
-            <span>12 間桑拿排名與價格</span>
+            <span>桑拿排名與價格</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 shrink-0"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
           </a>
           <a href={`/${lang}/guide/`} class="flex items-center justify-between rounded-xl border border-[#D4AF37]/10 bg-white/[0.02] px-4 py-3 text-sm text-white/75 hover:text-[#D4AF37] hover:border-[#D4AF37]/30 transition-colors">
