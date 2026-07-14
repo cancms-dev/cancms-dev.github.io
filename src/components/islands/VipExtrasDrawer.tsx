@@ -92,25 +92,15 @@ export default function VipExtrasDrawer({
     };
   }, [openDrawer]);
 
-  // ESC 键关闭 + 滚动锁定（带滚动条宽度补偿，防止抖动）
+  // ESC 键关闭
   useEffect(() => {
     if (!isOpen) return;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeDrawer();
     };
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.addEventListener('keydown', handleKey);
-    // 在 html 和 body 上都添加补偿，确保 fixed 定位的元素不会抖动
-    document.documentElement.style.overflow = 'hidden';
-    document.documentElement.style.paddingRight = `${scrollbarWidth}px`;
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
     return () => {
       document.removeEventListener('keydown', handleKey);
-      document.documentElement.style.overflow = '';
-      document.documentElement.style.paddingRight = '';
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
     };
   }, [isOpen, closeDrawer]);
 

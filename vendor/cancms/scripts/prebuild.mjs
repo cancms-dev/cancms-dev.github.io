@@ -66,7 +66,7 @@ function generateBlogImagesToPublic() {
       const srcPath = path.join(postDir, imageFile);
       const outputPath = path.join(targetDir, imageFile);
       fs.copyFileSync(srcPath, outputPath);
-      console.log(`✅ ${postSlug}/${imageFile} → ${outputPath}`);
+      // console.log(`✅ ${postSlug}/${imageFile} → ${outputPath}`);
     });
 
     // 复制并优化每张图片（已注释，改用直接复制）
