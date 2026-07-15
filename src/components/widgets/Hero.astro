@@ -16,12 +16,13 @@ const {
   tagline = '慶賀新店開業·7月起所有店預約即送小工',
   actions = [],
   images = [
-    { src: '/images/macau-sauna-night-skyline.jpg', alt: '澳門桑拿禮賓服務 — 澳門夜景天際線・VIP 預約・豪華專車接送' },
+    { src: '/images/macau-sauna-night-skyline.jpg', alt: '澳門桑拿禮賓服務 — 澳門夜景天際線・VIP 預約・豪華專車接送', objectClass: 'object-center' },
     {
       src: '/images/macau-sauna-cotai-casino-skyline-night.jpg',
       alt: '澳門桑拿 VIP 禮賓服務 — 路氹賭場夜景・豪華專車接送',
+      objectClass: 'object-[20%_50%] sm:object-center',
     },
-    { src: '/images/macau-sauna-tower-fireworks-night.webp', alt: '旅客專屬澳門桑拿禮賓服務 — 澳門旅遊塔煙花夜景' },
+    { src: '/images/macau-sauna-tower-fireworks-night.webp', alt: '旅客專屬澳門桑拿禮賓服務 — 澳門旅遊塔煙花夜景', objectClass: 'object-[80%_50%] sm:object-center' },
   ],
 } = Astro.props;
 
@@ -54,7 +55,7 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
             fetchPriority={index === 0 ? 'high' : 'low'}
             decoding="async"
             loading={index === 0 ? 'eager' : 'lazy'}
-            class="w-full h-full object-cover object-center"
+            class={`w-full h-full object-cover ${img.objectClass || 'object-center'}`}
           />
         </div>
       ))
@@ -160,10 +161,15 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
 
 </section>
 
-<!-- 客户端脚本：背景图轮播 + 步骤入场动画 -->
-<script  data-astro-rerun>
+<!-- 客户端脚本：完全复刻 t1 (HomeHero.Cz-d16xB.js) 的图片切换效果 -->
+<script data-astro-rerun>
   (function () {
-    // ===== 1. 背景图轮播 =====
+    // ===== 参数定义（与 t1 完全一致） =====
+    const INTERVAL = 4000; // 切换间隔 4000ms
+    const TRANSITION_DURATION = 1400; // 过渡时长 1.4s
+    const SCALE_DURATION = 5400; // 缩放持续 5.4s (INTERVAL + TRANSITION_DURATION)
+
+    // ===== 1. 背景图轮播（完全复刻 t1 的 Framer Motion 逻辑） =====
     const bgItems = document.querySelectorAll('.bg-hero-item');
     const total = bgItems.length;
     if (total > 1) {
@@ -171,42 +177,62 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
       let intervalId = null;
       let isTransitioning = false;
 
+      // 为每个图片维护独立的缩放状态
+      const scales = new Map();
+      bgItems.forEach((item, idx) => {
+        const startScale = 1.08;
+        const endScale = 1.0;
+        scales.set(idx, { start: startScale, end: endScale, progress: 0 });
+        // 初始状态：第一张可见且放大，其他隐藏且放大
+        item.style.opacity = idx === 0 ? '1' : '0';
+        item.style.transform = 'scale(1.08)';
+        item.style.transition = 'none';
+        // 当前可见图片立即开始缓慢缩放（呼吸效果）
+        if (idx === 0) {
+          requestAnimationFrame(() => {
+            item.style.transition = `transform ${SCALE_DURATION}ms linear`;
+            item.style.transform = 'scale(1.0)';
+          });
+        }
+      });
+
       function showNext() {
         if (isTransitioning) return;
         isTransitioning = true;
         const next = (current + 1) % total;
+        const currentItem = bgItems[current];
+        const nextItem = bgItems[next];
 
-        // 当前图片淡出 + 缩小
-        bgItems[current].style.opacity = '0';
-        bgItems[current].style.transform = 'scale(1.04)';
+        // 当前图片：淡出（1.4s）+ 缓慢放大到 1.08（5.4s，与 t1 一致）
+        currentItem.style.transition = `opacity ${TRANSITION_DURATION}ms ease-in-out, transform ${SCALE_DURATION}ms linear`;
+        currentItem.style.opacity = '0';
+        currentItem.style.transform = 'scale(1.08)';
 
-        // 下一张图片淡入 + 放大
-        bgItems[next].style.opacity = '1';
-        bgItems[next].style.transform = 'scale(1.08)';
+        // 下一张图片：淡入 + 放大到 1.08（与 t1 一致：opacity 0→1, scale 1.0→1.08）
+        nextItem.style.transition = `opacity ${TRANSITION_DURATION}ms ease-in-out, transform ${TRANSITION_DURATION}ms ease-in-out`;
+        nextItem.style.opacity = '1';
+        nextItem.style.transform = 'scale(1.08)';
+
+        // 过渡完成后，开始下一张的呼吸缩放
+        setTimeout(() => {
+          // 当前图片完成过渡，重置为无过渡状态（准备下一次切换）
+          currentItem.style.transition = 'none';
+          // 下一张图片开始缓慢缩放（呼吸效果）：从 1.08 → 1.0
+          nextItem.style.transition = `transform ${SCALE_DURATION}ms linear`;
+          nextItem.style.transform = 'scale(1.0)';
+        }, TRANSITION_DURATION);
 
         current = next;
 
         // 过渡完成后解锁
         setTimeout(() => {
           isTransitioning = false;
-        }, 1600);
+        }, TRANSITION_DURATION + 100);
       }
 
-      // 初始化：所有图片从 scale(1.04) 开始
-      bgItems.forEach((item, idx) => {
-        item.style.transform = 'scale(1.04)';
-        // 当前可见图片立即开始缓慢放大到 1.08
-        if (idx === 0) {
-          requestAnimationFrame(() => {
-            item.style.transform = 'scale(1.08)';
-          });
-        }
-      });
-
-      // 开始轮播（每5秒切换一次）
       function startCarousel() {
         if (intervalId) clearInterval(intervalId);
-        intervalId = setInterval(showNext, 5000);
+        intervalId = setInterval(showNext, INTERVAL);
       }
 
       function stopCarousel() {
@@ -227,6 +253,9 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
 
       // 开始轮播
       startCarousel();
+
+      // 初始化时确保第一张可见
+      bgItems[0].style.opacity = '1';
     }
 
     // ===== 2. 步骤入场动画 =====
@@ -239,7 +268,6 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              // 延迟依次出现
               const delay = Array.from(allItems).indexOf(entry.target) * 80;
               setTimeout(() => {
                 entry.target.style.opacity = '1';
@@ -257,8 +285,6 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
       allItems.forEach((item) => observer.observe(item));
     }
 
-
-
     // ===== 3. 文字切换（两个 span 交替显示） =====
     const textSpans = document.querySelectorAll('.grid.whitespace-pre-line > span');
     if (textSpans.length > 1) {
@@ -267,16 +293,14 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
 
       function switchText() {
         const nextIndex = (currentIndex + 1) % textSpans.length;
-        // 当前 span 淡出
         textSpans[currentIndex].style.opacity = '0';
-        // 下一个 span 淡入
         textSpans[nextIndex].style.opacity = '1';
         currentIndex = nextIndex;
       }
 
       function startTextSwitch() {
         if (textIntervalId) clearInterval(textIntervalId);
-        textIntervalId = setInterval(switchText, 4000);
+        textIntervalId = setInterval(switchText, INTERVAL);
       }
 
       function stopTextSwitch() {
@@ -286,7 +310,6 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
         }
       }
 
-      // 页面可见性变化时控制切换
       document.addEventListener('visibilitychange', function () {
         if (document.hidden) {
           stopTextSwitch();
@@ -295,7 +318,6 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
         }
       });
 
-      // 开始文字切换
       startTextSwitch();
     }
   })();
