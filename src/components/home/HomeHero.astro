@@ -1,0 +1,32 @@
+---
+// HomeHero 组件 - 封装首页 Hero 区域
+import Hero from '~/components/widgets/Hero.astro';
+import { t } from '~/i18n';
+
+export interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+---
+
+<Hero
+  title={t('hero.title', lang) || '澳門桑拿．您的VIP體驗'}
+  subtitle={t('hero.subtitle', lang) || '24小時免費專車接送・送您去・接您回'}
+  tagline={t('hero.tagline', lang) || '慶賀新店開業·7月起所有店預約即送小工'}
+  imageSrc="/images/hero-bg.jpg"
+  imageAlt={t('hero.imageAlt', lang) || '澳門桑拿禮賓服務 — 澳門夜景天際線・VIP 預約・豪華專車接送'}
+  actions={[
+    {
+      variant: 'primary',
+      text: t('hero.explore', lang) || '探索會所',
+      href: '#spas',
+      icon: true,
+    },
+    {
+      variant: 'secondary',
+      text: t('hero.book', lang) || '立即預約',
+      href: '#contact',
+    },
+  ]}
+/>

@@ -16,7 +16,8 @@ websiteUrl: "manhaospa.com"
 open24h: true
 ktv: true
 themeRooms: true
-recommendedShow: true
+recommendedShow: false
+tags: ["最新", "日韓"]
 isNew: true
 buckets: ["overnight", "ktv", "new"]
 features: ["24小時營業", "KTV包廂", "過夜免費"]

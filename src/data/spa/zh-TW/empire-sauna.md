@@ -18,6 +18,7 @@ ktv: false
 themeRooms: false
 recommendedShow: false
 isNew: false
+tags: ["最新", "日韓"]
 buckets: ["overnight"]
 features: ["傳統桑拿", "放鬆"]
 

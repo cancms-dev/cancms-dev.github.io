@@ -7,16 +7,16 @@
   document.addEventListener('DOMContentLoaded', function() {
   // document.addEventListener('astro:page-load', function() {
     // 更新月份
-    (function updatePromoMonth() {
-      var nodes = document.querySelectorAll('[data-promo-month]');
-      if (!nodes.length) return;
-      var d = new Date();
-      var lang = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
-      var label = (lang.indexOf('zh') === 0 || lang.indexOf('ja') === 0)
-        ? (d.getMonth() + 1) + '月'
-        : d.toLocaleString('en-US', { month: 'long' });
-      nodes.forEach(function (n) { n.textContent = label; });
-    })();
+    // (function updatePromoMonth() {
+    //   var nodes = document.querySelectorAll('[data-promo-month]');
+    //   if (!nodes.length) return;
+    //   var d = new Date();
+    //   var lang = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
+    //   var label = (lang.indexOf('zh') === 0 || lang.indexOf('ja') === 0)
+    //     ? (d.getMonth() + 1) + '月'
+    //     : d.toLocaleString('en-US', { month: 'long' });
+    //   nodes.forEach(function (n) { n.textContent = label; });
+    // })();
 
     // 滚动渐隐效果：当滚动超过 80px 时，横幅淡出并上移
     (function bindPromoScrollFade() {
@@ -113,10 +113,15 @@
     <!-- 中间动态月份文案 -->
     <span class="text-white text-xs sm:text-sm font-bold whitespace-nowrap">
       <span class="text-white/80"></span>
+
       <span
         style="color: rgb(248,113,113); animation: redPulse 1.8s ease-in-out infinite; display: inline-block;"
         data-promo-month
-      >6月</span>
+      >
+      <script is:inline>
+          document.querySelector('[data-promo-month]').textContent = new Date().getMonth() + 1 + '月';
+      </script>
+    </span>
       <span class="text-white/80">起所有店預約即送小工</span>
     </span>
 

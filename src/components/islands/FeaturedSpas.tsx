@@ -13,8 +13,8 @@ interface SpaData {
   cover: string;
   // 用于 WebP 格式的封面 (由前端组件自行构造或从数据中读取)
   coverWebp?: string;
-  // 右上角标签 (在 MD 中定义)
-  tag: string;
+  // 右上角标签 (在 MD 中定义) - 改为 tags 数组
+  tags: string[];
   tagColor?: 'red' | 'gold' | 'black';
   // 分类标识 (对应 schema 中的 buckets 数组)
   buckets: string[];
@@ -60,55 +60,38 @@ const FILTER_BUCKETS = [
   { key: 'ktv', label: 'KTV' },
 ];
 
+ 
+
 export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
   // 状态管理：当前选中的过滤条件
   const [activeBucket, setActiveBucket] = useState<string>('all');
 
-  // 页面加载后处理锚点定位
-  // useEffect(() => {
-  //   // 检查 URL 中是否有 hash
-  //   const hash = window.location.hash;
-  //   if (hash) {
-  //     // 移除开头的 '#'
-  //     const targetId = hash.replace('#', '');
-  //     // 使用 requestAnimationFrame + 多次延迟确保 DOM 完全渲染
-  //     const scrollToTarget = () => {
-  //       const targetElement = document.getElementById(targetId);
-  //       if (targetElement) {
-  //         // 获取导航栏高度（适应移动端和桌面端）
-  //         const navHeight = window.innerWidth < 640 ? 64 : 80;
-  //         const rect = targetElement.getBoundingClientRect();
-  //         const scrollY = window.scrollY + rect.top - navHeight - 12;
-  //         window.scrollTo({ top: scrollY, behavior: 'smooth' });
-  //       }
-  //     };
-  //     // 多次尝试，确保 DOM 已加载
-  //     const attempts = [100, 300, 600, 1000];
-  //     attempts.forEach((delay) => {
-  //       setTimeout(() => {
-  //         requestAnimationFrame(scrollToTarget);
-  //       }, delay);
-  //     });
-  //   }
-  // }, []);
 
   // 映射数据到组件需要的格式
-  const spaData: SpaData[] = spas.map((spa) => ({
-    id: spa.id,
-    slug: spa.slug || spa.data.slug,
-    name: spa.data.name,
-    description: spa.data.seoDescription,
-    cover: spa.data.cover,
-    // 自动生成 WebP 路径：将 .jpg/.jpeg/.png 替换为 .webp
-    coverWebp: spa.data.coverWebp || spa.data.cover?.replace(/\.(jpe?g|png)$/, '.webp'),
-    tag: spa.data.tag,
-    tagColor: spa.data.tagColor || 'gold',
-    buckets: spa.data.buckets || [],
-    status: spa.data.status || 'active',
-    spotlight: spa.data.spotlight || 'gold',
-    borderStyle: spa.data.borderStyle || 'gold',
-    glowAnimation: spa.data.glowAnimation || 'goldGlow',
-  }));
+  const spaData: SpaData[] = spas.map((spa) => {
+    const spaDataModified = {
+      id: spa.id,
+      slug: spa.slug || spa.data.slug,
+      name: spa.data.name,
+      description: spa.data.seoDescription,
+      cover: spa.data.cover,
+      // 自动生成 WebP 路径：将 .jpg/.jpeg/.png 替换为 .webp
+      coverWebp: spa.data.coverWebp || spa.data.cover?.replace(/\.(jpe?g|png)$/, '.webp'),
+      tags: spa.data.tags || [],
+      tagColor: spa.data.tagColor || 'gold',
+      buckets: spa.data.buckets || [],
+      status: spa.data.status || 'active',
+      spotlight: spa.data.spotlight || 'gold',
+      borderStyle: spa.data.borderStyle || 'gold',
+      glowAnimation: spa.data.glowAnimation || 'goldGlow',
+    }
+    // 主推spa, 边框红色
+    if(spa.data.recommendedShow === true) {
+      spaDataModified.borderStyle = 'red';
+      spaDataModified.tagColor = 'red';
+    }
+    return spaDataModified;
+  });
 
   // 过滤计算
   const filteredSpas = activeBucket === 'all'
@@ -175,7 +158,7 @@ export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
             
             if (spa.borderStyle === 'red') {
               borderClass = 'border-2 border-red-400/60 hover:border-red-400/80';
-              glowStyle = { animation: 'redGlow 2s ease-in-out infinite' };
+              glowStyle = { animation: 'goldGlow 2s ease-in-out infinite' };
             } else if (spa.borderStyle === 'gold') {
               borderClass = 'border-2 border-gold/60 hover:border-gold/80';
               glowStyle = { animation: 'goldGlow 2s ease-in-out infinite' };
@@ -214,9 +197,9 @@ export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
                     )}
                     
                     {/* 右上角标签 */}
-                    {!isPaused && (
+                    {!isPaused && spa.tags.length > 0 && (
                       <span className={`absolute top-3 right-3 z-10 text-xs font-bold px-2.5 py-1 rounded-full shadow-lg ${tagClass}`}>
-                        {spa.tag}
+                        {spa.tags.join(' & ')}
                       </span>
                     )}
 

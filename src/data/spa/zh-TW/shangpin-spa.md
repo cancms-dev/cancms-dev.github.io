@@ -18,6 +18,7 @@ ktv: false
 themeRooms: false
 recommendedShow: false
 isNew: false
+tags: ["性價比極高"]
 buckets: ["value"]
 features: ["高性價比", "休閒水療"]
 cover: "/images/spas/macau-sauna-spa-elite-01-purple-showcase-stage-lg.webp"

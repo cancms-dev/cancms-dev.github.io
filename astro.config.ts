@@ -30,9 +30,9 @@ export default defineConfig({
   output: 'static',
 
   // 打开首页默认跳转到 语言版本的首页
-  redirects: {
-    '/': '/zh-TW/'
-  },
+  // redirects: {
+  //   '/': '/zh-TW/'
+  // },
 
   i18n: {
     locales: ['zh-TW'],

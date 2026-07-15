@@ -21,6 +21,7 @@ ktv: false
 themeRooms: false
 recommendedShow: true
 isNew: true
+tags: ["最新", "最大舞台"]
 buckets: ["new", "lineup"]
 features: ["推薦指數⭐⭐⭐⭐⭐", "全澳最大走秀大廳", "招牌紅色水床", "皇者奢華風格"]
 

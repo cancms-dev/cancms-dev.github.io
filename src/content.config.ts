@@ -127,6 +127,7 @@ const spaCollection = defineCollection({
     themeRooms: z.boolean(),
     recommendedShow: z.boolean(),
     isNew: z.boolean(),
+    tags: z.array(z.string()).default([]),
     buckets: z.array(z.string()),
     features: z.array(z.string()),
     staffCount: z.string().optional(),

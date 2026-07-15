@@ -16,8 +16,9 @@ websiteUrl: "manhaospa.com"
 open24h: true
 ktv: true
 themeRooms: true
-recommendedShow: true
+recommendedShow: false
 isNew: false
+tags: ["最豪華"]
 buckets: ["value", "overnight"]
 features: ["頂級服務", "尊貴體驗"]
 cover: "/images/spas/macau-sauna-spa-majesty-01-ktv-party-room-lg.webp"

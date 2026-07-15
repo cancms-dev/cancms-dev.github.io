@@ -16,8 +16,9 @@ websiteUrl: "manhaospa.com"
 open24h: true
 ktv: false
 themeRooms: true
-recommendedShow: true
+recommendedShow: false
 isNew: false
+tags: ["24小時"]
 buckets: ["theme"]
 features: ["情境體驗", "按摩"]
 cover: "/images/spas/macau-sauna-spa-excellent-01-blue-bathing-pool-lg.webp"

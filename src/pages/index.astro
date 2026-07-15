@@ -1,0 +1,46 @@
+---
+// 根路径直接渲染 zh-TW 首页内容，无需重定向
+// 这样首页一打开就直接展示内容，不会有空白等待
+
+import Layout from '~/layouts/PageLayout.astro';
+import HomeHero from '~/components/home/HomeHero.astro';
+import { t } from '~/i18n';
+import { getCollection } from 'astro:content';
+import FeaturedSpas from '~/components/islands/FeaturedSpas.tsx';
+import VipTreats from '~/components/home/VipTreats.astro';
+import QuickMatch from '~/components/home/QuickMatch.astro';
+import WhyUs from '~/components/home/WhyUs.astro';
+import LatestBlogs from '~/components/home/LatestBlogs.astro';
+import Testimonials from '~/components/home/Testimonials.astro';
+import Contact from '~/components/home/Contact.astro';
+
+// 硬编码语言为 zh-TW
+const lang = 'zh-TW';
+
+// 获取 spa 数据
+const spas = await getCollection('spa');
+
+const metadata = {
+  title: t('hero.title', lang) || '澳門桑拿．您的VIP體驗',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <HomeHero lang={lang} />
+
+  <section id="spas" class="py-20 sm:py-28 px-4 scroll-mt-6">
+    <FeaturedSpas spas={spas} client:only="react" />
+  </section>
+
+  <VipTreats lang={lang} />
+
+  <div class="pb-5 sm:pb-10">
+    <QuickMatch lang={lang} />
+  </div>
+
+  <WhyUs lang={lang} />
+  <Testimonials lang={lang} />
+  <LatestBlogs lang={lang} />
+  <Contact lang={lang} />
+</Layout>
