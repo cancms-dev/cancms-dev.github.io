@@ -4,8 +4,8 @@
 
 <!-- 动态更新当前月份，保持推广文案始终显示最新月份 -->
 <script is:inline   data-astro-rerun>
-  // document.addEventListener('DOMContentLoaded', function() {
-  document.addEventListener('astro:page-load', function() {
+  document.addEventListener('DOMContentLoaded', function() {
+  // document.addEventListener('astro:page-load', function() {
     // 更新月份
     (function updatePromoMonth() {
       var nodes = document.querySelectorAll('[data-promo-month]');

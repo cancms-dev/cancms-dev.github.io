@@ -141,7 +141,7 @@ export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
         </div>
 
         {/* 过滤器按钮 */}
-        <div className="sticky top-16 sm:top-20 z-30 -mx-4 px-4 py-2 mb-7 bg-[#0a0a0a]/85 backdrop-blur-md border-b border-white/5">
+        <div className=" top-16 sm:top-20 z-30 -mx-4 px-4 py-2 mb-7 bg-[#0a0a0a]/85 backdrop-blur-md border-b border-white/5">
           <div className="flex sm:flex-wrap sm:justify-center gap-1.5 sm:gap-2 max-w-7xl mx-auto" role="group" aria-label="全部" data-spa-filter="">
             {FILTER_BUCKETS.map(({ key, label }) => {
               const isActive = activeBucket === key;
