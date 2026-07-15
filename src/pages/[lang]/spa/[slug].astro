@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '~/layouts/PageLayout.astro';
-import SpaGallery from '~/components/islands/InteractiveSpaGallery';
+import SpaGallery from '~/components/islands/InteractiveSpaGallery.tsx';
 import ContactSection from '~/components/widgets/ContactSection.astro';
 import JsonLd from '~/components/common/JsonLd.astro';
 import { Icon } from 'astro-icon/components';
@@ -112,6 +112,7 @@ const lineLink = `https://line.me/ti/p/${SITE.params.contacts.line.id}`;
 const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${message}`;
 
 ---
+
 
 <Layout metadata={metadata}>
   <Fragment slot="head">
@@ -467,3 +468,4 @@ const whatsAppLink = `https://wa.me/${SITE.params.contacts.whatsApp.id}?text=${m
 
 
 </Layout>
+

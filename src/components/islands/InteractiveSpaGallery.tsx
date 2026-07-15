@@ -48,6 +48,7 @@ export default function InteractiveSpaGallery({ images, galleryTitle = "會所�
   const currentImage = lightboxIndex !== null ? images[lightboxIndex] : null;
 
   return (
+    <>
     <div data-testid="spa-gallery">
       <h2 className="text-xl font-semibold mb-6 text-gold">{galleryTitle}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
@@ -130,5 +131,6 @@ export default function InteractiveSpaGallery({ images, galleryTitle = "會所�
         </div>
       )}
     </div>
+    </>
   );
 }

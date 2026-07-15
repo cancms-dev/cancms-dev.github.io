@@ -77,7 +77,7 @@ export default defineConfig({
         },
       },
       Image: false,
-      JavaScript: false,
+      JavaScript: true,
       SVG: false,
       Logger: 1,
     }),
@@ -113,9 +113,9 @@ export default defineConfig({
         '~': path.resolve(__dirname, './src'),
       },
     },
-    build: {
-      minify: false,  // 禁用压缩
-      sourcemap: true, // 生成 sourcemap，方便调试
-    },
+    // build: {
+    //   minify: false,  // 禁用压缩
+    //   sourcemap: true, // 生成 sourcemap，方便调试
+    // },
   },
 });

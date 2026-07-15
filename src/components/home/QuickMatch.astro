@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import QuickMatchIsland from '~/components/islands/QuickMatch';
+import QuickMatchIsland from '~/components/islands/QuickMatch.tsx';
 
 interface Props {
   lang: string;
@@ -30,6 +30,6 @@ const venues = allSpas.map((spa) => ({
 
 <section id="quickmatch" class=" px-4 scroll-mt-6">
   <div class="max-w-5xl mx-auto fade-up in-view">
-    <QuickMatchIsland client:visible venues={venues} lang={lang} />
+    <QuickMatchIsland  client:only="react" venues={venues} lang={lang} />
   </div>
 </section>
