@@ -66,6 +66,25 @@ export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
   // 状态管理：当前选中的过滤条件
   const [activeBucket, setActiveBucket] = useState<string>('all');
 
+  // 组件挂载后启动 IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+    );
+    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   // 映射数据到组件需要的格式
   const spaData: SpaData[] = spas.map((spa) => {
@@ -115,7 +134,7 @@ export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
     <>
       <div className="max-w-7xl mx-auto">
         {/* 标题区域 */}
-        <div className="fade-up text-center mb-16 in-view">
+        <div className="fade-up text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">精選會所</h2>
           <div className="w-20 h-0.5 bg-gold mx-auto mb-6"></div>
           <p className="text-white/50 max-w-none mx-auto sm:whitespace-nowrap">
@@ -176,7 +195,8 @@ export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
             return (
               <div 
                 key={spa.id} 
-                className={`fade-up ${index < 9 ? 'in-view' : ''}`} 
+                // className={`fade-up ${index < 9 ? 'in-view' : ''}`} 
+                className={`fade-up`} 
                 style={{ transitionDelay: `${delay}s` }}
                 data-testid="spa-card"
                 data-buckets={spa.buckets.join(' ')}
@@ -254,3 +274,5 @@ export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
     </>
   );
 }
+
+
