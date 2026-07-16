@@ -68,18 +68,22 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
   <!-- 内容容器 -->
 
   <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pt-6">
-    <h1 class="text-[28px] sm:text-4xl md:text-5xl font-bold mb-3 tracking-wider">澳門桑拿．您的VIP體驗</h1><p
+    <h1 class="text-[28px] sm:text-4xl md:text-5xl font-bold mb-3 tracking-wider">澳門桑拿．您的VIP體驗</h1>
+    <p
       data-testid="hero-free-tagline"
       class="text-sm sm:text-lg md:text-xl font-medium text-gold mb-4"
       style="opacity:1"
     >
       24小時免費專車接送・送您去・接您回
-    </p><p class="grid text-base min-[430px]:text-lg sm:text-lg text-white/70 mb-6 whitespace-pre-line">
+    </p>
+    <p class="grid text-base min-[430px]:text-lg sm:text-lg text-white/70 mb-6 whitespace-pre-line">
       <span style="grid-area: 1 / 1; opacity: 1;">玖號水療、巨亨桑拿、曼濠水療 尚品國際水療、壹號桑拿、帝湖桑拿</span
       ><span style="grid-area: 1 / 1; opacity: 0;" aria-hidden="true"
         >豪門桑拿殿、東方皇堡水療、凱旋桑拿 尊貴水療、晉會 MCLUB、極品桑拿</span>
-    </p><div data-testid="hero-icon-row" class="flex items-start justify-center gap-1.5 sm:gap-4 mb-8">
-      <div class="flex flex-col items-center gap-1" data-testid="hero-step-1" style="opacity: 1; transform: none;">
+    </p>
+
+    <div data-testid="hero-icon-row" class="flex items-start justify-center gap-1.5 sm:gap-4 mb-8">
+      <div class="flex flex-col items-center gap-1" data-testid="hero-step-1" style="opacity:0;transform:translateX(15px)">
         <div
           class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gold/50 border border-gold/50 flex items-center justify-center"
           style="opacity:1"
@@ -97,8 +101,10 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
       </div><span
         data-testid="hero-arrow"
         class="text-gold text-base sm:text-xl font-black mt-2 sm:mt-3"
-        style="opacity: 1; transform: none;">→</span
-      ><div class="flex flex-col items-center gap-1" data-testid="hero-step-2" style="opacity: 1; transform: none;">
+        style="opacity:0;transform:translateX(-10px)">→</span
+      >
+      
+      <div class="flex flex-col items-center gap-1" data-testid="hero-step-2" style="opacity:0;transform:translateX(15px)">
         <div
           class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gold/50 border border-gold/50 flex items-center justify-center"
           style="opacity:1"
@@ -115,8 +121,10 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
       </div><span
         data-testid="hero-arrow"
         class="text-gold text-base sm:text-xl font-black mt-2 sm:mt-3"
-        style="opacity: 1; transform: none;">→</span
-      ><div class="flex flex-col items-center gap-1" data-testid="hero-step-3" style="opacity: 1; transform: none;">
+        style="opacity:0;transform:translateX(-10px)">→</span
+      >
+      
+      <div class="flex flex-col items-center gap-1" data-testid="hero-step-3" style="opacity:0;transform:translateX(15px)">
         <div
           class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gold/50 border border-gold/50 flex items-center justify-center"
           style="opacity:1"
@@ -131,7 +139,9 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
             >優先入場</span
           ></span>
       </div>
-    </div><div class="flex flex-col items-center gap-3 w-full max-w-[280px] mx-auto">
+    </div>
+    
+    <div class="flex flex-col items-center gap-3 w-full max-w-[280px] mx-auto">
       <a
         href="#spas"
         data-testid="hero-explore-saunas-link"
@@ -258,24 +268,44 @@ const bgImages = images.length > 0 ? images : [{ src: '/images/hero-bg.jpg', alt
       bgItems[0].style.opacity = '1';
     }
 
-    // ===== 2. 步骤入场动画 =====
-    const steps = document.querySelectorAll('[data-step]');
-    const arrows = document.querySelectorAll('[data-step-arrow]');
-    const allItems = [...steps, ...arrows];
+    // ===== 2. 步骤入场动画（完全复刻 HomeHero.Cz-d16xB.js） =====
+    // 按 DOM 顺序获取所有元素：step-1, arrow-1, step-2, arrow-2, step-3
+    const container = document.querySelector('[data-testid="hero-icon-row"]');
+    const allItems = container ? Array.from(container.children).filter(
+      child => child.getAttribute('data-testid')?.startsWith('hero-step-') || child.getAttribute('data-testid')?.startsWith('hero-arrow')
+    ) : [];
 
     if (allItems.length > 0) {
+      // 先设置初始状态（与参考文件一致）
+      allItems.forEach((item, index) => {
+        const isStep = item.getAttribute('data-testid')?.startsWith('hero-step-');
+        const isArrow = item.getAttribute('data-testid')?.startsWith('hero-arrow');
+        
+        item.style.opacity = '0';
+        if (isStep) {
+          item.style.transform = 'translateY(15px)';
+        } else if (isArrow) {
+          item.style.transform = 'translateX(-8px)';
+        }
+        item.style.transition = 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+        // 延迟计算：参考 a === 0 ? 0.1 : a * 0.35 + 0.15
+        const delay = index === 0 ? 0.1 : index * 0.35 + 0.15;
+        item.style.transitionDelay = delay + 's';
+      });
+
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              const delay = Array.from(allItems).indexOf(entry.target) * 80;
-              setTimeout(() => {
-                entry.target.style.opacity = '1';
+              const isStep = entry.target.getAttribute('data-testid')?.startsWith('hero-step-');
+              const isArrow = entry.target.getAttribute('data-testid')?.startsWith('hero-arrow');
+              
+              entry.target.style.opacity = '1';
+              if (isStep) {
                 entry.target.style.transform = 'translateY(0)';
-                if (entry.target.hasAttribute('data-step-arrow')) {
-                  entry.target.style.transform = 'translateX(0)';
-                }
-              }, delay);
+              } else if (isArrow) {
+                entry.target.style.transform = 'translateX(0)';
+              }
             }
           });
         },
