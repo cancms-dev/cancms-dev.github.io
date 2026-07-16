@@ -115,7 +115,7 @@ const spaCollection = defineCollection({
   schema: z.object({
     name: z.string(),
     slug: z.string(),
-    district: z.enum(['澳门半岛', '氹仔']),
+    district: z.enum(['澳门半岛', '氹仔', "澳門半島", "路氹城"]),
     priceMin: z.number(),
     priceMax: z.number(),
     rating: z.number(),
