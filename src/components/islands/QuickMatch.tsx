@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect  } from 'react';
 import { getAsset } from '~/utils/permalinks';
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -250,12 +250,35 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
     [topVenue, prefs, lang], // Add 'lang' to dependency
   );
 
+
+  // 组件挂载后启动 IntersectionObserver
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+      );
+      document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => observer.observe(el));
+  
+      return () => {
+        observer.disconnect();
+      };
+    }, []);
+
+
+
   const detailHref = `/${lang}/spa/${topVenue?.venue.slug}/`;
   const maxScore = 100;
   const pct = Math.min(Math.round(((topVenue?.score ?? 0) / maxScore) * 100), 99);
 
   return (
-    <>
+    <div className="fade-up">
       {preloadImages.map((src, idx) => (
         <link key={`preImg-${idx}`} rel="preload" as="image" href={`${getAsset(src)}`} />
       ))} 
@@ -515,6 +538,6 @@ export default function QuickMatch({ venues, lang = 'zh-TW' }: Props) {
           .qm-sweep { display: none; }
         }
       `}</style>
-    </>
+    </div>
   );
 }
