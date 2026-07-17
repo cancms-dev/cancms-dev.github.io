@@ -66,25 +66,6 @@ export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
   // 状态管理：当前选中的过滤条件
   const [activeBucket, setActiveBucket] = useState<string>('all');
 
-  // 组件挂载后启动 IntersectionObserver
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            observer.unobserve(entry.target);
-          }
-        }
-      },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
-    );
-    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => observer.observe(el));
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   // 映射数据到组件需要的格式
   const spaData: SpaData[] = spas.map((spa) => {
@@ -119,6 +100,29 @@ export default function FeaturedSpas({ spas }: FeaturedSpasProps) {
 
   // 隐藏卡片数量
   const hiddenCount = spaData.length - filteredSpas.length;
+
+
+
+  // 组件挂载后启动 IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+    );
+    document.querySelectorAll('.fade-up:not(.in-view)').forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [filteredSpas]);
+
 
   // 处理过滤点击
   const handleFilter = (bucket: string) => {
